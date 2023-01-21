@@ -2,7 +2,7 @@
 seeds = false
 skip-lint = false
 [programs.mainnet]
-solana_elm = "CZCZcK4vGvNSikQCTeSfPFazkBGwVBN1c6AjpnwDWgzN"
+s_rgb= "3tgVL9TfPbEe7tgxjjmMCLUMzyFqspJkGW3u4hiEoFu6"
 
 [registry]
 url = "https://api.apr.dev"
