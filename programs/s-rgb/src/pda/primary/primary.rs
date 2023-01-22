@@ -3,9 +3,9 @@ use anchor_lang::prelude::*;
 pub const SEED: &str = "primary";
 
 pub const SIZE: usize = 8 // discriminator
-    + 8; // tvl
+    + 32; // mint
 
 #[account]
 pub struct Primary {
-    pub tvl: u64,
+    pub mint: Pubkey,
 }
