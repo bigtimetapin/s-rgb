@@ -1,6 +1,5 @@
 use anchor_lang::prelude::*;
-use anchor_spl::associated_token::AssociatedToken;
-use anchor_spl::token::{Mint, Token, TokenAccount};
+use anchor_spl::token::{Mint, Token};
 use crate::pda::authority::authority::Authority;
 use crate::pda::primary::primary::Primary;
 use crate::pda::stake::stake::Stake;
@@ -17,6 +16,8 @@ pub mod s_rgb {
     pub fn init(ctx: Context<Init>) -> Result<()> {
         ix::init::ix(ctx)
     }
+
+    pub fn stake_red(ctx: Context<StakeRed>, amount: u64)
 }
 
 #[derive(Accounts)]
@@ -26,8 +27,8 @@ pub struct Init<'info> {
     seeds = [
     pda::authority::authority::SEED.as_bytes()
     ], bump,
+    space = pda::authority::authority::SIZE,
     payer = payer,
-    space = pda::authority::authority::SIZE
     )]
     pub authority: Account<'info, Authority>,
     #[account(init,
@@ -35,8 +36,8 @@ pub struct Init<'info> {
     pda::primary::primary::SEED.as_bytes(),
     pda::primary::red::SEED.as_bytes()
     ], bump,
+    space = pda::primary::primary::SIZE,
     payer = payer,
-    space = pda::primary::primary::SIZE
     )]
     pub red: Account<'info, Primary>,
     #[account(init,
@@ -44,8 +45,8 @@ pub struct Init<'info> {
     pda::primary::primary::SEED.as_bytes(),
     pda::primary::green::SEED.as_bytes()
     ], bump,
+    space = pda::primary::primary::SIZE,
     payer = payer,
-    space = pda::primary::primary::SIZE
     )]
     pub green: Account<'info, Primary>,
     #[account(init,
@@ -53,8 +54,8 @@ pub struct Init<'info> {
     pda::primary::primary::SEED.as_bytes(),
     pda::primary::blue::SEED.as_bytes()
     ], bump,
+    space = pda::primary::primary::SIZE,
     payer = payer,
-    space = pda::primary::primary::SIZE
     )]
     pub blue: Account<'info, Primary>,
     // cpi accounts
@@ -84,7 +85,40 @@ pub struct Init<'info> {
     pub payer: Signer<'info>,
     // cpi programs
     pub token_program: Program<'info, Token>,
-    pub associated_token_program: Program<'info, AssociatedToken>,
+    // system
+    pub system_program: Program<'info, System>,
+    pub rent: Sysvar<'info, Rent>,
+}
+
+#[derive(Accounts)]
+pub struct StakeRed<'info> {
+    // pda
+    #[account(mut,
+    seeds = [
+    pda::authority::authority::SEED.as_bytes()
+    ], bump,
+    )]
+    pub authority: Account<'info, Authority>,
+    #[account(mut,
+    seeds = [
+    pda::primary::primary::SEED.as_bytes(),
+    pda::primary::red::SEED.as_bytes()
+    ], bump,
+    )]
+    pub red: Account<'info, Primary>,
+    #[account(init,
+    seeds = [
+    pda::stake::stake::SEED.as_bytes(),
+    pda::primary::red::SEED.as_bytes(),
+    payer.key().as_ref()
+    ], bump,
+    space = pda::stake::stake::SIZE,
+    payer = payer,
+    )]
+    pub stake: Account<'info, Stake>,
+    // payer
+    #[account(mut)]
+    pub payer: Signer<'info>,
     // system
     pub system_program: Program<'info, System>,
     pub rent: Sysvar<'info, Rent>,
