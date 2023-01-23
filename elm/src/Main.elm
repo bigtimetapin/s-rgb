@@ -156,28 +156,15 @@ update msg model =
                                                         UserListener.Fetched ->
                                                             let
                                                                 f user =
-                                                                    case model.state.global of
-                                                                        Global.HasUser _ ->
-                                                                            { model
-                                                                                | state =
-                                                                                    { local =
-                                                                                        Local.User <|
-                                                                                            UserState.Fetched user
-                                                                                    , global = Global.HasUser user
-                                                                                    , exception = Exception.Closed
-                                                                                    }
+                                                                    { model
+                                                                        | state =
+                                                                            { local =
+                                                                                Local.User <|
+                                                                                    UserState.Fetched user
+                                                                            , global = model.state.global
+                                                                            , exception = Exception.Closed
                                                                             }
-
-                                                                        _ ->
-                                                                            { model
-                                                                                | state =
-                                                                                    { local =
-                                                                                        Local.User <|
-                                                                                            UserState.Fetched user
-                                                                                    , global = model.state.global
-                                                                                    , exception = Exception.Closed
-                                                                                    }
-                                                                            }
+                                                                    }
                                                             in
                                                             Listener.decode model json User.decode f
 
@@ -196,7 +183,10 @@ update msg model =
                                                                     , exception = Exception.Closed
                                                                     }
                                                               }
-                                                            , Cmd.none
+                                                            , sender <|
+                                                                Sender.encode0 <|
+                                                                    Sender.User <|
+                                                                        UserMsg.Fetch
                                                             )
 
                                                         _ ->

@@ -2,6 +2,7 @@ import {getPhantom, getPhantomProvider} from "./phantom";
 import {getEphemeralPP, getPP} from "./anchor/util/context";
 import * as Init from "./anchor/ix/init";
 import {getGlobal} from "./anchor/pda/get-global";
+import {getPools} from "./anchor/pda/get-pools";
 
 // init phantom
 let phantom = null;
@@ -47,6 +48,36 @@ export async function main(app, json) {
             await Init.ix(
                 pp.provider,
                 pp.programs.sRgb
+            );
+            // or user fetch
+        } else if (sender === "user-fetch") {
+            let pp;
+            if (phantom) {
+                pp = getPP(
+                    phantom
+                );
+            } else {
+                pp = getEphemeralPP(
+                );
+            }
+            const pools = await getPools(
+                pp.provider,
+                pp.programs
+            );
+            const user = {
+                wallet: pp.provider.wallet.toString(),
+                tvl: pools.tvl,
+                pools: pools.pools
+            };
+            app.ports.success.send(
+                JSON.stringify(
+                    {
+                        listener: "user-fetched",
+                        more: JSON.stringify(
+                            user
+                        )
+                    }
+                )
             );
             // or throw error
         } else {
