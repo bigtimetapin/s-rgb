@@ -66,9 +66,25 @@ update msg model =
                         , url = url
                     }
             in
-            ( bump
-            , resetViewport
-            )
+            case local of
+                Local.User UserState.Top ->
+                    let
+                        state =
+                            bump.state
+
+                        waiting =
+                            { state | exception = Exception.Waiting }
+                    in
+                    ( { bump | state = waiting }
+                    , resetViewport
+                    )
+
+
+                _ ->
+                    ( bump
+                    , resetViewport
+                    )
+
 
         LinkClicked urlRequest ->
             case urlRequest of

@@ -2,6 +2,7 @@ module Model.State.Local.Local exposing (..)
 
 import Html
 import Html.Attributes
+import Model.Admin.State as Admin
 import Model.User.State as User
 import Url
 import Url.Parser as UrlParser exposing ((</>))
@@ -9,6 +10,7 @@ import Url.Parser as UrlParser exposing ((</>))
 
 type Local
     = Error String
+    | Admin Admin.State
     | User User.State
 
 
@@ -19,6 +21,11 @@ urlParser =
           UrlParser.map
             (User <| User.Top)
             UrlParser.top
+
+        -- admin
+        , UrlParser.map
+            (Admin <| Admin.Top)
+            (UrlParser.s "admin")
 
         -- user
         , UrlParser.map
@@ -47,6 +54,9 @@ parse url =
 path : Local -> String
 path local =
     case local of
+        Admin Admin.Top ->
+            "#/admin"
+
         User User.Top ->
             "#/user"
 

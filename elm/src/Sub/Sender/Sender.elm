@@ -1,12 +1,14 @@
 module Sub.Sender.Sender exposing (Sender(..), WithMore, encode, encode0)
 
 import Json.Encode as Encode
+import Msg.Admin.Msg as Admin
 import Msg.Global as FromGlobal
 import Msg.User.Msg as User
 
 
 type Sender
-    = User User.Msg
+    = Admin Admin.Msg
+    | User User.Msg
     | Global FromGlobal.Global
 
 
@@ -42,6 +44,9 @@ encode0 role =
 toString : Sender -> String
 toString role =
     case role of
+        Admin fromAdmin ->
+            Admin.toString fromAdmin
+
         User fromUser ->
             User.toString fromUser
 

@@ -2,6 +2,7 @@ module Msg.Msg exposing (Msg(..), resetViewport)
 
 import Browser
 import Browser.Dom as Dom
+import Msg.Admin.Msg as Admin
 import Msg.Global as FromGlobal
 import Msg.Js exposing (FromJs)
 import Msg.User.Msg as User
@@ -17,6 +18,8 @@ type
     | LinkClicked Browser.UrlRequest
       -- global
     | Global FromGlobal.Global
+      -- admin
+    | FromAdmin Admin.Msg
       -- user
     | FromUser User.Msg
       -- exception
