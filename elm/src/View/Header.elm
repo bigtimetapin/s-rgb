@@ -33,7 +33,7 @@ view global =
                         [ Html.div
                             [ class "is-text-container-4"
                             ]
-                            [ Html.text "Solana-Elm"
+                            [ Html.text "S-RGB"
                             , Html.text "🔥"
                             ]
                         ]
