@@ -251,7 +251,7 @@ update msg model =
                                                     let
                                                         f user =
                                                             case model.state.local of
-                                                                Local.User (UserState.Fetched _) ->
+                                                                Local.User _ ->
                                                                     { model
                                                                         | state =
                                                                             { local =

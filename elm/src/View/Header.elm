@@ -139,7 +139,7 @@ viewGlobal global =
                                     user
                         ]
                         [ Html.text <|
-                            "view increment"
+                            "view stake"
                         ]
                     ]
                 ]
