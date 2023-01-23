@@ -9,7 +9,6 @@ import Model.User.State as UserState
 import Model.Wallet as Wallet
 import Msg.Global as FromGlobal
 import Msg.Msg as Msg exposing (Msg(..))
-import Msg.User.Msg as UserMsg
 
 
 view : Global -> Html Msg
@@ -114,7 +113,7 @@ viewGlobal global =
 
         HasWallet wallet ->
             Html.div
-                [ class "is-text-container-5 is-family-secondary"
+                [ class "is-text-container-4 is-family-secondary"
                 ]
                 [ Html.text <|
                     Wallet.slice wallet
@@ -122,7 +121,7 @@ viewGlobal global =
 
         HasUser user ->
             Html.div
-                [ class "is-text-container-5 is-family-secondary"
+                [ class "is-text-container-4 is-family-secondary"
                 ]
                 [ Html.div
                     []
@@ -130,13 +129,13 @@ viewGlobal global =
                         Wallet.slice user.wallet
                     ]
                 , Html.div
-                    [ class "is-light-text-container-4"
+                    [ class "is-light-text-container-5 is-size-5"
                     ]
-                    [ Html.button
-                        [ onClick <|
-                            FromUser <|
-                                UserMsg.ToFetched
-                                    user
+                    [ Html.a
+                        [ class "has-sky-blue-text"
+                        , Local.href <|
+                            Local.User <|
+                                UserState.Top
                         ]
                         [ Html.text <|
                             "view stake"

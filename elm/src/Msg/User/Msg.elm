@@ -1,12 +1,10 @@
 module Msg.User.Msg exposing (Msg(..), toString)
 
 import Model.Primary exposing (Primary(..))
-import Model.User.User exposing (User)
 
 
 type Msg
     = Fetch
-    | ToFetched User
     | Stake Primary
 
 
@@ -24,6 +22,3 @@ toString msg =
 
         Stake Blue ->
             "user-stake-blue"
-
-        _ ->
-            "no-op"

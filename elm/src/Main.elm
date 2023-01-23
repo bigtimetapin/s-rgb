@@ -105,19 +105,6 @@ update msg model =
 
         FromUser fromUserMsg ->
             case fromUserMsg of
-                UserMsg.ToFetched user ->
-                    ( { model
-                        | state =
-                            { local =
-                                Local.User <|
-                                    UserState.Fetched user
-                            , global = model.state.global
-                            , exception = model.state.exception
-                            }
-                      }
-                    , Cmd.none
-                    )
-
                 UserMsg.Fetch ->
                     ( Model.waiting model
                     , sender <|
