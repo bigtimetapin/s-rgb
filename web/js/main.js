@@ -1,6 +1,6 @@
 import {getPhantom, getPhantomProvider} from "./phantom";
 import {getEphemeralPP, getPP} from "./anchor/util/context";
-import * as increment from "./anchor/ix/increment";
+import * as Init from "./anchor/ix/init";
 import {getGlobal} from "./anchor/pda/get-global";
 
 // init phantom
@@ -37,17 +37,16 @@ export async function main(app, json) {
                     }
                 )
             );
-            // or user increment
-        } else if (sender === "user-increment") {
+            // or admin init
+        } else if (sender === "admin-init") {
             // get phantom
             phantom = await getPhantom(app);
             // get provider & program
             const pp = getPP(phantom);
             // invoke rpc
-            await increment.ix(
-                app,
+            await Init.ix(
                 pp.provider,
-                pp.programs.elm
+                pp.programs.sRgb
             );
             // or throw error
         } else {

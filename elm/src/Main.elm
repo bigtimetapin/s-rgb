@@ -11,6 +11,7 @@ import Model.State.Local.Local as Local exposing (Local)
 import Model.User.State as UserState
 import Model.User.User as User
 import Model.Wallet as Wallet
+import Msg.Admin.Msg as AdminMsg
 import Msg.Js as JsMsg
 import Msg.Msg exposing (Msg(..), resetViewport)
 import Msg.User.Msg as UserMsg
@@ -22,6 +23,7 @@ import Sub.Sender.Ports exposing (sender)
 import Sub.Sender.Sender as Sender
 import Sub.Sub as Sub
 import Url
+import View.Admin.View
 import View.Error.Error
 import View.Hero
 import View.User.View
@@ -68,23 +70,20 @@ update msg model =
             in
             case local of
                 Local.User UserState.Top ->
-                    let
-                        state =
-                            bump.state
-
-                        waiting =
-                            { state | exception = Exception.Waiting }
-                    in
-                    ( { bump | state = waiting }
-                    , resetViewport
+                    ( Model.waiting bump
+                    , Cmd.batch
+                        [ sender <|
+                            Sender.encode0 <|
+                                Sender.User <|
+                                    UserMsg.Fetch
+                        , resetViewport
+                        ]
                     )
-
 
                 _ ->
                     ( bump
                     , resetViewport
                     )
-
 
         LinkClicked urlRequest ->
             case urlRequest of
@@ -93,6 +92,16 @@ update msg model =
 
                 Browser.External href ->
                     ( model, Nav.load href )
+
+        FromAdmin fromAdminMsg ->
+            case fromAdminMsg of
+                AdminMsg.Init ->
+                    ( model
+                    , sender <|
+                        Sender.encode0 <|
+                            Sender.Admin <|
+                                fromAdminMsg
+                    )
 
         FromUser fromUserMsg ->
             case fromUserMsg of
@@ -109,17 +118,20 @@ update msg model =
                     , Cmd.none
                     )
 
-                UserMsg.Increment ->
-                    ( { model
-                        | state =
-                            { local = model.state.local
-                            , global = model.state.global
-                            , exception = Exception.Waiting
-                            }
-                      }
+                UserMsg.Fetch ->
+                    ( Model.waiting model
                     , sender <|
                         Sender.encode0 <|
-                            Sender.User fromUserMsg
+                            Sender.User <|
+                                fromUserMsg
+                    )
+
+                UserMsg.Stake _ ->
+                    ( Model.waiting model
+                    , sender <|
+                        Sender.encode0 <|
+                            Sender.User <|
+                                fromUserMsg
                     )
 
         FromJs fromJsMsg ->
@@ -319,13 +331,7 @@ update msg model =
                             )
 
         Global fromGlobal ->
-            ( { model
-                | state =
-                    { local = model.state.local
-                    , global = model.state.global
-                    , exception = Exception.Waiting
-                    }
-              }
+            ( Model.waiting model
             , sender <| Sender.encode0 <| Sender.Global fromGlobal
             )
 
@@ -353,13 +359,16 @@ view model =
 
         html =
             case model.state.local of
+                Local.Admin admin ->
+                    hero <| View.Admin.View.view admin
+
                 Local.User user ->
                     hero <| View.User.View.view user
 
                 Local.Error error ->
                     hero <| View.Error.Error.body error
     in
-    { title = "solana-elm"
+    { title = "s-rgb"
     , body =
         [ html
         ]

@@ -1,13 +1,16 @@
 import {Pda} from "./pda";
 import {Program} from "@project-serum/anchor";
 import {SRgb} from "../idl/idl";
-import {PublicKey} from "@solana/web3.js";
+import {LAMPORTS_PER_SOL, PublicKey} from "@solana/web3.js";
 
 export interface AuthorityPda extends Pda {
 }
 
 export interface Authority {
-    tvl: number // decoded as BN
+    tvl: {
+        amount: number // decoded as BN
+        formatted: string
+    }
 }
 
 export interface RawAuthority {
@@ -19,7 +22,10 @@ export async function getAuthorityPda(program: Program<SRgb>, pda: AuthorityPda)
         pda.address
     ) as RawAuthority;
     return {
-        tvl: fetched.tvl.toNumber()
+        tvl: {
+            amount: fetched.tvl.toNumber(),
+            formatted: (fetched.tvl.toNumber() / LAMPORTS_PER_SOL).toLocaleString()
+        }
     }
 }
 

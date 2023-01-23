@@ -1,5 +1,5 @@
 import {Pda} from "./pda";
-import {PublicKey} from "@solana/web3.js";
+import {LAMPORTS_PER_SOL, PublicKey} from "@solana/web3.js";
 import {AnchorProvider, Program} from "@project-serum/anchor";
 import {SRgb} from "../idl/idl";
 import * as Red from "./primary/red"
@@ -12,6 +12,10 @@ export interface StakePda extends Pda {
 export interface Stake {
     pool: PublicKey
     timestamp: number // decoded as BN
+    amount: {
+        amount: number
+        formatted: string
+    }
 }
 
 interface RawStake {
@@ -20,12 +24,20 @@ interface RawStake {
 }
 
 export async function getStakePda(program: Program<SRgb>, pda: StakePda): Promise<Stake> {
-    const fetched = await program.account.stake.fetch(
+    const accountInfo = await program.account.stake.getAccountInfo(
         pda.address
+    );
+    const decoded = program.coder.accounts.decode(
+        "stake",
+        accountInfo.data
     ) as RawStake;
     return {
-        pool: fetched.pool,
-        timestamp: fetched.timestamp.toNumber()
+        pool: decoded.pool,
+        timestamp: decoded.timestamp.toNumber(),
+        amount: {
+            amount: accountInfo.lamports,
+            formatted: (accountInfo.lamports / LAMPORTS_PER_SOL).toLocaleString()
+        }
     }
 }
 

@@ -1,5 +1,5 @@
 import {Pda} from "../pda";
-import {PublicKey} from "@solana/web3.js";
+import {LAMPORTS_PER_SOL, PublicKey} from "@solana/web3.js";
 import {Program} from "@project-serum/anchor";
 import {SRgb} from "../../idl/idl";
 import * as Red from "./red"
@@ -11,7 +11,10 @@ export interface PrimaryPda extends Pda {
 
 export interface Primary {
     mint: PublicKey
-    tvl: number // decoded as BN
+    tvl: {
+        amount: number // decoded as BN
+        formatted: string
+    }
 }
 
 interface RawPrimary {
@@ -25,7 +28,10 @@ export async function getPrimaryPda(program: Program<SRgb>, pda: PrimaryPda): Pr
     ) as RawPrimary;
     return {
         mint: fetched.mint,
-        tvl: fetched.tvl.toNumber()
+        tvl: {
+            amount: fetched.tvl.toNumber(),
+            formatted: (fetched.tvl.toNumber() / LAMPORTS_PER_SOL).toLocaleString()
+        }
     }
 }
 
