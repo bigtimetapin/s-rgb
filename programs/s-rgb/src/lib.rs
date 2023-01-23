@@ -123,5 +123,4 @@ pub struct StakeRed<'info> {
     pub payer: Signer<'info>,
     // system
     pub system_program: Program<'info, System>,
-    pub rent: Sysvar<'info, Rent>,
 }
