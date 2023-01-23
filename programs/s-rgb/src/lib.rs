@@ -17,7 +17,9 @@ pub mod s_rgb {
         ix::init::ix(ctx)
     }
 
-    pub fn stake_red(ctx: Context<StakeRed>, amount: u64)
+    pub fn stake_red(ctx: Context<StakeRed>, amount: u64) -> Result<()> {
+        ix::stake::red::ix(ctx, amount)
+    }
 }
 
 #[derive(Accounts)]
