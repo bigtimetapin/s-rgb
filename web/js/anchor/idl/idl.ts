@@ -1,12 +1,83 @@
-export type SolanaElm = {
+export type SRgb = {
   "version": "0.1.0",
-  "name": "solana_elm",
+  "name": "s_rgb",
   "instructions": [
     {
-      "name": "increment",
+      "name": "init",
       "accounts": [
         {
-          "name": "user",
+          "name": "authority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "red",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "green",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "blue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "redMint",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "greenMint",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "blueMint",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "stakeRed",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "red",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stake",
           "isMut": true,
           "isSigner": false
         },
@@ -21,18 +92,55 @@ export type SolanaElm = {
           "isSigner": false
         }
       ],
-      "args": []
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
     }
   ],
   "accounts": [
     {
-      "name": "user",
+      "name": "authority",
       "type": {
         "kind": "struct",
         "fields": [
           {
-            "name": "increment",
-            "type": "u8"
+            "name": "tvl",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "primary",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "tvl",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "stake",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pool",
+            "type": "publicKey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
           }
         ]
       }
@@ -40,15 +148,86 @@ export type SolanaElm = {
   ]
 };
 
-export const IDL: SolanaElm = {
+export const IDL: SRgb = {
   "version": "0.1.0",
-  "name": "solana_elm",
+  "name": "s_rgb",
   "instructions": [
     {
-      "name": "increment",
+      "name": "init",
       "accounts": [
         {
-          "name": "user",
+          "name": "authority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "red",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "green",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "blue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "redMint",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "greenMint",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "blueMint",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "stakeRed",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "red",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stake",
           "isMut": true,
           "isSigner": false
         },
@@ -63,18 +242,55 @@ export const IDL: SolanaElm = {
           "isSigner": false
         }
       ],
-      "args": []
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
     }
   ],
   "accounts": [
     {
-      "name": "user",
+      "name": "authority",
       "type": {
         "kind": "struct",
         "fields": [
           {
-            "name": "increment",
-            "type": "u8"
+            "name": "tvl",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "primary",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "tvl",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "stake",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pool",
+            "type": "publicKey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
           }
         ]
       }
