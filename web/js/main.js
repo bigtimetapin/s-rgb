@@ -1,6 +1,7 @@
 import {getPhantom, getPhantomProvider} from "./phantom";
 import {getEphemeralPP, getPP} from "./anchor/util/context";
 import * as Init from "./anchor/ix/init";
+import * as StakeRed from "./anchor/ix/stake/red";
 import {getGlobal} from "./anchor/pda/get-global";
 import {getPools} from "./anchor/pda/get-pools";
 
@@ -78,6 +79,18 @@ export async function main(app, json) {
                         )
                     }
                 )
+            );
+            // or user stake red
+        } else if (sender === "user-stake-red") {
+            // get phantom
+            phantom = await getPhantom(app);
+            // get provider & program
+            const pp = getPP(phantom);
+            // invoke rpc
+            await StakeRed.ix(
+                app,
+                pp.provider,
+                pp.programs
             );
             // or throw error
         } else {
