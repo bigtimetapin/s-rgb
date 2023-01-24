@@ -17,8 +17,16 @@ pub mod s_rgb {
         ix::init::ix(ctx)
     }
 
-    pub fn stake_red(ctx: Context<StakeRed>, amount: u64) -> Result<()> {
-        ix::stake::red::ix(ctx, amount)
+    pub fn stake_red(ctx: Context<StakeRed>, lamports: u64) -> Result<()> {
+        ix::stake::red::ix(ctx, lamports)
+    }
+
+    pub fn stake_green(ctx: Context<StakeGreen>, lamports: u64) -> Result<()> {
+        ix::stake::green::ix(ctx, lamports)
+    }
+
+    pub fn stake_blue(ctx: Context<StakeBlue>, lamports: u64) -> Result<()> {
+        ix::stake::blue::ix(ctx, lamports)
     }
 }
 
@@ -112,6 +120,72 @@ pub struct StakeRed<'info> {
     seeds = [
     pda::stake::stake::SEED.as_bytes(),
     pda::primary::red::SEED.as_bytes(),
+    payer.key().as_ref()
+    ], bump,
+    space = pda::stake::stake::SIZE,
+    payer = payer,
+    )]
+    pub stake: Account<'info, Stake>,
+    // payer
+    #[account(mut)]
+    pub payer: Signer<'info>,
+    // system
+    pub system_program: Program<'info, System>,
+}
+
+#[derive(Accounts)]
+pub struct StakeGreen<'info> {
+    // pda
+    #[account(mut,
+    seeds = [
+    pda::authority::authority::SEED.as_bytes()
+    ], bump,
+    )]
+    pub authority: Account<'info, Authority>,
+    #[account(mut,
+    seeds = [
+    pda::primary::primary::SEED.as_bytes(),
+    pda::primary::green::SEED.as_bytes()
+    ], bump,
+    )]
+    pub green: Account<'info, Primary>,
+    #[account(init,
+    seeds = [
+    pda::stake::stake::SEED.as_bytes(),
+    pda::primary::green::SEED.as_bytes(),
+    payer.key().as_ref()
+    ], bump,
+    space = pda::stake::stake::SIZE,
+    payer = payer,
+    )]
+    pub stake: Account<'info, Stake>,
+    // payer
+    #[account(mut)]
+    pub payer: Signer<'info>,
+    // system
+    pub system_program: Program<'info, System>,
+}
+
+#[derive(Accounts)]
+pub struct StakeBlue<'info> {
+    // pda
+    #[account(mut,
+    seeds = [
+    pda::authority::authority::SEED.as_bytes()
+    ], bump,
+    )]
+    pub authority: Account<'info, Authority>,
+    #[account(mut,
+    seeds = [
+    pda::primary::primary::SEED.as_bytes(),
+    pda::primary::blue::SEED.as_bytes()
+    ], bump,
+    )]
+    pub blue: Account<'info, Primary>,
+    #[account(init,
+    seeds = [
+    pda::stake::stake::SEED.as_bytes(),
+    pda::primary::blue::SEED.as_bytes(),
     payer.key().as_ref()
     ], bump,
     space = pda::stake::stake::SIZE,
