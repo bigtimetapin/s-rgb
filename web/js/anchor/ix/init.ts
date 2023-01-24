@@ -3,7 +3,7 @@ import {SRgb} from "../idl/idl";
 import {deriveAuthorityPda, getAuthorityPda} from "../pda/authority-pda";
 import {deriveBluePda, deriveGreenPda, deriveRedPda, getPrimaryPda} from "../pda/primary/primary-pda";
 import {Keypair, SystemProgram, SYSVAR_RENT_PUBKEY} from "@solana/web3.js";
-import {SPL_TOKEN_PROGRAM_ID} from "../util/constants";
+import {SPL_TOKEN_PROGRAM_ID, W_SOL} from "../util/constants";
 
 export async function ix(provider: AnchorProvider, program: Program<SRgb>): Promise<void> {
     const authorityPda = deriveAuthorityPda(
@@ -33,6 +33,7 @@ export async function ix(provider: AnchorProvider, program: Program<SRgb>): Prom
                 red: redPda.address,
                 green: greenPda.address,
                 blue: bluePda.address,
+                wsol: W_SOL,
                 redMint: redMint.publicKey,
                 greenMint: greenMint.publicKey,
                 blueMint: blueMint.publicKey,

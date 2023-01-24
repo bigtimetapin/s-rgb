@@ -74,6 +74,8 @@ pub struct Init<'info> {
     )]
     pub blue: Account<'info, Primary>,
     // cpi accounts
+    #[account()]
+    pub wsol: Account<'info, Mint>,
     #[account(init,
     mint::authority = authority,
     mint::freeze_authority = authority,
@@ -131,11 +133,33 @@ pub struct StakeRed<'info> {
     payer = payer,
     )]
     pub stake: Account<'info, Stake>,
+    // cpi accounts
+    #[account(
+    address = authority.wsol,
+    owner = token_program.key()
+    )]
+    pub wsol: Account<'info, Mint>,
+    #[account(init_if_needed,
+    associated_token::mint = wsol,
+    associated_token::authority = stake,
+    payer = payer
+    )]
+    pub stake_ata: Account<'info, TokenAccount>,
+    #[account(init_if_needed,
+    associated_token::mint = wsol,
+    associated_token::authority = payer,
+    payer = payer
+    )]
+    pub payer_ata: Account<'info, TokenAccount>,
     // payer
     #[account(mut)]
     pub payer: Signer<'info>,
+    // cpi programs
+    pub token_program: Program<'info, Token>,
+    pub associated_token_program: Program<'info, AssociatedToken>,
     // system
     pub system_program: Program<'info, System>,
+    pub rent: Sysvar<'info, Rent>,
 }
 
 #[derive(Accounts)]
@@ -239,7 +263,7 @@ pub struct HarvestRed<'info> {
     associated_token::authority = payer,
     payer = payer
     )]
-    pub ata: Box<Account<'info, TokenAccount>>,
+    pub ata: Account<'info, TokenAccount>,
     // payer
     #[account(mut)]
     pub payer: Signer<'info>,

@@ -69,7 +69,7 @@ export async function getPools(
         programs.sRgb
     );
     const redPool = await getPool(
-        programs.sRgb,
+        programs,
         redStakePda,
         red,
         "red"
@@ -80,7 +80,7 @@ export async function getPools(
         programs.sRgb
     );
     const greenPool = await getPool(
-        programs.sRgb,
+        programs,
         greenStakePda,
         green,
         "green"
@@ -91,7 +91,7 @@ export async function getPools(
         programs.sRgb
     );
     const bluePool = await getPool(
-        programs.sRgb,
+        programs,
         blueStakePda,
         blue,
         "blue"
@@ -106,11 +106,19 @@ export async function getPools(
     }
 }
 
-async function getPool(program: Program<SRgb>, pda: StakePda, primary: Primary, name: string): Promise<Pool> {
+async function getPool(
+    programs: {
+        sRgb: Program<SRgb>,
+        token: Program<SplToken>
+    },
+    pda: StakePda,
+    primary: Primary,
+    name: string
+): Promise<Pool> {
     let pool: Pool;
     try {
         const stake = await getStakePda(
-            program,
+            programs,
             pda
         );
         pool = {

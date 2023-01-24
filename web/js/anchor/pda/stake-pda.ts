@@ -1,10 +1,12 @@
 import {Pda} from "./pda";
 import {LAMPORTS_PER_SOL, PublicKey} from "@solana/web3.js";
-import {AnchorProvider, Program} from "@project-serum/anchor";
+import {AnchorProvider, Program, SplToken} from "@project-serum/anchor";
 import {SRgb} from "../idl/idl";
 import * as Red from "./primary/red"
 import * as Green from "./primary/green"
 import * as Blue from "./primary/blue"
+import {deriveAtaPda} from "./ata-pda";
+import {W_SOL} from "../util/constants";
 
 export interface StakePda extends Pda {
 }
@@ -23,20 +25,34 @@ interface RawStake {
     timestamp: any // decoded as BN
 }
 
-export async function getStakePda(program: Program<SRgb>, pda: StakePda): Promise<Stake> {
-    const accountInfo = await program.account.stake.getAccountInfo(
+interface RawSplToken {
+    mint: PublicKey
+    amount: any // encoded as BN
+}
+
+export async function getStakePda(
+    programs: {
+        sRgb: Program<SRgb>,
+        token: Program<SplToken>
+    },
+    pda: StakePda
+): Promise<Stake> {
+    const fetched = await programs.sRgb.account.stake.fetch(
         pda.address
-    );
-    const decoded = program.coder.accounts.decode(
-        "stake",
-        accountInfo.data
     ) as RawStake;
+    const ataPda = deriveAtaPda(
+        pda.address,
+        W_SOL
+    );
+    const ata = await programs.token.account.token.fetch(
+        ataPda
+    ) as RawSplToken;
     return {
-        pool: decoded.pool,
-        timestamp: decoded.timestamp.toNumber(),
+        pool: fetched.pool,
+        timestamp: fetched.timestamp.toNumber(),
         amount: {
-            amount: accountInfo.lamports,
-            formatted: (Math.floor(accountInfo.lamports / LAMPORTS_PER_SOL)).toLocaleString()
+            amount: ata.amount.toNumber(),
+            formatted: (Math.floor(ata.amount.toNumber() / LAMPORTS_PER_SOL)).toLocaleString()
         }
     }
 }

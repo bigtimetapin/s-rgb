@@ -26,6 +26,11 @@ export type SRgb = {
           "isSigner": false
         },
         {
+          "name": "wsol",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "redMint",
           "isMut": true,
           "isSigner": true
@@ -82,12 +87,42 @@ export type SRgb = {
           "isSigner": false
         },
         {
+          "name": "wsol",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payerAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
           "name": "payer",
           "isMut": true,
           "isSigner": true
         },
         {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
           "isMut": false,
           "isSigner": false
         }
@@ -234,6 +269,10 @@ export type SRgb = {
       "type": {
         "kind": "struct",
         "fields": [
+          {
+            "name": "wsol",
+            "type": "publicKey"
+          },
           {
             "name": "tvl",
             "type": "u64"
@@ -304,6 +343,11 @@ export const IDL: SRgb = {
           "isSigner": false
         },
         {
+          "name": "wsol",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "redMint",
           "isMut": true,
           "isSigner": true
@@ -360,12 +404,42 @@ export const IDL: SRgb = {
           "isSigner": false
         },
         {
+          "name": "wsol",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payerAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
           "name": "payer",
           "isMut": true,
           "isSigner": true
         },
         {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
           "isMut": false,
           "isSigner": false
         }
@@ -512,6 +586,10 @@ export const IDL: SRgb = {
       "type": {
         "kind": "struct",
         "fields": [
+          {
+            "name": "wsol",
+            "type": "publicKey"
+          },
           {
             "name": "tvl",
             "type": "u64"
