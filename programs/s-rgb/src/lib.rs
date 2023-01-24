@@ -1,5 +1,6 @@
 use anchor_lang::prelude::*;
-use anchor_spl::token::{Mint, Token};
+use anchor_spl::associated_token::AssociatedToken;
+use anchor_spl::token::{Mint, Token, TokenAccount};
 use crate::pda::authority::authority::Authority;
 use crate::pda::primary::primary::Primary;
 use crate::pda::stake::stake::Stake;
@@ -27,6 +28,10 @@ pub mod s_rgb {
 
     pub fn stake_blue(ctx: Context<StakeBlue>, lamports: u64) -> Result<()> {
         ix::stake::blue::ix(ctx, lamports)
+    }
+
+    pub fn harvest_red(ctx: Context<HarvestRed>) -> Result<()> {
+        ix::harvest::red::ix(ctx)
     }
 }
 
@@ -197,4 +202,50 @@ pub struct StakeBlue<'info> {
     pub payer: Signer<'info>,
     // system
     pub system_program: Program<'info, System>,
+}
+
+#[derive(Accounts)]
+pub struct HarvestRed<'info> {
+    // pda
+    #[account(mut,
+    seeds = [
+    pda::authority::authority::SEED.as_bytes()
+    ], bump,
+    )]
+    pub authority: Account<'info, Authority>,
+    #[account(mut,
+    seeds = [
+    pda::primary::primary::SEED.as_bytes(),
+    pda::primary::red::SEED.as_bytes()
+    ], bump,
+    )]
+    pub red: Account<'info, Primary>,
+    #[account(mut,
+    seeds = [
+    pda::stake::stake::SEED.as_bytes(),
+    pda::primary::red::SEED.as_bytes(),
+    payer.key().as_ref()
+    ], bump,
+    )]
+    pub stake: Account<'info, Stake>,
+    // cpi accounts
+    #[account(mut,
+    address = red.mint,
+    owner = token_program.key()
+    )]
+    pub red_mint: Account<'info, Mint>,
+    #[account(init_if_needed,
+    associated_token::mint = red_mint,
+    associated_token::authority = payer,
+    payer = payer
+    )]
+    pub ata: Box<Account<'info, TokenAccount>>,
+    // payer
+    #[account(mut)]
+    pub payer: Signer<'info>,
+    // system
+    pub system_program: Program<'info, System>,
+    pub token_program: Program<'info, Token>,
+    pub associated_token_program: Program<'info, AssociatedToken>,
+    pub rent: Sysvar<'info, Rent>,
 }
