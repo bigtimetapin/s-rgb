@@ -130,16 +130,24 @@ async function getPool(
             provider.wallet.publicKey,
             primary.mint
         );
-        const primaryAta = await getAtaPda(
-            programs.token,
-            primaryAtaPda
-        );
+        let primaryAmount: number
+        try {
+            const primaryAta = await getAtaPda(
+                programs.token,
+                primaryAtaPda
+            );
+            primaryAmount = primaryAta.amount
+        } catch (error) {
+            console.log(error);
+            console.log("no existing" + " " + name + "-balance");
+            primaryAmount = 0;
+        }
         pool = {
             tvl: primary.tvl,
             staked: stake.amount,
             balance: {
-                amount: primaryAta.amount,
-                formatted: primaryAta.amount.toLocaleString()
+                amount: primaryAmount,
+                formatted: primaryAmount.toLocaleString()
             }
         }
     } catch (error) {
