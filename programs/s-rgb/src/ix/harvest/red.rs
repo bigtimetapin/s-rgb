@@ -9,6 +9,7 @@ pub fn ix(ctx: Context<HarvestRed>) -> Result<()> {
     let authority = &mut ctx.accounts.authority;
     let red = &mut ctx.accounts.red;
     let stake = &ctx.accounts.stake;
+    let payer = ctx.accounts.payer.key();
     // build authority signer seeds
     let authority_bump = *ctx.bumps.get(
         pda::authority::authority::SEED
@@ -24,6 +25,8 @@ pub fn ix(ctx: Context<HarvestRed>) -> Result<()> {
     ).unwrap();
     let stake_seeds = &[
         pda::stake::stake::SEED.as_bytes(),
+        pda::primary::red::SEED.as_bytes(),
+        payer.as_ref(),
         &[stake_bump]
     ];
     let stake_signer_seeds = &[&stake_seeds[..]];
