@@ -36,7 +36,7 @@ export async function getStakePda(program: Program<SRgb>, pda: StakePda): Promis
         timestamp: decoded.timestamp.toNumber(),
         amount: {
             amount: accountInfo.lamports,
-            formatted: (accountInfo.lamports / LAMPORTS_PER_SOL).toLocaleString()
+            formatted: (Math.floor(accountInfo.lamports / LAMPORTS_PER_SOL)).toLocaleString()
         }
     }
 }

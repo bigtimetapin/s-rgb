@@ -65,7 +65,8 @@ view state =
             Html.div
                 []
                 [ Html.div
-                    []
+                    [ class "mb-6"
+                    ]
                     [ Html.text <|
                         String.concat
                             [ "TVL"
