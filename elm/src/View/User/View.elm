@@ -77,6 +77,33 @@ view state =
 
                 stakedBlue =
                     stake (\u -> u.pools.blue.staked) Primary.Blue
+
+                balance : (User -> Amount) -> Primary -> Html Msg
+                balance f primary =
+                    Html.div
+                        []
+                        [ Html.div
+                            []
+                            [ Html.text <|
+                                String.concat
+                                    [ "your balance"
+                                    , ":"
+                                    , " "
+                                    , Primary.toSymbol primary
+                                    , " "
+                                    , (f user).formatted
+                                    ]
+                            ]
+                        ]
+
+                balanceRed =
+                    balance (\u -> u.pools.red.balance) Primary.Red
+
+                balanceGreen =
+                    balance (\u -> u.pools.green.balance) Primary.Green
+
+                balanceBlue =
+                    balance (\u -> u.pools.blue.balance) Primary.Blue
             in
             Html.div
                 []
@@ -107,9 +134,8 @@ view state =
                                 []
                                 [ Html.h3
                                     []
-                                    [ Html.text
-                                        """$R
-                                        """
+                                    [ Html.text <|
+                                        Primary.toSymbol Primary.Red
                                     ]
                                 ]
                             , Html.div
@@ -129,6 +155,10 @@ view state =
                                 []
                                 [ stakeRed
                                 ]
+                            , Html.div
+                                []
+                                [ balanceRed
+                                ]
                             ]
                         , Html.div
                             [ class "column is-one-third"
@@ -137,9 +167,8 @@ view state =
                                 []
                                 [ Html.h3
                                     []
-                                    [ Html.text
-                                        """$G
-                                        """
+                                    [ Html.text <|
+                                        Primary.toSymbol Primary.Green
                                     ]
                                 ]
                             , Html.div
@@ -159,6 +188,10 @@ view state =
                                 []
                                 [ stakedGreen
                                 ]
+                            , Html.div
+                                []
+                                [ balanceGreen
+                                ]
                             ]
                         , Html.div
                             [ class "column is-one-third"
@@ -167,9 +200,8 @@ view state =
                                 []
                                 [ Html.h3
                                     []
-                                    [ Html.text
-                                        """$B
-                                        """
+                                    [ Html.text <|
+                                        Primary.toSymbol Primary.Blue
                                     ]
                                 ]
                             , Html.div
@@ -188,6 +220,10 @@ view state =
                             , Html.div
                                 []
                                 [ stakedBlue
+                                ]
+                            , Html.div
+                                []
+                                [ balanceBlue
                                 ]
                             ]
                         ]

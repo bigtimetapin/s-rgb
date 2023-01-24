@@ -3,6 +3,7 @@ import {SRgb} from "../idl/idl";
 import {deriveAuthorityPda, getAuthorityPda} from "./authority-pda";
 import {deriveBluePda, deriveGreenPda, deriveRedPda, getPrimaryPda, Primary} from "./primary/primary-pda";
 import {deriveBlueStakePda, deriveGreenStakePda, deriveRedStakePda, getStakePda, StakePda} from "./stake-pda";
+import {deriveAtaPda, getAtaPda} from "./ata-pda";
 
 export interface Pools {
     tvl: Amount
@@ -69,6 +70,7 @@ export async function getPools(
         programs.sRgb
     );
     const redPool = await getPool(
+        provider,
         programs,
         redStakePda,
         red,
@@ -80,6 +82,7 @@ export async function getPools(
         programs.sRgb
     );
     const greenPool = await getPool(
+        provider,
         programs,
         greenStakePda,
         green,
@@ -91,6 +94,7 @@ export async function getPools(
         programs.sRgb
     );
     const bluePool = await getPool(
+        provider,
         programs,
         blueStakePda,
         blue,
@@ -107,6 +111,7 @@ export async function getPools(
 }
 
 async function getPool(
+    provider: AnchorProvider,
     programs: {
         sRgb: Program<SRgb>,
         token: Program<SplToken>
@@ -121,12 +126,20 @@ async function getPool(
             programs,
             pda
         );
+        const primaryAtaPda = deriveAtaPda(
+            provider.wallet.publicKey,
+            primary.mint
+        );
+        const primaryAta = await getAtaPda(
+            programs.token,
+            primaryAtaPda
+        );
         pool = {
             tvl: primary.tvl,
             staked: stake.amount,
             balance: {
-                amount: 0,
-                formatted: "0"
+                amount: primaryAta.amount,
+                formatted: primaryAta.amount.toLocaleString()
             }
         }
     } catch (error) {
