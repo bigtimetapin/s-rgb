@@ -225,12 +225,22 @@ export type SRgb = {
           "isSigner": false
         },
         {
+          "name": "wsol",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
           "name": "redMint",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "ata",
+          "name": "redMintAta",
           "isMut": true,
           "isSigner": false
         },
@@ -240,17 +250,17 @@ export type SRgb = {
           "isSigner": true
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
           "name": "tokenProgram",
           "isMut": false,
           "isSigner": false
         },
         {
           "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
           "isMut": false,
           "isSigner": false
         },
@@ -542,12 +552,22 @@ export const IDL: SRgb = {
           "isSigner": false
         },
         {
+          "name": "wsol",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
           "name": "redMint",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "ata",
+          "name": "redMintAta",
           "isMut": true,
           "isSigner": false
         },
@@ -557,17 +577,17 @@ export const IDL: SRgb = {
           "isSigner": true
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
           "name": "tokenProgram",
           "isMut": false,
           "isSigner": false
         },
         {
           "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
           "isMut": false,
           "isSigner": false
         },

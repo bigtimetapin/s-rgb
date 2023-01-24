@@ -5,7 +5,7 @@ import {deriveRedPda, getPrimaryPda} from "../../pda/primary/primary-pda";
 import {deriveRedStakePda} from "../../pda/stake-pda";
 import {deriveAtaPda} from "../../pda/ata-pda";
 import {SystemProgram, SYSVAR_RENT_PUBKEY} from "@solana/web3.js";
-import {SPL_ASSOCIATED_TOKEN_PROGRAM_ID, SPL_TOKEN_PROGRAM_ID} from "../../util/constants";
+import {SPL_ASSOCIATED_TOKEN_PROGRAM_ID, SPL_TOKEN_PROGRAM_ID, W_SOL} from "../../util/constants";
 import {getPools} from "../../pda/get-pools";
 
 export async function ix(
@@ -30,7 +30,11 @@ export async function ix(
         provider,
         programs.sRgb
     );
-    const ataPda = deriveAtaPda(
+    const redStakeAtaPda = deriveAtaPda(
+        redStakePda.address,
+        W_SOL
+    );
+    const redMintAtaPda = deriveAtaPda(
         provider.wallet.publicKey,
         red.mint
     );
@@ -43,12 +47,14 @@ export async function ix(
                 authority: authorityPda.address,
                 red: redPda.address,
                 stake: redStakePda.address,
+                wsol: W_SOL,
+                stakeAta: redStakeAtaPda,
                 redMint: red.mint,
-                ata: ataPda,
+                redMintAta: redMintAtaPda,
                 payer: provider.wallet.publicKey,
-                systemProgram: SystemProgram.programId,
                 tokenProgram: SPL_TOKEN_PROGRAM_ID,
                 associatedTokenProgram: SPL_ASSOCIATED_TOKEN_PROGRAM_ID,
+                systemProgram: SystemProgram.programId,
                 rent: SYSVAR_RENT_PUBKEY,
             }
         ).rpc();

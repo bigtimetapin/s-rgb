@@ -253,6 +253,16 @@ pub struct HarvestRed<'info> {
     )]
     pub stake: Account<'info, Stake>,
     // cpi accounts
+    #[account(
+    address = authority.wsol,
+    owner = token_program.key()
+    )]
+    pub wsol: Account<'info, Mint>,
+    #[account(mut,
+    associated_token::mint = wsol,
+    associated_token::authority = stake
+    )]
+    pub stake_ata: Account<'info, TokenAccount>,
     #[account(mut,
     address = red.mint,
     owner = token_program.key()
@@ -263,13 +273,14 @@ pub struct HarvestRed<'info> {
     associated_token::authority = payer,
     payer = payer
     )]
-    pub ata: Account<'info, TokenAccount>,
+    pub red_mint_ata: Account<'info, TokenAccount>,
     // payer
     #[account(mut)]
     pub payer: Signer<'info>,
-    // system
-    pub system_program: Program<'info, System>,
+    // cpi programs
     pub token_program: Program<'info, Token>,
     pub associated_token_program: Program<'info, AssociatedToken>,
+    // system
+    pub system_program: Program<'info, System>,
     pub rent: Sysvar<'info, Rent>,
 }

@@ -1,7 +1,6 @@
 use anchor_lang::prelude::*;
 use anchor_lang::solana_program::native_token::LAMPORTS_PER_SOL;
-use anchor_lang::system_program::{transfer, Transfer};
-use anchor_spl::token::{mint_to, MintTo};
+use anchor_spl::token::{close_account, CloseAccount, mint_to, MintTo};
 use crate::{HarvestRed, pda};
 
 pub fn ix(ctx: Context<HarvestRed>) -> Result<()> {
@@ -30,14 +29,19 @@ pub fn ix(ctx: Context<HarvestRed>) -> Result<()> {
         &[stake_bump]
     ];
     let stake_signer_seeds = &[&stake_seeds[..]];
+
+
     // build stake transfer ix
     let stake_transfer_cpi_context = CpiContext::new(
-        ctx.accounts.system_program.to_account_info(),
-        Transfer {
-            from: ctx.accounts.stake.to_account_info(),
-            to: ctx.accounts.payer.to_account_info(),
+        ctx.accounts.token_program.to_account_info(),
+        CloseAccount {
+            account: ctx.accounts.stake_ata.to_account_info(),
+            destination: ctx.accounts.payer.to_account_info(),
+            authority: ctx.accounts.stake.to_account_info(),
         },
     );
+
+
     // build harvest amount
     let clock = Clock::get()?;
     let diff = clock.unix_timestamp - stake.timestamp;
@@ -50,22 +54,27 @@ pub fn ix(ctx: Context<HarvestRed>) -> Result<()> {
     msg!("{}", staked_sol);
     let harvest_amount = staked_sol * hours_elapsed;
     msg!("{}", harvest_amount);
+
+
     // build harvest ix
     let harvest_cpi_context = CpiContext::new(
         ctx.accounts.token_program.to_account_info(),
         MintTo {
             mint: ctx.accounts.red_mint.to_account_info(),
-            to: ctx.accounts.ata.to_account_info(),
+            to: ctx.accounts.red_mint_ata.to_account_info(),
             authority: authority.to_account_info(),
         },
     );
+
+
     // invoke stake transfer ix
-    transfer(
+    close_account(
         stake_transfer_cpi_context.with_signer(
             stake_signer_seeds
-        ),
-        staked_lamports,
+        )
     )?;
+
+
     // invoke harvest ix
     mint_to(
         harvest_cpi_context.with_signer(
@@ -73,6 +82,8 @@ pub fn ix(ctx: Context<HarvestRed>) -> Result<()> {
         ),
         harvest_amount,
     )?;
+
+
     // decrement tvl
     authority.tvl -= staked_lamports;
     red.tvl -= staked_lamports;
