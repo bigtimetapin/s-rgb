@@ -45,7 +45,7 @@ export async function ix(
         programs
     );
     const user = {
-        wallet: provider.wallet.toString(),
+        wallet: provider.wallet.publicKey.toString(),
         tvl: pools.tvl,
         pools: pools.pools
     };
