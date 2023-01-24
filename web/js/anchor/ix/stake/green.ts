@@ -1,8 +1,8 @@
 import {AnchorProvider, BN, Program, SplToken} from "@project-serum/anchor";
 import {SRgb} from "../../idl/idl";
 import {deriveAuthorityPda} from "../../pda/authority-pda";
-import {deriveRedPda} from "../../pda/primary/primary-pda";
-import {deriveRedStakePda} from "../../pda/stake-pda";
+import {deriveGreenPda} from "../../pda/primary/primary-pda";
+import {deriveGreenStakePda} from "../../pda/stake-pda";
 import {LAMPORTS_PER_SOL, SystemProgram} from "@solana/web3.js";
 import {getPools} from "../../pda/get-pools";
 
@@ -17,10 +17,10 @@ export async function ix(
     const authorityPda = deriveAuthorityPda(
         programs.sRgb
     );
-    const redPda = deriveRedPda(
+    const greenPda = deriveGreenPda(
         programs.sRgb
     );
-    const redStakePda = deriveRedStakePda(
+    const greenStakePda = deriveGreenStakePda(
         provider,
         programs.sRgb
     );
@@ -28,14 +28,14 @@ export async function ix(
     await programs
         .sRgb
         .methods
-        .stakeRed(
+        .stakeGreen(
             new BN(sol * LAMPORTS_PER_SOL)
         )
         .accounts(
             {
                 authority: authorityPda.address,
-                red: redPda.address,
-                stake: redStakePda.address,
+                green: greenPda.address,
+                stake: greenStakePda.address,
                 payer: provider.wallet.publicKey,
                 systemProgram: SystemProgram.programId
             }

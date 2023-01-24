@@ -1,6 +1,8 @@
 import {getPhantom, getPhantomProvider} from "./phantom";
 import {getEphemeralPP, getPP} from "./anchor/util/context";
 import * as Init from "./anchor/ix/init";
+import * as StakeBlue from "./anchor/ix/stake/blue";
+import * as StakeGreen from "./anchor/ix/stake/green"
 import * as StakeRed from "./anchor/ix/stake/red";
 import {getGlobal} from "./anchor/pda/get-global";
 import {getPools} from "./anchor/pda/get-pools";
@@ -88,6 +90,30 @@ export async function main(app, json) {
             const pp = getPP(phantom);
             // invoke rpc
             await StakeRed.ix(
+                app,
+                pp.provider,
+                pp.programs
+            );
+            // or user stake green
+        } else if (sender === "user-stake-green") {
+            // get phantom
+            phantom = await getPhantom(app);
+            // get provider & program
+            const pp = getPP(phantom);
+            // invoke rpc
+            await StakeGreen.ix(
+                app,
+                pp.provider,
+                pp.programs
+            );
+            // or user stake blue
+        } else if (sender === "user-stake-blue") {
+            // get phantom
+            phantom = await getPhantom(app);
+            // get provider & program
+            const pp = getPP(phantom);
+            // invoke rpc
+            await StakeBlue.ix(
                 app,
                 pp.provider,
                 pp.programs
