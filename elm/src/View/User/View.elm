@@ -42,15 +42,31 @@ view state =
                         False ->
                             Html.div
                                 []
-                                [ Html.text <|
-                                    String.concat
-                                        [ "your stake"
-                                        , ":"
-                                        , " "
-                                        , "$SOL"
-                                        , " "
-                                        , (f user).formatted
+                                [ Html.div
+                                    []
+                                    [ Html.text <|
+                                        String.concat
+                                            [ "your stake"
+                                            , ":"
+                                            , " "
+                                            , "$SOL"
+                                            , " "
+                                            , (f user).formatted
+                                            ]
+                                    ]
+                                , Html.div
+                                    []
+                                    [ Html.button
+                                        [ onClick <|
+                                            FromUser <|
+                                                UserMsg.Harvest <|
+                                                    primary
                                         ]
+                                        [ Html.text
+                                            """harvest
+                                            """
+                                        ]
+                                    ]
                                 ]
 
                 stakeRed =

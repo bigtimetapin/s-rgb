@@ -121,6 +121,14 @@ update msg model =
                                 fromUserMsg
                     )
 
+                UserMsg.Harvest _ ->
+                    ( Model.waiting model
+                    , sender <|
+                        Sender.encode0 <|
+                            Sender.User <|
+                                fromUserMsg
+                    )
+
         FromJs fromJsMsg ->
             case fromJsMsg of
                 -- JS sending success for decoding

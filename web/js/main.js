@@ -1,6 +1,7 @@
 import {getPhantom, getPhantomProvider} from "./phantom";
 import {getEphemeralPP, getPP} from "./anchor/util/context";
 import * as Init from "./anchor/ix/init";
+import * as HarvestRed from "./anchor/ix/harvest/red";
 import * as StakeBlue from "./anchor/ix/stake/blue";
 import * as StakeGreen from "./anchor/ix/stake/green"
 import * as StakeRed from "./anchor/ix/stake/red";
@@ -114,6 +115,18 @@ export async function main(app, json) {
             const pp = getPP(phantom);
             // invoke rpc
             await StakeBlue.ix(
+                app,
+                pp.provider,
+                pp.programs
+            );
+            // or user harvest red
+        } else if (sender === "user-harvest-red") {
+            // get phantom
+            phantom = await getPhantom(app);
+            // get provider & program
+            const pp = getPP(phantom);
+            // invoke rpc
+            await HarvestRed.ix(
                 app,
                 pp.provider,
                 pp.programs
