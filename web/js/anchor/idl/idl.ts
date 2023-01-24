@@ -92,9 +92,9 @@ export type SRgb = {
           "isSigner": false
         },
         {
-          "name": "stakeAta",
+          "name": "stakeTa",
           "isMut": true,
-          "isSigner": false
+          "isSigner": true
         },
         {
           "name": "payerAta",
@@ -230,7 +230,7 @@ export type SRgb = {
           "isSigner": false
         },
         {
-          "name": "stakeAta",
+          "name": "stakeTa",
           "isMut": true,
           "isSigner": false
         },
@@ -318,6 +318,10 @@ export type SRgb = {
           {
             "name": "timestamp",
             "type": "i64"
+          },
+          {
+            "name": "tokenAccount",
+            "type": "publicKey"
           }
         ]
       }
@@ -419,9 +423,9 @@ export const IDL: SRgb = {
           "isSigner": false
         },
         {
-          "name": "stakeAta",
+          "name": "stakeTa",
           "isMut": true,
-          "isSigner": false
+          "isSigner": true
         },
         {
           "name": "payerAta",
@@ -557,7 +561,7 @@ export const IDL: SRgb = {
           "isSigner": false
         },
         {
-          "name": "stakeAta",
+          "name": "stakeTa",
           "isMut": true,
           "isSigner": false
         },
@@ -645,6 +649,10 @@ export const IDL: SRgb = {
           {
             "name": "timestamp",
             "type": "i64"
+          },
+          {
+            "name": "tokenAccount",
+            "type": "publicKey"
           }
         ]
       }

@@ -45,7 +45,7 @@ pub fn ix(ctx: Context<StakeRed>, lamports: u64) -> Result<()> {
         ctx.accounts.token_program.to_account_info(),
         Transfer {
             from: ctx.accounts.payer_ata.to_account_info(),
-            to: ctx.accounts.stake_ata.to_account_info(),
+            to: ctx.accounts.stake_ta.to_account_info(),
             authority: payer.to_account_info(),
         },
     );
@@ -57,6 +57,8 @@ pub fn ix(ctx: Context<StakeRed>, lamports: u64) -> Result<()> {
     // timestamp
     let clock = Clock::get()?;
     stake.timestamp = clock.unix_timestamp;
+    // stake token-account
+    stake.token_account = ctx.accounts.stake_ta.key();
     // increment tvl
     authority.tvl += lamports;
     red.tvl += lamports;

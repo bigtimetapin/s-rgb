@@ -12,7 +12,7 @@ interface RawSplTokenAccount {
     amount: any // decoded as BN
 }
 
-export async function getAtaPda(program: Program<SplToken>, ata: PublicKey): Promise<SplTokenAccount> {
+export async function getTokenAccount(program: Program<SplToken>, ata: PublicKey): Promise<SplTokenAccount> {
     const fetched = await program.account.token.fetch(
         ata
     ) as RawSplTokenAccount;

@@ -3,7 +3,7 @@ import {SRgb} from "../idl/idl";
 import {deriveAuthorityPda, getAuthorityPda} from "./authority-pda";
 import {deriveBluePda, deriveGreenPda, deriveRedPda, getPrimaryPda, Primary} from "./primary/primary-pda";
 import {deriveBlueStakePda, deriveGreenStakePda, deriveRedStakePda, getStakePda, StakePda} from "./stake-pda";
-import {deriveAtaPda, getAtaPda} from "./ata-pda";
+import {deriveAtaPda, getTokenAccount} from "./ata-pda";
 
 export interface Pools {
     tvl: Amount
@@ -132,7 +132,7 @@ async function getPool(
         );
         let primaryAmount: number
         try {
-            const primaryAta = await getAtaPda(
+            const primaryAta = await getTokenAccount(
                 programs.token,
                 primaryAtaPda
             );

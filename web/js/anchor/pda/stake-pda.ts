@@ -5,7 +5,7 @@ import {SRgb} from "../idl/idl";
 import * as Red from "./primary/red"
 import * as Green from "./primary/green"
 import * as Blue from "./primary/blue"
-import {deriveAtaPda, getAtaPda} from "./ata-pda";
+import {deriveAtaPda, getTokenAccount} from "./ata-pda";
 import {W_SOL} from "../util/constants";
 
 export interface StakePda extends Pda {
@@ -14,6 +14,7 @@ export interface StakePda extends Pda {
 export interface Stake {
     pool: PublicKey
     timestamp: number // decoded as BN
+    tokenAccount: PublicKey
     amount: {
         amount: number
         formatted: string
@@ -23,6 +24,7 @@ export interface Stake {
 interface RawStake {
     pool: PublicKey
     timestamp: any // decoded as BN
+    tokenAccount: PublicKey
 }
 
 export async function getStakePda(
@@ -35,17 +37,14 @@ export async function getStakePda(
     const fetched = await programs.sRgb.account.stake.fetch(
         pda.address
     ) as RawStake;
-    const ataPda = deriveAtaPda(
-        pda.address,
-        W_SOL
-    );
-    const ata = await getAtaPda(
+    const ata = await getTokenAccount(
         programs.token,
-        ataPda
+        fetched.tokenAccount
     );
     return {
         pool: fetched.pool,
         timestamp: fetched.timestamp.toNumber(),
+        tokenAccount: fetched.tokenAccount,
         amount: {
             amount: ata.amount,
             formatted: (Math.floor(ata.amount / LAMPORTS_PER_SOL)).toLocaleString()

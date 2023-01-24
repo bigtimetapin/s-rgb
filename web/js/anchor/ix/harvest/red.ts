@@ -2,7 +2,7 @@ import {AnchorProvider, Program, SplToken} from "@project-serum/anchor";
 import {SRgb} from "../../idl/idl";
 import {deriveAuthorityPda} from "../../pda/authority-pda";
 import {deriveRedPda, getPrimaryPda} from "../../pda/primary/primary-pda";
-import {deriveRedStakePda} from "../../pda/stake-pda";
+import {deriveRedStakePda, getStakePda} from "../../pda/stake-pda";
 import {deriveAtaPda} from "../../pda/ata-pda";
 import {SystemProgram, SYSVAR_RENT_PUBKEY} from "@solana/web3.js";
 import {SPL_ASSOCIATED_TOKEN_PROGRAM_ID, SPL_TOKEN_PROGRAM_ID, W_SOL} from "../../util/constants";
@@ -30,9 +30,9 @@ export async function ix(
         provider,
         programs.sRgb
     );
-    const redStakeAtaPda = deriveAtaPda(
-        redStakePda.address,
-        W_SOL
+    const redStake = await getStakePda(
+        programs,
+        redStakePda
     );
     const redMintAtaPda = deriveAtaPda(
         provider.wallet.publicKey,
@@ -48,7 +48,7 @@ export async function ix(
                 red: redPda.address,
                 stake: redStakePda.address,
                 wsol: W_SOL,
-                stakeAta: redStakeAtaPda,
+                stakeTa: redStake.tokenAccount,
                 redMint: red.mint,
                 redMintAta: redMintAtaPda,
                 payer: provider.wallet.publicKey,

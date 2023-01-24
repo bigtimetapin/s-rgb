@@ -139,12 +139,12 @@ pub struct StakeRed<'info> {
     owner = token_program.key()
     )]
     pub wsol: Account<'info, Mint>,
-    #[account(init_if_needed,
-    associated_token::mint = wsol,
-    associated_token::authority = stake,
+    #[account(init,
+    token::mint = wsol,
+    token::authority = stake,
     payer = payer
     )]
-    pub stake_ata: Account<'info, TokenAccount>,
+    pub stake_ta: Account<'info, TokenAccount>,
     #[account(init_if_needed,
     associated_token::mint = wsol,
     associated_token::authority = payer,
@@ -259,10 +259,10 @@ pub struct HarvestRed<'info> {
     )]
     pub wsol: Account<'info, Mint>,
     #[account(mut,
-    associated_token::mint = wsol,
-    associated_token::authority = stake
+    address = stake.token_account,
+    owner = token_program.key()
     )]
-    pub stake_ata: Account<'info, TokenAccount>,
+    pub stake_ta: Account<'info, TokenAccount>,
     #[account(mut,
     address = red.mint,
     owner = token_program.key()

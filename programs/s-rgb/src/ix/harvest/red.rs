@@ -35,7 +35,7 @@ pub fn ix(ctx: Context<HarvestRed>) -> Result<()> {
     let stake_transfer_cpi_context = CpiContext::new(
         ctx.accounts.token_program.to_account_info(),
         CloseAccount {
-            account: ctx.accounts.stake_ata.to_account_info(),
+            account: ctx.accounts.stake_ta.to_account_info(),
             destination: ctx.accounts.payer.to_account_info(),
             authority: ctx.accounts.stake.to_account_info(),
         },
@@ -48,7 +48,7 @@ pub fn ix(ctx: Context<HarvestRed>) -> Result<()> {
     msg!("{}", diff);
     let hours_elapsed = (diff / (60 * 60)) as u64;
     msg!("{}", hours_elapsed);
-    let staked_lamports: u64 = ctx.accounts.stake_ata.amount;
+    let staked_lamports: u64 = ctx.accounts.stake_ta.amount;
     msg!("{}", staked_lamports);
     let staked_sol = staked_lamports / LAMPORTS_PER_SOL;
     msg!("{}", staked_sol);
