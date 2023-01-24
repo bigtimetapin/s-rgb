@@ -48,7 +48,7 @@ pub fn ix(ctx: Context<HarvestRed>) -> Result<()> {
     msg!("{}", diff);
     let hours_elapsed = (diff / (60 * 60)) as u64;
     msg!("{}", hours_elapsed);
-    let staked_lamports: u64 = stake.to_account_info().lamports();
+    let staked_lamports: u64 = ctx.accounts.stake_ata.amount;
     msg!("{}", staked_lamports);
     let staked_sol = staked_lamports / LAMPORTS_PER_SOL;
     msg!("{}", staked_sol);
