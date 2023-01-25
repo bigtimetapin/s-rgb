@@ -29,8 +29,6 @@ pub fn ix(ctx: Context<HarvestRed>) -> Result<()> {
         &[stake_bump]
     ];
     let stake_signer_seeds = &[&stake_seeds[..]];
-
-
     // build stake transfer ix
     let stake_transfer_cpi_context = CpiContext::new(
         ctx.accounts.token_program.to_account_info(),
@@ -40,23 +38,14 @@ pub fn ix(ctx: Context<HarvestRed>) -> Result<()> {
             authority: ctx.accounts.stake.to_account_info(),
         },
     );
-
-
     // build harvest amount
     let clock = Clock::get()?;
     let diff = clock.unix_timestamp - stake.timestamp;
-    msg!("{}", diff);
-    //let hours_elapsed = (diff / (60 * 60)) as u64;
+    //let hours_elapsed = (diff / (60 * 60)) as u64; TODO
     let hours_elapsed = (diff / 2) as u64;
-    msg!("{}", hours_elapsed);
     let staked_lamports: u64 = ctx.accounts.stake_ta.amount;
-    msg!("{}", staked_lamports);
     let staked_sol = staked_lamports / LAMPORTS_PER_SOL;
-    msg!("{}", staked_sol);
     let harvest_amount = staked_sol * hours_elapsed;
-    msg!("{}", harvest_amount);
-
-
     // build harvest ix
     let harvest_cpi_context = CpiContext::new(
         ctx.accounts.token_program.to_account_info(),
@@ -66,16 +55,12 @@ pub fn ix(ctx: Context<HarvestRed>) -> Result<()> {
             authority: authority.to_account_info(),
         },
     );
-
-
     // invoke stake transfer ix
     close_account(
         stake_transfer_cpi_context.with_signer(
             stake_signer_seeds
         )
     )?;
-
-
     // invoke harvest ix
     mint_to(
         harvest_cpi_context.with_signer(
@@ -83,8 +68,6 @@ pub fn ix(ctx: Context<HarvestRed>) -> Result<()> {
         ),
         harvest_amount,
     )?;
-
-
     // decrement tvl
     authority.tvl -= staked_lamports;
     red.tvl -= staked_lamports;

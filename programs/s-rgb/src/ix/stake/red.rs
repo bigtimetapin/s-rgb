@@ -9,7 +9,6 @@ pub fn ix(ctx: Context<StakeRed>, lamports: u64) -> Result<()> {
     let red = &mut ctx.accounts.red;
     let stake = &mut ctx.accounts.stake;
     let payer = &ctx.accounts.payer;
-
     // build transfer native ix
     let transfer_native_cpi_context = CpiContext::new(
         ctx.accounts.system_program.to_account_info(),
@@ -23,9 +22,6 @@ pub fn ix(ctx: Context<StakeRed>, lamports: u64) -> Result<()> {
         transfer_native_cpi_context,
         lamports,
     )?;
-
-
-
     // build sync native ix
     let sync_native_cpi_context = CpiContext::new(
         ctx.accounts.token_program.to_account_info(),
@@ -33,13 +29,10 @@ pub fn ix(ctx: Context<StakeRed>, lamports: u64) -> Result<()> {
             account: ctx.accounts.payer_ata.to_account_info()
         },
     );
-
     // invoke sync native ix
     sync_native(
         sync_native_cpi_context
     )?;
-
-
     // build transfer spl ix
     let transfer_spl_cpi_context = CpiContext::new(
         ctx.accounts.token_program.to_account_info(),
