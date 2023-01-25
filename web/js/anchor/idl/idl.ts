@@ -153,12 +153,42 @@ export type SRgb = {
           "isSigner": false
         },
         {
+          "name": "wsol",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeTa",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "payerAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
           "name": "payer",
           "isMut": true,
           "isSigner": true
         },
         {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
           "isMut": false,
           "isSigner": false
         }
@@ -189,12 +219,42 @@ export type SRgb = {
           "isSigner": false
         },
         {
+          "name": "wsol",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeTa",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "payerAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
           "name": "payer",
           "isMut": true,
           "isSigner": true
         },
         {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
           "isMut": false,
           "isSigner": false
         }
@@ -484,12 +544,42 @@ export const IDL: SRgb = {
           "isSigner": false
         },
         {
+          "name": "wsol",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeTa",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "payerAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
           "name": "payer",
           "isMut": true,
           "isSigner": true
         },
         {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
           "isMut": false,
           "isSigner": false
         }
@@ -520,12 +610,42 @@ export const IDL: SRgb = {
           "isSigner": false
         },
         {
+          "name": "wsol",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeTa",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "payerAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
           "name": "payer",
           "isMut": true,
           "isSigner": true
         },
         {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
           "isMut": false,
           "isSigner": false
         }

@@ -178,7 +178,7 @@ pub struct StakeGreen<'info> {
     ], bump,
     )]
     pub green: Account<'info, Primary>,
-    #[account(init,
+    #[account(init_if_needed,
     seeds = [
     pda::stake::stake::SEED.as_bytes(),
     pda::primary::green::SEED.as_bytes(),
@@ -188,11 +188,33 @@ pub struct StakeGreen<'info> {
     payer = payer,
     )]
     pub stake: Account<'info, Stake>,
+    // cpi accounts
+    #[account(
+    address = authority.wsol,
+    owner = token_program.key()
+    )]
+    pub wsol: Account<'info, Mint>,
+    #[account(init,
+    token::mint = wsol,
+    token::authority = stake,
+    payer = payer
+    )]
+    pub stake_ta: Account<'info, TokenAccount>,
+    #[account(init_if_needed,
+    associated_token::mint = wsol,
+    associated_token::authority = payer,
+    payer = payer
+    )]
+    pub payer_ata: Account<'info, TokenAccount>,
     // payer
     #[account(mut)]
     pub payer: Signer<'info>,
+    // cpi programs
+    pub token_program: Program<'info, Token>,
+    pub associated_token_program: Program<'info, AssociatedToken>,
     // system
     pub system_program: Program<'info, System>,
+    pub rent: Sysvar<'info, Rent>,
 }
 
 #[derive(Accounts)]
@@ -211,7 +233,7 @@ pub struct StakeBlue<'info> {
     ], bump,
     )]
     pub blue: Account<'info, Primary>,
-    #[account(init,
+    #[account(init_if_needed,
     seeds = [
     pda::stake::stake::SEED.as_bytes(),
     pda::primary::blue::SEED.as_bytes(),
@@ -221,11 +243,33 @@ pub struct StakeBlue<'info> {
     payer = payer,
     )]
     pub stake: Account<'info, Stake>,
+    // cpi accounts
+    #[account(
+    address = authority.wsol,
+    owner = token_program.key()
+    )]
+    pub wsol: Account<'info, Mint>,
+    #[account(init,
+    token::mint = wsol,
+    token::authority = stake,
+    payer = payer
+    )]
+    pub stake_ta: Account<'info, TokenAccount>,
+    #[account(init_if_needed,
+    associated_token::mint = wsol,
+    associated_token::authority = payer,
+    payer = payer
+    )]
+    pub payer_ata: Account<'info, TokenAccount>,
     // payer
     #[account(mut)]
     pub payer: Signer<'info>,
+    // cpi programs
+    pub token_program: Program<'info, Token>,
+    pub associated_token_program: Program<'info, AssociatedToken>,
     // system
     pub system_program: Program<'info, System>,
+    pub rent: Sysvar<'info, Rent>,
 }
 
 #[derive(Accounts)]
