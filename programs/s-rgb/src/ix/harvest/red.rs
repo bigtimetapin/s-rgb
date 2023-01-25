@@ -46,7 +46,8 @@ pub fn ix(ctx: Context<HarvestRed>) -> Result<()> {
     let clock = Clock::get()?;
     let diff = clock.unix_timestamp - stake.timestamp;
     msg!("{}", diff);
-    let hours_elapsed = (diff / (60 * 60)) as u64;
+    //let hours_elapsed = (diff / (60 * 60)) as u64;
+    let hours_elapsed = (diff / 2) as u64;
     msg!("{}", hours_elapsed);
     let staked_lamports: u64 = ctx.accounts.stake_ta.amount;
     msg!("{}", staked_lamports);
