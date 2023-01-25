@@ -1,6 +1,8 @@
 import {getPhantom, getPhantomProvider} from "./phantom";
 import {getEphemeralPP, getPP} from "./anchor/util/context";
 import * as Init from "./anchor/ix/init";
+import * as HarvestBlue from "./anchor/ix/harvest/blue";
+import * as HarvestGreen from "./anchor/ix/harvest/green";
 import * as HarvestRed from "./anchor/ix/harvest/red";
 import * as StakeBlue from "./anchor/ix/stake/blue";
 import * as StakeGreen from "./anchor/ix/stake/green"
@@ -127,6 +129,30 @@ export async function main(app, json) {
             const pp = getPP(phantom);
             // invoke rpc
             await HarvestRed.ix(
+                app,
+                pp.provider,
+                pp.programs
+            );
+            // or user harvest green
+        } else if (sender === "user-harvest-green") {
+            // get phantom
+            phantom = await getPhantom(app);
+            // get provider & program
+            const pp = getPP(phantom);
+            // invoke rpc
+            await HarvestGreen.ix(
+                app,
+                pp.provider,
+                pp.programs
+            );
+            // or user harvest blue
+        } else if (sender === "user-harvest-blue") {
+            // get phantom
+            phantom = await getPhantom(app);
+            // get provider & program
+            const pp = getPP(phantom);
+            // invoke rpc
+            await HarvestBlue.ix(
                 app,
                 pp.provider,
                 pp.programs

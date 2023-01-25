@@ -331,6 +331,138 @@ export type SRgb = {
         }
       ],
       "args": []
+    },
+    {
+      "name": "harvestGreen",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "green",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stake",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "wsol",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeTa",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "greenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "greenMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "harvestBlue",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "blue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stake",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "wsol",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeTa",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "blueMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "blueMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
     }
   ],
   "accounts": [
@@ -692,6 +824,138 @@ export const IDL: SRgb = {
         },
         {
           "name": "redMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "harvestGreen",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "green",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stake",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "wsol",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeTa",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "greenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "greenMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "harvestBlue",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "blue",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stake",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "wsol",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeTa",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "blueMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "blueMintAta",
           "isMut": true,
           "isSigner": false
         },

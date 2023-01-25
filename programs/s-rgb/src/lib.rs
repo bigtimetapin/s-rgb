@@ -33,6 +33,14 @@ pub mod s_rgb {
     pub fn harvest_red(ctx: Context<HarvestRed>) -> Result<()> {
         ix::harvest::red::ix(ctx)
     }
+
+    pub fn harvest_green(ctx: Context<HarvestGreen>) -> Result<()> {
+        ix::harvest::green::ix(ctx)
+    }
+
+    pub fn harvest_blue(ctx: Context<HarvestBlue>) -> Result<()> {
+        ix::harvest::blue::ix(ctx)
+    }
 }
 
 #[derive(Accounts)]
@@ -318,6 +326,120 @@ pub struct HarvestRed<'info> {
     payer = payer
     )]
     pub red_mint_ata: Account<'info, TokenAccount>,
+    // payer
+    #[account(mut)]
+    pub payer: Signer<'info>,
+    // cpi programs
+    pub token_program: Program<'info, Token>,
+    pub associated_token_program: Program<'info, AssociatedToken>,
+    // system
+    pub system_program: Program<'info, System>,
+    pub rent: Sysvar<'info, Rent>,
+}
+
+#[derive(Accounts)]
+pub struct HarvestGreen<'info> {
+    // pda
+    #[account(mut,
+    seeds = [
+    pda::authority::authority::SEED.as_bytes()
+    ], bump,
+    )]
+    pub authority: Account<'info, Authority>,
+    #[account(mut,
+    seeds = [
+    pda::primary::primary::SEED.as_bytes(),
+    pda::primary::green::SEED.as_bytes()
+    ], bump,
+    )]
+    pub green: Account<'info, Primary>,
+    #[account(mut,
+    seeds = [
+    pda::stake::stake::SEED.as_bytes(),
+    pda::primary::green::SEED.as_bytes(),
+    payer.key().as_ref()
+    ], bump,
+    )]
+    pub stake: Account<'info, Stake>,
+    // cpi accounts
+    #[account(
+    address = authority.wsol,
+    owner = token_program.key()
+    )]
+    pub wsol: Account<'info, Mint>,
+    #[account(mut,
+    address = stake.token_account,
+    owner = token_program.key()
+    )]
+    pub stake_ta: Account<'info, TokenAccount>,
+    #[account(mut,
+    address = green.mint,
+    owner = token_program.key()
+    )]
+    pub green_mint: Account<'info, Mint>,
+    #[account(init_if_needed,
+    associated_token::mint = green_mint,
+    associated_token::authority = payer,
+    payer = payer
+    )]
+    pub green_mint_ata: Account<'info, TokenAccount>,
+    // payer
+    #[account(mut)]
+    pub payer: Signer<'info>,
+    // cpi programs
+    pub token_program: Program<'info, Token>,
+    pub associated_token_program: Program<'info, AssociatedToken>,
+    // system
+    pub system_program: Program<'info, System>,
+    pub rent: Sysvar<'info, Rent>,
+}
+
+#[derive(Accounts)]
+pub struct HarvestBlue<'info> {
+    // pda
+    #[account(mut,
+    seeds = [
+    pda::authority::authority::SEED.as_bytes()
+    ], bump,
+    )]
+    pub authority: Account<'info, Authority>,
+    #[account(mut,
+    seeds = [
+    pda::primary::primary::SEED.as_bytes(),
+    pda::primary::blue::SEED.as_bytes()
+    ], bump,
+    )]
+    pub blue: Account<'info, Primary>,
+    #[account(mut,
+    seeds = [
+    pda::stake::stake::SEED.as_bytes(),
+    pda::primary::blue::SEED.as_bytes(),
+    payer.key().as_ref()
+    ], bump,
+    )]
+    pub stake: Account<'info, Stake>,
+    // cpi accounts
+    #[account(
+    address = authority.wsol,
+    owner = token_program.key()
+    )]
+    pub wsol: Account<'info, Mint>,
+    #[account(mut,
+    address = stake.token_account,
+    owner = token_program.key()
+    )]
+    pub stake_ta: Account<'info, TokenAccount>,
+    #[account(mut,
+    address = blue.mint,
+    owner = token_program.key()
+    )]
+    pub blue_mint: Account<'info, Mint>,
+    #[account(init_if_needed,
+    associated_token::mint = blue_mint,
+    associated_token::authority = payer,
+    payer = payer
+    )]
+    pub blue_mint_ata: Account<'info, TokenAccount>,
     // payer
     #[account(mut)]
     pub payer: Signer<'info>,
