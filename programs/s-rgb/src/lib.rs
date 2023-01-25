@@ -123,7 +123,7 @@ pub struct StakeRed<'info> {
     ], bump,
     )]
     pub red: Account<'info, Primary>,
-    #[account(init,
+    #[account(init_if_needed,
     seeds = [
     pda::stake::stake::SEED.as_bytes(),
     pda::primary::red::SEED.as_bytes(),
