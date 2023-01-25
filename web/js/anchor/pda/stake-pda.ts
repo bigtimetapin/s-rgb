@@ -5,8 +5,7 @@ import {SRgb} from "../idl/idl";
 import * as Red from "./primary/red"
 import * as Green from "./primary/green"
 import * as Blue from "./primary/blue"
-import {deriveAtaPda, getTokenAccount} from "./ata-pda";
-import {W_SOL} from "../util/constants";
+import {getTokenAccount} from "./ata-pda";
 
 export interface StakePda extends Pda {
 }

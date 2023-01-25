@@ -121,49 +121,49 @@ async function getPool(
     name: string
 ): Promise<Pool> {
     let pool: Pool;
+    let stakedAmount: Amount;
+    let balanceAmount: Amount
     try {
         const stake = await getStakePda(
             programs,
             pda
         );
+        stakedAmount = stake.amount;
+    } catch (error) {
+        console.log(error);
+        console.log("no existing" + " " + name + "-stake");
+        stakedAmount = {
+            amount: 0,
+            formatted: "0"
+        }
+    }
+    try {
         const primaryAtaPda = deriveAtaPda(
             provider.wallet.publicKey,
             primary.mint
         );
-        let primaryAmount: number
-        try {
-            const primaryAta = await getTokenAccount(
-                programs.token,
-                primaryAtaPda
-            );
-            primaryAmount = primaryAta.amount
-        } catch (error) {
-            console.log(error);
-            console.log("no existing" + " " + name + "-balance");
-            primaryAmount = 0;
-        }
-        pool = {
-            tvl: primary.tvl,
-            staked: stake.amount,
-            balance: {
-                amount: primaryAmount,
-                formatted: primaryAmount.toLocaleString()
-            }
-        }
+        const primaryAta = await getTokenAccount(
+            programs.token,
+            primaryAtaPda
+        );
+        console.log(primaryAta.amount);
+        console.log(primaryAta.mint.toString());
+        balanceAmount = {
+            amount: primaryAta.amount,
+            formatted: primaryAta.amount.toLocaleString()
+        };
     } catch (error) {
         console.log(error);
-        console.log("no existing" + " " + name + "-stake");
-        pool = {
-            tvl: primary.tvl,
-            staked: {
-                amount: 0,
-                formatted: "0"
-            },
-            balance: {
-                amount: 0,
-                formatted: "0"
-            }
-        }
+        console.log("no existing" + " " + name + "-balance");
+        balanceAmount = {
+            amount: 0,
+            formatted: "0"
+        };
+    }
+    pool = {
+        tvl: primary.tvl,
+        staked: stakedAmount,
+        balance: balanceAmount
     }
     return pool
 }
