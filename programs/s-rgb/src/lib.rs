@@ -12,6 +12,7 @@ use crate::pda::stake::stake::Stake;
 
 mod pda;
 mod ix;
+mod error;
 
 declare_id!("3tgVL9TfPbEe7tgxjjmMCLUMzyFqspJkGW3u4hiEoFu6");
 
@@ -49,6 +50,14 @@ pub mod s_rgb {
 
     pub fn init_pixel(ctx: Context<InitPixelMint>, seeds: pda::pixel::pixel::Seeds) -> Result<()> {
         ix::pixel::init::ix(ctx, seeds)
+    }
+
+    pub fn mint_pixel(
+        ctx: Context<MintPixel>,
+        _pixel_index_seeds: pda::pixel::pixel_index::Seeds,
+        _palette_seeds: pda::pixel::palette::Seeds,
+    ) -> Result<()> {
+        ix::pixel::mint::ix(ctx)
     }
 }
 
