@@ -4,9 +4,9 @@ use anchor_lang::prelude::*;
 use anchor_spl::associated_token::AssociatedToken;
 use anchor_spl::token::{Mint, Token, TokenAccount};
 use crate::pda::authority::authority::Authority;
-use crate::pda::craft::palette::Palette;
-use crate::pda::craft::pixel::Pixel;
-use crate::pda::craft::pixel_index::PixelIndex;
+use crate::pda::pixel::palette::Palette;
+use crate::pda::pixel::pixel::Pixel;
+use crate::pda::pixel::pixel_index::PixelIndex;
 use crate::pda::primary::primary::Primary;
 use crate::pda::stake::stake::Stake;
 
@@ -47,8 +47,8 @@ pub mod s_rgb {
         ix::harvest::blue::ix(ctx)
     }
 
-    pub fn init_pixel(ctx: Context<InitPixel>, seeds: pda::craft::pixel::Seeds) -> Result<()> {
-        ix::craft::init_pixel::ix(ctx, seeds)
+    pub fn init_pixel(ctx: Context<InitPixelMint>, seeds: pda::pixel::pixel::Seeds) -> Result<()> {
+        ix::pixel::init::ix(ctx, seeds)
     }
 }
 
@@ -462,15 +462,15 @@ pub struct HarvestBlue<'info> {
 
 #[derive(Accounts)]
 #[instruction(
-seeds: pda::craft::pixel::Seeds
+seeds: pda::pixel::pixel::Seeds
 )]
-pub struct InitPixel<'info> {
+pub struct InitPixelMint<'info> {
     // cpi accounts
     #[account(init,
     seeds = [
     seeds.to_string().as_bytes()
     ], bump,
-    space = pda::craft::pixel::SIZE,
+    space = pda::pixel::pixel::SIZE,
     payer = payer,
     )]
     pub pixel: Account<'info, Pixel>,
@@ -493,10 +493,10 @@ pub struct InitPixel<'info> {
 
 #[derive(Accounts)]
 #[instruction(
-pixel_index_seeds: pda::craft::pixel_index::Seeds,
-palette_seeds: pda::craft::palette::Seeds,
+pixel_index_seeds: pda::pixel::pixel_index::Seeds,
+palette_seeds: pda::pixel::palette::Seeds,
 )]
-pub struct CraftPixel<'info> {
+pub struct MintPixel<'info> {
     // pda
     #[account(
     seeds = [
@@ -508,7 +508,7 @@ pub struct CraftPixel<'info> {
     seeds = [
     pixel_index_seeds.to_string().as_bytes()
     ], bump,
-    space = pda::craft::pixel_index::SIZE,
+    space = pda::pixel::pixel_index::SIZE,
     payer = payer,
     )]
     pub pixel_index: Account<'info, PixelIndex>,
@@ -516,7 +516,7 @@ pub struct CraftPixel<'info> {
     seeds = [
     palette_seeds.to_string().as_bytes()
     ], bump,
-    space = pda::craft::palette::SIZE,
+    space = pda::pixel::palette::SIZE,
     payer = payer,
     )]
     pub palette: Account<'info, Palette>,

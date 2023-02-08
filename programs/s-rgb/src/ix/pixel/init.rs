@@ -1,8 +1,8 @@
 use anchor_lang::prelude::*;
-use crate::InitPixel;
-use crate::pda::craft::pixel::Seeds;
+use crate::InitPixelMint;
+use crate::pda::pixel::pixel::Seeds;
 
-pub fn ix(ctx: Context<InitPixel>, seeds: Seeds) -> Result<()> {
+pub fn ix(ctx: Context<InitPixelMint>, seeds: Seeds) -> Result<()> {
     let pixel = &mut ctx.accounts.pixel;
     let pixel_mint = & ctx.accounts.pixel_mint;
     pixel.seeds = seeds;
