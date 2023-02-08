@@ -1,7 +1,12 @@
+extern crate core;
+
 use anchor_lang::prelude::*;
 use anchor_spl::associated_token::AssociatedToken;
 use anchor_spl::token::{Mint, Token, TokenAccount};
 use crate::pda::authority::authority::Authority;
+use crate::pda::craft::palette::Palette;
+use crate::pda::craft::pixel::Pixel;
+use crate::pda::craft::pixel_index::PixelIndex;
 use crate::pda::primary::primary::Primary;
 use crate::pda::stake::stake::Stake;
 
@@ -440,6 +445,89 @@ pub struct HarvestBlue<'info> {
     payer = payer
     )]
     pub blue_mint_ata: Account<'info, TokenAccount>,
+    // payer
+    #[account(mut)]
+    pub payer: Signer<'info>,
+    // cpi programs
+    pub token_program: Program<'info, Token>,
+    pub associated_token_program: Program<'info, AssociatedToken>,
+    // system
+    pub system_program: Program<'info, System>,
+    pub rent: Sysvar<'info, Rent>,
+}
+
+#[derive(Accounts)]
+#[instruction(
+pixel: pda::craft::pixel::Seeds
+)]
+pub struct InitPixel<'info> {
+    // cpi accounts
+    #[account(init,
+    seeds = [
+    pixel.to_string().as_bytes()
+    ], bump,
+    space = pda::craft::pixel::SIZE,
+    payer = payer,
+    )]
+    pub pixel_pda: Account<'info, Pixel>,
+    #[account(init,
+    mint::authority = pixel_pda,
+    mint::freeze_authority = pixel_pda,
+    mint::decimals = 0,
+    payer = payer
+    )]
+    pub pixel_mint: Account<'info, Mint>,
+    // payer
+    #[account(mut)]
+    pub payer: Signer<'info>,
+    // cpi programs
+    pub token_program: Program<'info, Token>,
+    // system
+    pub system_program: Program<'info, System>,
+    pub rent: Sysvar<'info, Rent>,
+}
+
+#[derive(Accounts)]
+#[instruction(
+pixel_index: pda::craft::pixel_index::Seeds,
+palette: pda::craft::palette::Seeds,
+)]
+pub struct CraftPixel<'info> {
+    // pda
+    #[account(
+    seeds = [
+    pixel.to_string().as_bytes()
+    ], bump,
+    )]
+    pub pixel: Account<'info, Pixel>,
+    #[account(init_if_needed,
+    seeds = [
+    pixel_index.to_string().as_bytes()
+    ], bump,
+    space = pda::craft::pixel_index::SIZE,
+    payer = payer,
+    )]
+    pub pixel_index_pda: Account<'info, PixelIndex>,
+    #[account(init_if_needed,
+    seeds = [
+    palette.to_string().as_bytes()
+    ], bump,
+    space = pda::craft::palette::SIZE,
+    payer = payer,
+    )]
+    pub palette_pda: Account<'info, Palette>,
+    // cpi accounts
+    #[account(mut,
+    address = pixel.mint,
+    owner = token_program.key()
+    )]
+    pub pixel_mint: Account<'info, Mint>,
+    #[account(init_if_needed,
+    associated_token::mint = pixel_mint,
+    associated_token::authority = payer,
+    payer = payer
+    )]
+    pub pixel_mint_ata: Account<'info, TokenAccount>,
     // payer
     #[account(mut)]
     pub payer: Signer<'info>,
