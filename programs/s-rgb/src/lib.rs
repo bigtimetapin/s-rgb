@@ -46,6 +46,10 @@ pub mod s_rgb {
     pub fn harvest_blue(ctx: Context<HarvestBlue>) -> Result<()> {
         ix::harvest::blue::ix(ctx)
     }
+
+    pub fn init_pixel(ctx: Context<InitPixel>, seeds: pda::craft::pixel::Seeds) -> Result<()> {
+        ix::craft::init_pixel::ix(ctx, seeds)
+    }
 }
 
 #[derive(Accounts)]
@@ -458,21 +462,21 @@ pub struct HarvestBlue<'info> {
 
 #[derive(Accounts)]
 #[instruction(
-pixel: pda::craft::pixel::Seeds
+seeds: pda::craft::pixel::Seeds
 )]
 pub struct InitPixel<'info> {
     // cpi accounts
     #[account(init,
     seeds = [
-    pixel.to_string().as_bytes()
+    seeds.to_string().as_bytes()
     ], bump,
     space = pda::craft::pixel::SIZE,
     payer = payer,
     )]
-    pub pixel_pda: Account<'info, Pixel>,
+    pub pixel: Account<'info, Pixel>,
     #[account(init,
-    mint::authority = pixel_pda,
-    mint::freeze_authority = pixel_pda,
+    mint::authority = pixel,
+    mint::freeze_authority = pixel,
     mint::decimals = 0,
     payer = payer
     )]
