@@ -493,8 +493,8 @@ pub struct InitPixel<'info> {
 
 #[derive(Accounts)]
 #[instruction(
-pixel_index: pda::craft::pixel_index::Seeds,
-palette: pda::craft::palette::Seeds,
+pixel_index_seeds: pda::craft::pixel_index::Seeds,
+palette_seeds: pda::craft::palette::Seeds,
 )]
 pub struct CraftPixel<'info> {
     // pda
@@ -506,20 +506,20 @@ pub struct CraftPixel<'info> {
     pub pixel: Account<'info, Pixel>,
     #[account(init_if_needed,
     seeds = [
-    pixel_index.to_string().as_bytes()
+    pixel_index_seeds.to_string().as_bytes()
     ], bump,
     space = pda::craft::pixel_index::SIZE,
     payer = payer,
     )]
-    pub pixel_index_pda: Account<'info, PixelIndex>,
+    pub pixel_index: Account<'info, PixelIndex>,
     #[account(init_if_needed,
     seeds = [
-    palette.to_string().as_bytes()
+    palette_seeds.to_string().as_bytes()
     ], bump,
     space = pda::craft::palette::SIZE,
     payer = payer,
     )]
-    pub palette_pda: Account<'info, Palette>,
+    pub palette: Account<'info, Palette>,
     // cpi accounts
     #[account(mut,
     address = pixel.mint,
