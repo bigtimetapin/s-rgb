@@ -11,17 +11,17 @@ pub const SIZE: usize = 8 // discriminator
 
 #[account]
 pub struct Palette {
-    pub seeds: Seeds,
+    pub seeds: PaletteSeeds,
     pub indexer: u128,
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone)]
-pub struct Seeds {
+pub struct PaletteSeeds {
     pub authority: Pubkey,
     pub depth: u8,
 }
 
-impl fmt::Display for Seeds {
+impl fmt::Display for PaletteSeeds {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}/{}/{}", SEED, self.authority, self.depth)
     }
@@ -29,6 +29,6 @@ impl fmt::Display for Seeds {
 
 impl fmt::Display for Palette {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        Seeds::fmt(& self.seeds, f)
+        PaletteSeeds::fmt(& self.seeds, f)
     }
 }

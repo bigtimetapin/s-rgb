@@ -4,9 +4,9 @@ use anchor_lang::prelude::*;
 use anchor_spl::associated_token::AssociatedToken;
 use anchor_spl::token::{Mint, Token, TokenAccount};
 use crate::pda::authority::authority::Authority;
-use crate::pda::pixel::palette::Palette;
-use crate::pda::pixel::pixel::Pixel;
-use crate::pda::pixel::pixel_index::PixelIndex;
+use crate::pda::pixel::palette::{Palette, PaletteSeeds};
+use crate::pda::pixel::pixel::{Pixel, PixelSeeds};
+use crate::pda::pixel::pixel_index::{PixelIndex, PixelIndexSeeds};
 use crate::pda::primary::primary::Primary;
 use crate::pda::stake::stake::Stake;
 
@@ -48,14 +48,14 @@ pub mod s_rgb {
         ix::harvest::blue::ix(ctx)
     }
 
-    pub fn init_pixel(ctx: Context<InitPixelMint>, seeds: pda::pixel::pixel::Seeds) -> Result<()> {
+    pub fn init_pixel(ctx: Context<InitPixelMint>, seeds: PixelSeeds) -> Result<()> {
         ix::pixel::init::ix(ctx, seeds)
     }
 
     pub fn mint_pixel(
         ctx: Context<MintPixel>,
-        _pixel_index_seeds: pda::pixel::pixel_index::Seeds,
-        _palette_seeds: pda::pixel::palette::Seeds,
+        _pixel_index_seeds: PixelIndexSeeds,
+        _palette_seeds: PaletteSeeds,
     ) -> Result<()> {
         ix::pixel::mint::ix(ctx)
     }
@@ -471,7 +471,7 @@ pub struct HarvestBlue<'info> {
 
 #[derive(Accounts)]
 #[instruction(
-seeds: pda::pixel::pixel::Seeds
+seeds: PixelSeeds
 )]
 pub struct InitPixelMint<'info> {
     // cpi accounts
@@ -502,8 +502,8 @@ pub struct InitPixelMint<'info> {
 
 #[derive(Accounts)]
 #[instruction(
-pixel_index_seeds: pda::pixel::pixel_index::Seeds,
-palette_seeds: pda::pixel::palette::Seeds,
+pixel_index_seeds: PixelIndexSeeds,
+palette_seeds: PaletteSeeds,
 )]
 pub struct MintPixel<'info> {
     // pda

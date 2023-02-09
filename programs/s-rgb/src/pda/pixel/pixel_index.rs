@@ -12,19 +12,19 @@ pub const SIZE: usize = 8 // discriminator
 
 #[account]
 pub struct PixelIndex {
-    pub seeds: Seeds,
+    pub seeds: PixelIndexSeeds,
     pub pixel: Pubkey,
     pub indexed: bool,
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone)]
-pub struct Seeds {
+pub struct PixelIndexSeeds {
     pub authority: Pubkey,
     pub depth: u8,
     pub index: u128,
 }
 
-impl fmt::Display for Seeds {
+impl fmt::Display for PixelIndexSeeds {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}/{}/{}/{}", SEED, self.authority, self.depth, self.index)
     }
@@ -32,6 +32,6 @@ impl fmt::Display for Seeds {
 
 impl fmt::Display for PixelIndex {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        Seeds::fmt(&self.seeds, f)
+        PixelIndexSeeds::fmt(&self.seeds, f)
     }
 }

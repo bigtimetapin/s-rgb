@@ -1,9 +1,9 @@
 use anchor_lang::prelude::*;
 use crate::error::CustomErrors;
 use crate::InitPixelMint;
-use crate::pda::pixel::pixel::Seeds;
+use crate::pda::pixel::pixel::PixelSeeds;
 
-pub fn ix(ctx: Context<InitPixelMint>, seeds: Seeds) -> Result<()> {
+pub fn ix(ctx: Context<InitPixelMint>, seeds: PixelSeeds) -> Result<()> {
     let pixel = &mut ctx.accounts.pixel;
     let pixel_mint = & ctx.accounts.pixel_mint;
     // assert bit depth
@@ -17,7 +17,7 @@ pub fn ix(ctx: Context<InitPixelMint>, seeds: Seeds) -> Result<()> {
     Ok(())
 }
 
-fn assert_depth(seeds: &Seeds) -> Result<()> {
+fn assert_depth(seeds: &PixelSeeds) -> Result<()> {
     match seeds.depth <= 32 {
         true => {
             Ok(())
@@ -28,9 +28,10 @@ fn assert_depth(seeds: &Seeds) -> Result<()> {
     }
 }
 
-fn assert_channel(seeds: &Seeds, f: fn(&Seeds) -> u32) -> Result<()> {
-    let max: u128 = 2**(seeds.depth);
-    match ((f(seeds) as u128) <= max) {
+fn assert_channel(seeds: &PixelSeeds, f: fn(&PixelSeeds) -> u32) -> Result<()> {
+    let max: u128 = u128::pow(2, seeds.depth as u32);
+    msg!("power of {}", max);
+    match (f(seeds) as u128) <= max {
         true => {
             Ok(())
         }
