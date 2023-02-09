@@ -5,6 +5,7 @@ module Main exposing (main)
 import Browser
 import Browser.Navigation as Nav
 import Model.Model as Model exposing (Model)
+import Model.Pixel as Pixel
 import Model.State.Exception.Exception as Exception
 import Model.State.Global.Global as Global
 import Model.State.Local.Local as Local exposing (Local)
@@ -128,6 +129,16 @@ update msg model =
                             Sender.User <|
                                 fromUserMsg
                     )
+
+                UserMsg.InitPixel seeds ->
+                    ( model
+                    , sender <|
+                        Sender.encode
+                            { sender = Sender.User fromUserMsg
+                            , more = Pixel.encode seeds
+                            }
+                    )
+
 
         FromJs fromJsMsg ->
             case fromJsMsg of

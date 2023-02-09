@@ -4,6 +4,7 @@ import * as Init from "./anchor/ix/init";
 import * as HarvestBlue from "./anchor/ix/harvest/blue";
 import * as HarvestGreen from "./anchor/ix/harvest/green";
 import * as HarvestRed from "./anchor/ix/harvest/red";
+import * as InitPixel from "./anchor/ix/pixel/init";
 import * as StakeBlue from "./anchor/ix/stake/blue";
 import * as StakeGreen from "./anchor/ix/stake/green"
 import * as StakeRed from "./anchor/ix/stake/red";
@@ -156,6 +157,21 @@ export async function main(app, json) {
                 app,
                 pp.provider,
                 pp.programs
+            );
+            // or use init pixel
+        } else if (sender === "user-init-pixel") {
+            // get phantom
+            phantom = await getPhantom(app);
+            // get provider & program
+            const pp = getPP(phantom);
+            // parse more json
+            const more = JSON.parse(parsed.more);
+            // invoke rpc
+            await InitPixel.ix(
+                app,
+                pp.provider,
+                pp.programs.sRgb,
+                more
             );
             // or throw error
         } else {

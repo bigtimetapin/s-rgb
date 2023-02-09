@@ -463,6 +463,118 @@ export type SRgb = {
         }
       ],
       "args": []
+    },
+    {
+      "name": "initPixel",
+      "accounts": [
+        {
+          "name": "pixel",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelMint",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "seeds",
+          "type": {
+            "defined": "PixelSeeds"
+          }
+        }
+      ]
+    },
+    {
+      "name": "mintPixel",
+      "accounts": [
+        {
+          "name": "pixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelIndex",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "palette",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "pixelIndexSeeds",
+          "type": {
+            "defined": "PixelIndexSeeds"
+          }
+        },
+        {
+          "name": "paletteSeeds",
+          "type": {
+            "defined": "PaletteSeeds"
+          }
+        }
+      ]
     }
   ],
   "accounts": [
@@ -478,6 +590,64 @@ export type SRgb = {
           {
             "name": "tvl",
             "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "palette",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "seeds",
+            "type": {
+              "defined": "PaletteSeeds"
+            }
+          },
+          {
+            "name": "indexer",
+            "type": "u128"
+          }
+        ]
+      }
+    },
+    {
+      "name": "pixelIndex",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "seeds",
+            "type": {
+              "defined": "PixelIndexSeeds"
+            }
+          },
+          {
+            "name": "pixel",
+            "type": "publicKey"
+          },
+          {
+            "name": "indexed",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "pixel",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "seeds",
+            "type": {
+              "defined": "PixelSeeds"
+            }
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
           }
         ]
       }
@@ -517,6 +687,80 @@ export type SRgb = {
           }
         ]
       }
+    }
+  ],
+  "types": [
+    {
+      "name": "PaletteSeeds",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "depth",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PixelIndexSeeds",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "depth",
+            "type": "u8"
+          },
+          {
+            "name": "index",
+            "type": "u128"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PixelSeeds",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "r",
+            "type": "u32"
+          },
+          {
+            "name": "g",
+            "type": "u32"
+          },
+          {
+            "name": "b",
+            "type": "u32"
+          },
+          {
+            "name": "depth",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidBitDepth",
+      "msg": "Invalid bit depth specified."
+    },
+    {
+      "code": 6001,
+      "name": "ChannelOverflow",
+      "msg": "Input value found outside channel bounds."
     }
   ]
 };
@@ -986,6 +1230,118 @@ export const IDL: SRgb = {
         }
       ],
       "args": []
+    },
+    {
+      "name": "initPixel",
+      "accounts": [
+        {
+          "name": "pixel",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelMint",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "seeds",
+          "type": {
+            "defined": "PixelSeeds"
+          }
+        }
+      ]
+    },
+    {
+      "name": "mintPixel",
+      "accounts": [
+        {
+          "name": "pixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelIndex",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "palette",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "pixelIndexSeeds",
+          "type": {
+            "defined": "PixelIndexSeeds"
+          }
+        },
+        {
+          "name": "paletteSeeds",
+          "type": {
+            "defined": "PaletteSeeds"
+          }
+        }
+      ]
     }
   ],
   "accounts": [
@@ -1001,6 +1357,64 @@ export const IDL: SRgb = {
           {
             "name": "tvl",
             "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "palette",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "seeds",
+            "type": {
+              "defined": "PaletteSeeds"
+            }
+          },
+          {
+            "name": "indexer",
+            "type": "u128"
+          }
+        ]
+      }
+    },
+    {
+      "name": "pixelIndex",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "seeds",
+            "type": {
+              "defined": "PixelIndexSeeds"
+            }
+          },
+          {
+            "name": "pixel",
+            "type": "publicKey"
+          },
+          {
+            "name": "indexed",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "pixel",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "seeds",
+            "type": {
+              "defined": "PixelSeeds"
+            }
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
           }
         ]
       }
@@ -1040,6 +1454,80 @@ export const IDL: SRgb = {
           }
         ]
       }
+    }
+  ],
+  "types": [
+    {
+      "name": "PaletteSeeds",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "depth",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PixelIndexSeeds",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "depth",
+            "type": "u8"
+          },
+          {
+            "name": "index",
+            "type": "u128"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PixelSeeds",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "r",
+            "type": "u32"
+          },
+          {
+            "name": "g",
+            "type": "u32"
+          },
+          {
+            "name": "b",
+            "type": "u32"
+          },
+          {
+            "name": "depth",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidBitDepth",
+      "msg": "Invalid bit depth specified."
+    },
+    {
+      "code": 6001,
+      "name": "ChannelOverflow",
+      "msg": "Input value found outside channel bounds."
     }
   ]
 };

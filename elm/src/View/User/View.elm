@@ -227,5 +227,24 @@ view state =
                                 ]
                             ]
                         ]
+                    , Html.div
+                        [
+                        ]
+                        [ Html.button
+                            [ class "button"
+                            , onClick <|
+                                FromUser <|
+                                    UserMsg.InitPixel
+                                        { r = 1
+                                        , g = 1
+                                        , b = 1
+                                        , depth = 1
+                                        }
+                            ]
+                            [ Html.text
+                                """init pixel
+                                """
+                            ]
+                        ]
                     ]
                 ]

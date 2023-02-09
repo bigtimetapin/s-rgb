@@ -27,6 +27,7 @@ pub struct PixelSeeds {
 
 impl fmt::Display for PixelSeeds {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        msg!("{}/r{}/g{}/b{}/d{}", SEED, self.r, self.g, self.b, self.depth);
         write!(f, "{}/r{}/g{}/b{}/d{}", SEED, self.r, self.g, self.b, self.depth)
     }
 }

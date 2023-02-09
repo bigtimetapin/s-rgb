@@ -1,5 +1,6 @@
 module Msg.User.Msg exposing (Msg(..), toString)
 
+import Model.Pixel as Pixel
 import Model.Primary exposing (Primary(..))
 
 
@@ -7,6 +8,7 @@ type Msg
     = Fetch
     | Stake Primary
     | Harvest Primary
+    | InitPixel Pixel.Seeds
 
 
 toString : Msg -> String
@@ -32,3 +34,6 @@ toString msg =
 
         Harvest Blue ->
             "user-harvest-blue"
+
+        InitPixel seeds ->
+            "user-init-pixel"

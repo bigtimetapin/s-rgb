@@ -5,6 +5,7 @@ use crate::pda::pixel::pixel::PixelSeeds;
 
 pub fn ix(ctx: Context<InitPixelMint>, seeds: PixelSeeds) -> Result<()> {
     let pixel = &mut ctx.accounts.pixel;
+    msg!("{}", pixel.key());
     let pixel_mint = & ctx.accounts.pixel_mint;
     // assert bit depth
     assert_depth(& seeds)?;
