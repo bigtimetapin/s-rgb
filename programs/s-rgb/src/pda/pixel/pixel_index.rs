@@ -26,6 +26,7 @@ pub struct PixelIndexSeeds {
 
 impl fmt::Display for PixelIndexSeeds {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        msg!("{}/{}/{}/{}", SEED, self.authority, self.depth, self.index);
         write!(f, "{}/{}/{}/{}", SEED, self.authority, self.depth, self.index)
     }
 }

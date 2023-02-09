@@ -1,7 +1,8 @@
-import {Program} from "@project-serum/anchor";
+import {AnchorProvider, Program, SplToken} from "@project-serum/anchor";
 import {PublicKey} from "@solana/web3.js";
 import {SRgb} from "../../idl/idl";
 import {Pda} from "../pda";
+import {deriveAtaPda, getTokenAccount} from "../ata-pda";
 
 export interface PixelPda extends Pda {
 }
@@ -9,6 +10,7 @@ export interface PixelPda extends Pda {
 export interface Pixel {
     seeds: Seeds
     mint: PublicKey
+    balance: number
 }
 
 export interface Seeds {
@@ -16,6 +18,35 @@ export interface Seeds {
     g: number
     b: number
     depth: number
+}
+
+export async function getManyPixelPda(
+    provider: AnchorProvider,
+    programs: {
+        sRgb: Program<SRgb>;
+        token: Program<SplToken>
+    },
+    pdaArray: PublicKey[]
+): Promise<Pixel[]> {
+    const fetched = (await programs.sRgb.account.pixel.fetchMultiple(pdaArray)).filter(Boolean) as any[]
+    return Promise.all(
+        fetched.map(async (obj) => {
+                const ata = deriveAtaPda(
+                    provider.wallet.publicKey,
+                    obj.mint
+                );
+                const tokenAccount = await getTokenAccount(
+                    programs.token,
+                    ata
+                );
+                return {
+                    seeds: obj.seeds,
+                    mint: obj.mint,
+                    balance: tokenAccount.amount
+                } as Pixel
+            }
+        )
+    )
 }
 
 export async function getPixelPda(program: Program<SRgb>, pda: PixelPda): Promise<Pixel> {
@@ -26,8 +57,6 @@ export async function getPixelPda(program: Program<SRgb>, pda: PixelPda): Promis
 
 export function derivePixelPda(program: Program<SRgb>, seeds: Seeds): PixelPda {
     let pda, bump;
-    let seed = `"${SEED}/r${seeds.r}/g${seeds.g}/b${seeds.b}/d${seeds.depth}"`;
-    console.log(seed);
     [pda, bump] = PublicKey.findProgramAddressSync(
         [
             Buffer.from(
@@ -36,7 +65,6 @@ export function derivePixelPda(program: Program<SRgb>, seeds: Seeds): PixelPda {
         ],
         program.programId
     );
-    console.log(pda.toString());
     return {
         address: pda,
         bump
