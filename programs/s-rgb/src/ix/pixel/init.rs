@@ -18,7 +18,7 @@ pub fn ix(ctx: Context<InitPixelMint>, seeds: PixelSeeds) -> Result<()> {
 }
 
 fn assert_depth(seeds: &PixelSeeds) -> Result<()> {
-    match seeds.depth <= 32 {
+    match 0 < seeds.depth && seeds.depth <= 32 {
         true => {
             Ok(())
         }
