@@ -31,7 +31,7 @@ export function derivePixelPda(program: Program<SRgb>, seeds: Seeds): PixelPda {
     [pda, bump] = PublicKey.findProgramAddressSync(
         [
             Buffer.from(
-                `"${SEED}/r${seeds.r}/g${seeds.g}/b${seeds.b}/d${seeds.depth}"`
+                SEED + "/r" + seeds.r + "/g" + seeds.g + "/b" + seeds.b + "/d" + seeds.depth
             )
         ],
         program.programId
