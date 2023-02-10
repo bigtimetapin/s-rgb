@@ -1,4 +1,4 @@
-import {AnchorProvider, Program} from "@project-serum/anchor";
+import {AnchorProvider, Program, SplToken} from "@project-serum/anchor";
 import {SRgb} from "../../idl/idl";
 import * as InitPixel from "./../../ix/pixel/init";
 import * as Pixel from "./../../pda/pixel/pixel-pda";
@@ -11,38 +11,43 @@ import {SystemProgram, SYSVAR_RENT_PUBKEY} from "@solana/web3.js";
 export async function ix(
     app,
     provider: AnchorProvider,
-    program: Program<SRgb>,
+    programs: {
+        sRgb: Program<SRgb>;
+        token: Program<SplToken>
+    },
     pixelSeeds: Pixel.Seeds,
     pixelIndexSeeds: PixelIndex.Seeds,
     paletteSeeds: Palette.Seeds
 ): Promise<void> {
     const pixelPda = Pixel.derivePixelPda(
-        program,
+        programs.sRgb,
         pixelSeeds
     );
     const pixelIndaPda = PixelIndex.derivePixelIndexPda(
-        program,
+        programs.sRgb,
         pixelIndexSeeds
     );
     const palettePda = Palette.derivePalettePda(
-        program,
+        programs.sRgb,
         paletteSeeds
     );
     let pixel: Pixel.Pixel;
     try {
         pixel = await Pixel.getPixelPda(
-            program,
+            provider,
+            programs,
             pixelPda
         );
     } catch (error) {
         await InitPixel.ix(
             app,
             provider,
-            program,
+            programs,
             pixelSeeds
         );
         pixel = await Pixel.getPixelPda(
-            program,
+            provider,
+            programs,
             pixelPda
         );
     }
@@ -50,7 +55,8 @@ export async function ix(
         provider.wallet.publicKey,
         pixel.mint
     )
-    await program
+    await programs
+        .sRgb
         .methods
         .mintPixel(
             PixelIndex.toRaw(pixelIndexSeeds) as any,

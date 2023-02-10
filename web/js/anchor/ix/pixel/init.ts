@@ -1,4 +1,4 @@
-import {AnchorProvider, Program} from "@project-serum/anchor";
+import {AnchorProvider, Program, SplToken} from "@project-serum/anchor";
 import {SRgb} from "../../idl/idl";
 import * as Pixel from "./../../pda/pixel/pixel-pda";
 import {Keypair, SystemProgram, SYSVAR_RENT_PUBKEY} from "@solana/web3.js";
@@ -7,16 +7,20 @@ import {SPL_TOKEN_PROGRAM_ID} from "../../util/constants";
 export async function ix(
     app,
     provider: AnchorProvider,
-    program: Program<SRgb>,
+    programs: {
+        sRgb: Program<SRgb>;
+        token: Program<SplToken>
+    },
     seeds: Pixel.Seeds
 ): Promise<void> {
     const pixelPda = Pixel.derivePixelPda(
-        program,
+        programs.sRgb,
         seeds
     );
     const pixelMint = Keypair.generate(
     );
-    await program
+    await programs
+        .sRgb
         .methods
         .initPixel(
             seeds as any
@@ -33,7 +37,8 @@ export async function ix(
             [pixelMint]
         ).rpc()
     const pixel = await Pixel.getPixelPda(
-        program,
+        provider,
+        programs,
         pixelPda
     );
     console.log(pixel.seeds);

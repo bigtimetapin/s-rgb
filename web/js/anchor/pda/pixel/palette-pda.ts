@@ -11,6 +11,11 @@ export interface Palette {
     indexer: number // decoded as bn
 }
 
+interface RawPalette {
+    seeds: Seeds
+    indexer: any // decoded as bn
+}
+
 export interface Seeds {
     authority: PublicKey
     depth: number
@@ -26,7 +31,7 @@ export async function getAllPalettePda(provider: AnchorProvider, program: Progra
             }
         ).address
     );
-    const fetched = (await program.account.palette.fetchMultiple(pdaArray)).filter(Boolean) as any[];
+    const fetched = (await program.account.palette.fetchMultiple(pdaArray)).filter(Boolean) as RawPalette[];
     return fetched.map((obj) => {
             return {
                 seeds: obj.seeds,
@@ -39,7 +44,7 @@ export async function getAllPalettePda(provider: AnchorProvider, program: Progra
 export async function getPalettePda(program: Program<SRgb>, pda: PalettePda): Promise<Palette> {
     const fetched = await program.account.palette.fetch(
         pda.address
-    );
+    ) as RawPalette;
     return {
         seeds: fetched.seeds,
         indexer: fetched.indexer.toNumber()

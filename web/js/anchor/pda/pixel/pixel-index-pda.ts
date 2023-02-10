@@ -14,6 +14,12 @@ export interface PixelIndex {
     indexed: boolean
 }
 
+interface RawPixelIndex {
+    seeds: RawSeeds
+    pixel: PublicKey
+    indexed: boolean
+}
+
 export interface Seeds extends Seeds_ {
     index: number // decoded as bn
 }
@@ -46,7 +52,7 @@ export async function getAllPixelIndexPda(program: Program<SRgb>, palette: Palet
             }
         ).address
     );
-    const fetched = (await program.account.pixelIndex.fetchMultiple(pdaArray)).filter(Boolean) as any[];
+    const fetched = (await program.account.pixelIndex.fetchMultiple(pdaArray)).filter(Boolean) as RawPixelIndex[];
     return fetched.map((obj) => {
             return {
                 seeds: {
@@ -64,7 +70,7 @@ export async function getAllPixelIndexPda(program: Program<SRgb>, palette: Palet
 export async function getPixelIndexPda(program: Program<SRgb>, pda: PixelIndexPda): Promise<PixelIndex> {
     const fetched = await program.account.pixelIndex.fetch(
         pda.address
-    );
+    ) as RawPixelIndex;
     return {
         seeds: {
             authority: fetched.seeds.authority,

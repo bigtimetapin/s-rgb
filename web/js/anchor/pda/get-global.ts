@@ -1,7 +1,24 @@
 import {AnchorProvider, Program, SplToken} from "@project-serum/anchor";
 import {SRgb} from "../idl/idl";
-import {getPools} from "./get-pools";
+import {Amount, Pool, getPools} from "./get-pools";
 import * as Palette from "./pixel/palette-pda";
+import * as Pixel from "./pixel/pixel-pda";
+import * as PixelIndex from "./pixel/pixel-index-pda";
+import {PublicKey} from "@solana/web3.js";
+
+export interface User {
+    wallet: PublicKey
+    tvl: Amount
+    pools: {
+        red: Pool,
+        green: Pool,
+        blue: Pool
+    }
+    palette: {
+        depth: number;
+        pixels: Pixel.Pixel[]
+    }[]
+}
 
 export async function getGlobal(
     app,
@@ -15,14 +32,37 @@ export async function getGlobal(
         provider,
         programs
     );
+    const allPalettesPdas = await Palette.getAllPalettePda(
+        provider,
+        programs.sRgb
+    );
+    const allPalettes: { depth: number; pixels: Pixel.Pixel[] }[] = await Promise.all(
+        allPalettesPdas.map(async (palette) => {
+                const allPixelIndexArray = await PixelIndex.getAllPixelIndexPda(
+                    programs.sRgb,
+                    palette
+                );
+                const allPixelMintAddresses = allPixelIndexArray.map(pixelIndex =>
+                    pixelIndex.pixel
+                );
+                const allPixelArray = await Pixel.getManyPixelPda(
+                    provider,
+                    programs,
+                    allPixelMintAddresses
+                );
+                return {
+                    depth: palette.seeds.depth,
+                    pixels: allPixelArray
+                }
+            }
+        )
+    );
     const user = {
-        wallet: provider.wallet.publicKey.toString(),
+        wallet: provider.wallet.publicKey,
         tvl: pools.tvl,
-        pools: pools.pools
-    };
-    // TODO; chain indexer
-    const palettePda = Palette.derivePalettePda(
-    )
+        pools: pools.pools,
+        palette: allPalettes
+    } as User;
     app.ports.success.send(
         JSON.stringify(
             {

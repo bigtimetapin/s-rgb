@@ -12,6 +12,19 @@ interface RawSplTokenAccount {
     amount: any // decoded as BN
 }
 
+export async function getManyTokenAccount(program: Program<SplToken>, ataArray: PublicKey[]): Promise<SplTokenAccount[]> {
+    const fetched = (await program.account.token.fetchMultiple(
+        ataArray
+    )).filter(Boolean) as RawSplTokenAccount[];
+    return fetched.map(obj => {
+            return {
+                mint: obj.mint,
+                amount: obj.amount.toNumber()
+            } as SplTokenAccount
+        }
+    )
+}
+
 export async function getTokenAccount(program: Program<SplToken>, ata: PublicKey): Promise<SplTokenAccount> {
     const fetched = await program.account.token.fetch(
         ata

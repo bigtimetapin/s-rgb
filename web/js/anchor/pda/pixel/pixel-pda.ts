@@ -2,15 +2,18 @@ import {AnchorProvider, Program, SplToken} from "@project-serum/anchor";
 import {PublicKey} from "@solana/web3.js";
 import {SRgb} from "../../idl/idl";
 import {Pda} from "../pda";
-import {deriveAtaPda, getTokenAccount} from "../ata-pda";
+import {deriveAtaPda, getManyTokenAccount, getTokenAccount} from "../ata-pda";
 
 export interface PixelPda extends Pda {
 }
 
-export interface Pixel {
+export interface Pixel extends RawPixel {
+    balance: number
+}
+
+interface RawPixel {
     seeds: Seeds
     mint: PublicKey
-    balance: number
 }
 
 export interface Seeds {
@@ -28,31 +31,55 @@ export async function getManyPixelPda(
     },
     pdaArray: PublicKey[]
 ): Promise<Pixel[]> {
-    const fetched = (await programs.sRgb.account.pixel.fetchMultiple(pdaArray)).filter(Boolean) as any[]
-    return Promise.all(
-        fetched.map(async (obj) => {
-                const ata = deriveAtaPda(
-                    provider.wallet.publicKey,
-                    obj.mint
-                );
-                const tokenAccount = await getTokenAccount(
-                    programs.token,
-                    ata
-                );
-                return {
-                    seeds: obj.seeds,
-                    mint: obj.mint,
-                    balance: tokenAccount.amount
-                } as Pixel
-            }
+    const fetched = (await programs.sRgb.account.pixel.fetchMultiple(
+        pdaArray
+    )).filter(Boolean) as RawPixel[];
+    const ataArray = fetched.map(obj =>
+        deriveAtaPda(
+            provider.wallet.publicKey,
+            obj.mint
         )
+    );
+    const tokenAccounts = await getManyTokenAccount(
+        programs.token,
+        ataArray
+    );
+    return fetched.map((rawPixel) => {
+            const found = tokenAccounts.find(
+                ta => ta.mint.equals(rawPixel.mint)
+            );
+            return {
+                seeds: rawPixel.seeds,
+                mint: rawPixel.mint,
+                balance: found.amount
+            } as Pixel
+        }
     )
 }
 
-export async function getPixelPda(program: Program<SRgb>, pda: PixelPda): Promise<Pixel> {
-    return await program.account.pixel.fetch(
+export async function getPixelPda(
+    provider: AnchorProvider,
+    programs: {
+        sRgb: Program<SRgb>;
+        token: Program<SplToken>
+    },
+    pda: PixelPda): Promise<Pixel> {
+    const fetched = await programs.sRgb.account.pixel.fetch(
         pda.address
-    ) as Pixel
+    ) as RawPixel;
+    const ata = deriveAtaPda(
+        provider.wallet.publicKey,
+        fetched.mint
+    );
+    const tokenAccount = await getTokenAccount(
+        programs.token,
+        ata
+    );
+    return {
+        seeds: fetched.seeds,
+        mint: fetched.mint,
+        balance: tokenAccount.amount
+    }
 }
 
 export function derivePixelPda(program: Program<SRgb>, seeds: Seeds): PixelPda {

@@ -14,13 +14,13 @@ export interface Pools {
     }
 }
 
-interface Pool {
+export interface Pool {
     tvl: Amount
     staked: Amount
     balance: Amount
 }
 
-interface Amount {
+export interface Amount {
     amount: number
     formatted: string
 }
