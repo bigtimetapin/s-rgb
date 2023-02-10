@@ -234,7 +234,7 @@ view state =
                             [ class "button"
                             , onClick <|
                                 FromUser <|
-                                    UserMsg.InitPixel
+                                    UserMsg.MintPixel
                                         { r = 1
                                         , g = 1
                                         , b = 1

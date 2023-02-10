@@ -4,21 +4,22 @@ import {Amount, Pool, getPools} from "./get-pools";
 import * as Palette from "./pixel/palette-pda";
 import * as Pixel from "./pixel/pixel-pda";
 import * as PixelIndex from "./pixel/pixel-index-pda";
-import {PublicKey} from "@solana/web3.js";
 
 export interface User {
-    wallet: PublicKey
+    wallet: string // pubkey
     tvl: Amount
     pools: {
         red: Pool,
         green: Pool,
         blue: Pool
     }
-    palette: {
-        depth: number;
-        pixels: Pixel.Pixel[]
-    }[]
+    palette: Palette_
 }
+
+type Palette_ = {
+    depth: number;
+    pixels: Pixel.Pixel[]
+}[]
 
 export async function getGlobal(
     app,
@@ -32,11 +33,40 @@ export async function getGlobal(
         provider,
         programs
     );
+    const palette = await getPalette(
+        provider,
+        programs
+    );
+    const user = {
+        wallet: provider.wallet.publicKey.toString(),
+        tvl: pools.tvl,
+        pools: pools.pools,
+        palette: palette
+    } as User;
+    app.ports.success.send(
+        JSON.stringify(
+            {
+                listener: "global-found-user",
+                more: JSON.stringify(
+                    user
+                )
+            }
+        )
+    );
+}
+
+export async function getPalette(
+    provider: AnchorProvider,
+    programs: {
+        sRgb: Program<SRgb>,
+        token: Program<SplToken>
+    }
+): Promise<Palette_> {
     const allPalettesPdas = await Palette.getAllPalettePda(
         provider,
         programs.sRgb
     );
-    const allPalettes: { depth: number; pixels: Pixel.Pixel[] }[] = await Promise.all(
+    return await Promise.all(
         allPalettesPdas.map(async (palette) => {
                 const allPixelIndexArray = await PixelIndex.getAllPixelIndexPda(
                     programs.sRgb,
@@ -54,22 +84,6 @@ export async function getGlobal(
                     depth: palette.seeds.depth,
                     pixels: allPixelArray
                 }
-            }
-        )
-    );
-    const user = {
-        wallet: provider.wallet.publicKey,
-        tvl: pools.tvl,
-        pools: pools.pools,
-        palette: allPalettes
-    } as User;
-    app.ports.success.send(
-        JSON.stringify(
-            {
-                listener: "global-found-user",
-                more: JSON.stringify(
-                    user
-                )
             }
         )
     );

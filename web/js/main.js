@@ -8,7 +8,7 @@ import * as InitPixel from "./anchor/ix/pixel/init";
 import * as StakeBlue from "./anchor/ix/stake/blue";
 import * as StakeGreen from "./anchor/ix/stake/green"
 import * as StakeRed from "./anchor/ix/stake/red";
-import {getGlobal} from "./anchor/pda/get-global";
+import {getGlobal, getPalette} from "./anchor/pda/get-global";
 import {getPools} from "./anchor/pda/get-pools";
 
 // init phantom
@@ -71,10 +71,15 @@ export async function main(app, json) {
                 pp.provider,
                 pp.programs
             );
+            const palette = await getPalette(
+                pp.provider,
+                pp.programs
+            );
             const user = {
                 wallet: pp.provider.wallet.toString(),
                 tvl: pools.tvl,
-                pools: pools.pools
+                pools: pools.pools,
+                palette: palette
             };
             app.ports.success.send(
                 JSON.stringify(

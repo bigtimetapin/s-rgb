@@ -5,8 +5,10 @@ use anchor_lang::prelude::*;
 pub const SEED: &str = "pixel";
 
 pub const SIZE: usize = 8 // discriminator
-    + 32 // mint
-    + 4 // r
+    + SEEDS_SIZE
+    + 32; // mint
+
+pub const SEEDS_SIZE: usize = 4 // r
     + 4 // g
     + 4 // b
     + 1; // depth

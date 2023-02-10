@@ -11,13 +11,11 @@ export interface PixelIndexPda extends Pda {
 export interface PixelIndex {
     seeds: Seeds
     pixel: PublicKey
-    indexed: boolean
 }
 
 interface RawPixelIndex {
     seeds: RawSeeds
     pixel: PublicKey
-    indexed: boolean
 }
 
 export interface Seeds extends Seeds_ {
@@ -60,8 +58,7 @@ export async function getAllPixelIndexPda(program: Program<SRgb>, palette: Palet
                     depth: obj.seeds.depth,
                     index: obj.seeds.index.toNumber()
                 },
-                pixel: obj.pixel,
-                indexed: obj.indexed
+                pixel: obj.pixel
             } as PixelIndex
         }
     )
@@ -77,8 +74,7 @@ export async function getPixelIndexPda(program: Program<SRgb>, pda: PixelIndexPd
             depth: fetched.seeds.depth,
             index: fetched.seeds.index.toNumber()
         },
-        pixel: fetched.pixel,
-        indexed: fetched.indexed
+        pixel: fetched.pixel
     }
 }
 

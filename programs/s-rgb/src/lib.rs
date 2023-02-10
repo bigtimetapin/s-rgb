@@ -7,6 +7,7 @@ use crate::pda::authority::authority::Authority;
 use crate::pda::pixel::palette::{Palette, PaletteSeeds};
 use crate::pda::pixel::pixel::{Pixel, PixelSeeds};
 use crate::pda::pixel::pixel_index::{PixelIndex, PixelIndexSeeds};
+use crate::pda::pixel::pixel_index_lookup::{PixelIndexLookup, PixelIndexLookupSeeds};
 use crate::pda::primary::primary::Primary;
 use crate::pda::stake::stake::Stake;
 
@@ -55,6 +56,7 @@ pub mod s_rgb {
     pub fn mint_pixel(
         ctx: Context<MintPixel>,
         _pixel_index_seeds: PixelIndexSeeds,
+        _pixel_index_lookup_seeds: PixelIndexLookupSeeds,
         _palette_seeds: PaletteSeeds,
     ) -> Result<()> {
         ix::pixel::mint::ix(ctx)
@@ -503,6 +505,7 @@ pub struct InitPixelMint<'info> {
 #[derive(Accounts)]
 #[instruction(
 pixel_index_seeds: PixelIndexSeeds,
+pixel_index_lookup_seeds: PixelIndexLookupSeeds,
 palette_seeds: PaletteSeeds,
 )]
 pub struct MintPixel<'info> {
@@ -521,6 +524,14 @@ pub struct MintPixel<'info> {
     payer = payer,
     )]
     pub pixel_index: Account<'info, PixelIndex>,
+    #[account(init_if_needed,
+    seeds = [
+    pixel_index_lookup_seeds.to_string().as_bytes()
+    ], bump,
+    space = pda::pixel::pixel_index_lookup::SIZE,
+    payer = payer,
+    )]
+    pub pixel_index_lookup: Account<'info, PixelIndexLookup>,
     #[account(init_if_needed,
     seeds = [
     palette_seeds.to_string().as_bytes()

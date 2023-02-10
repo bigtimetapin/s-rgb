@@ -521,6 +521,11 @@ export type SRgb = {
           "isSigner": false
         },
         {
+          "name": "pixelIndexLookup",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
           "name": "palette",
           "isMut": true,
           "isSigner": false
@@ -569,6 +574,12 @@ export type SRgb = {
           }
         },
         {
+          "name": "pixelIndexLookupSeeds",
+          "type": {
+            "defined": "PixelIndexLookupSeeds"
+          }
+        },
+        {
           "name": "paletteSeeds",
           "type": {
             "defined": "PaletteSeeds"
@@ -613,6 +624,26 @@ export type SRgb = {
       }
     },
     {
+      "name": "pixelIndexLookup",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "seeds",
+            "type": {
+              "defined": "PixelIndexLookupSeeds"
+            }
+          },
+          {
+            "name": "index",
+            "type": {
+              "option": "u128"
+            }
+          }
+        ]
+      }
+    },
+    {
       "name": "pixelIndex",
       "type": {
         "kind": "struct",
@@ -626,10 +657,6 @@ export type SRgb = {
           {
             "name": "pixel",
             "type": "publicKey"
-          },
-          {
-            "name": "indexed",
-            "type": "bool"
           }
         ]
       }
@@ -698,6 +725,30 @@ export type SRgb = {
           {
             "name": "authority",
             "type": "publicKey"
+          },
+          {
+            "name": "depth",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PixelIndexLookupSeeds",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "r",
+            "type": "u32"
+          },
+          {
+            "name": "g",
+            "type": "u32"
+          },
+          {
+            "name": "b",
+            "type": "u32"
           },
           {
             "name": "depth",
@@ -1288,6 +1339,11 @@ export const IDL: SRgb = {
           "isSigner": false
         },
         {
+          "name": "pixelIndexLookup",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
           "name": "palette",
           "isMut": true,
           "isSigner": false
@@ -1336,6 +1392,12 @@ export const IDL: SRgb = {
           }
         },
         {
+          "name": "pixelIndexLookupSeeds",
+          "type": {
+            "defined": "PixelIndexLookupSeeds"
+          }
+        },
+        {
           "name": "paletteSeeds",
           "type": {
             "defined": "PaletteSeeds"
@@ -1380,6 +1442,26 @@ export const IDL: SRgb = {
       }
     },
     {
+      "name": "pixelIndexLookup",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "seeds",
+            "type": {
+              "defined": "PixelIndexLookupSeeds"
+            }
+          },
+          {
+            "name": "index",
+            "type": {
+              "option": "u128"
+            }
+          }
+        ]
+      }
+    },
+    {
       "name": "pixelIndex",
       "type": {
         "kind": "struct",
@@ -1393,10 +1475,6 @@ export const IDL: SRgb = {
           {
             "name": "pixel",
             "type": "publicKey"
-          },
-          {
-            "name": "indexed",
-            "type": "bool"
           }
         ]
       }
@@ -1465,6 +1543,30 @@ export const IDL: SRgb = {
           {
             "name": "authority",
             "type": "publicKey"
+          },
+          {
+            "name": "depth",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PixelIndexLookupSeeds",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "r",
+            "type": "u32"
+          },
+          {
+            "name": "g",
+            "type": "u32"
+          },
+          {
+            "name": "b",
+            "type": "u32"
           },
           {
             "name": "depth",

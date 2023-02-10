@@ -130,7 +130,7 @@ update msg model =
                                 fromUserMsg
                     )
 
-                UserMsg.InitPixel seeds ->
+                UserMsg.MintPixel seeds ->
                     ( model
                     , sender <|
                         Sender.encode

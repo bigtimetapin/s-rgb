@@ -14,7 +14,6 @@ pub const SIZE: usize = 8 // discriminator
 pub struct PixelIndex {
     pub seeds: PixelIndexSeeds,
     pub pixel: Pubkey,
-    pub indexed: bool,
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone)]

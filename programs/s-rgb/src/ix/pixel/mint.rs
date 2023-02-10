@@ -15,6 +15,7 @@ pub fn ix(
     // get accounts
     let pixel = &ctx.accounts.pixel;
     let pixel_index = &mut ctx.accounts.pixel_index;
+    let pixel_index_lookup = &mut ctx.accounts.pixel_index_lookup;
     let palette = &mut ctx.accounts.palette;
     // assert depth
     assert_depth(pixel)?;
@@ -49,10 +50,16 @@ pub fn ix(
         1,
     )?;
     // index
-    if !pixel_index.indexed {
-        let index = palette.indexer + 1;
-        pixel_index.seeds.index = index;
-        palette.indexer = index;
+    match pixel_index_lookup.index {
+        Some(_) => {}
+        None => {
+            let index = palette.indexer + 1;
+            pixel_index.seeds.index = index;
+            pixel_index_lookup.index = Some(
+                index
+            );
+            palette.indexer = index;
+        }
     }
     Ok(())
 }
