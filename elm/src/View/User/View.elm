@@ -4,6 +4,7 @@ import Html exposing (Html)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
 import Model.Amount exposing (Amount)
+import Model.Pixel exposing (Pixel)
 import Model.Primary as Primary exposing (Primary)
 import Model.User.State exposing (State(..))
 import Model.User.User exposing (User)
@@ -246,5 +247,81 @@ view state =
                                 """
                             ]
                         ]
+                    , Html.div
+                        []
+                        [ Html.div
+                            [ class "table-container"
+                            ]
+                            [ Html.table
+                                [ class "table is-fullwidth"
+                                ]
+                                [ Html.thead
+                                    []
+                                    [ Html.tr
+                                        []
+                                        [ Html.th
+                                            []
+                                            [ Html.text "depth"
+                                            ]
+                                        , Html.th
+                                            []
+                                            [ Html.text "r"
+                                            ]
+                                        , Html.th
+                                            []
+                                            [ Html.text "g"
+                                            ]
+                                        , Html.th
+                                            []
+                                            [ Html.text "b"
+                                            ]
+                                        , Html.th
+                                            []
+                                            [ Html.text "balance"
+                                            ]
+                                        ]
+                                    ]
+                                , Html.tbody
+                                    [] <|
+                                    List.map
+                                        pixelRow
+                                        (List.concatMap
+                                            .pixels
+                                            user.palette
+                                        )
+                                ]
+                            ]
+                        ]
                     ]
                 ]
+
+pixelRow : Pixel -> Html Msg
+pixelRow pixel =
+    Html.tr
+        []
+        [ Html.td
+            []
+            [ Html.text <|
+                String.fromInt pixel.seeds.depth
+            ]
+        , Html.td
+            []
+            [ Html.text <|
+                String.fromInt pixel.seeds.r
+            ]
+        , Html.td
+            []
+            [ Html.text <|
+                String.fromInt pixel.seeds.g
+            ]
+        , Html.td
+            []
+            [ Html.text <|
+                String.fromInt pixel.seeds.b
+            ]
+        , Html.td
+            []
+            [ Html.text <|
+                String.fromInt pixel.balance
+            ]
+        ]

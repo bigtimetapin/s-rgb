@@ -2,7 +2,7 @@ module Model.User.User exposing (User, decode)
 
 import Json.Decode as Decode
 import Model.Amount as Amount exposing (Amount)
-import Model.PublicKey exposing (PublicKey)
+import Model.Pixel as Pixel exposing (Pixel)
 import Model.Wallet exposing (Wallet)
 import Util.Decode as Util
 
@@ -31,19 +31,6 @@ type alias Pool =
 type alias Palette =
     { depth: Int
     , pixels: List Pixel
-    }
-
-type alias Pixel =
-    { seeds: PixelSeeds
-    , mint: PublicKey
-    , balance: Int
-    }
-
-type alias PixelSeeds =
-    { r: Int
-    , g: Int
-    , b: Int
-    , depth: Int
     }
 
 
@@ -80,19 +67,4 @@ paletteDecoder : Decode.Decoder Palette
 paletteDecoder =
     Decode.map2 Palette
         (Decode.field "depth" Decode.int)
-        (Decode.field "pixels" <| Decode.list pixelDecoder)
-
-pixelDecoder : Decode.Decoder Pixel
-pixelDecoder =
-    Decode.map3 Pixel
-        (Decode.field "seeds" pixelSeedsDecoder)
-        (Decode.field "mint" Decode.string)
-        (Decode.field "balance" Decode.int)
-
-pixelSeedsDecoder : Decode.Decoder PixelSeeds
-pixelSeedsDecoder =
-    Decode.map4 PixelSeeds
-        (Decode.field "r" Decode.int)
-        (Decode.field "g" Decode.int)
-        (Decode.field "b" Decode.int)
-        (Decode.field "depth" Decode.int)
+        (Decode.field "pixels" <| Decode.list Pixel.decoder)

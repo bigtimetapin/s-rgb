@@ -1,4 +1,4 @@
-module Model.Pixel exposing (Pixel, Seeds, encode)
+module Model.Pixel exposing (Pixel, Seeds, encode, decoder)
 
 import Json.Decode as Decode
 import Json.Encode as Encode
@@ -7,6 +7,7 @@ import Model.PublicKey exposing (PublicKey)
 type alias Pixel =
     { mint: PublicKey
     , seeds : Seeds
+    , balance: Int
     }
 
 type alias Seeds =
@@ -18,9 +19,10 @@ type alias Seeds =
 
 decoder : Decode.Decoder Pixel
 decoder =
-    Decode.map2 Pixel
+    Decode.map3 Pixel
         (Decode.field "mint" Decode.string)
         (Decode.field "seeds" seedsDecoder)
+        (Decode.field "balance" Decode.int)
 
 seedsDecoder : Decode.Decoder Seeds
 seedsDecoder =
