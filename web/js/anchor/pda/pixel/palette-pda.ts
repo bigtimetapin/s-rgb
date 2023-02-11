@@ -56,7 +56,11 @@ export function derivePalettePda(program: Program<SRgb>, seeds: Seeds): PaletteP
     [pda, bump] = PublicKey.findProgramAddressSync(
         [
             Buffer.from(
-                SEED + "/" + seeds.authority + "/" + seeds.depth
+                SEED
+            ),
+            seeds.authority.toBuffer(),
+            Buffer.from(
+                seeds.depth.toString()
             )
         ],
         program.programId

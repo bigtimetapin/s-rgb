@@ -83,7 +83,14 @@ export function derivePixelIndexPda(program: Program<SRgb>, seeds: Seeds): Pixel
     [pda, bump] = PublicKey.findProgramAddressSync(
         [
             Buffer.from(
-                SEED + "/" + seeds.authority + "/" + seeds.depth + "/" + seeds.index
+                SEED
+            ),
+            seeds.authority.toBuffer(),
+            Buffer.from(
+                seeds.depth.toString()
+            ),
+            Buffer.from(
+                seeds.index.toString()
             )
         ],
         program.programId
