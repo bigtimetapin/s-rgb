@@ -6,7 +6,7 @@ import {deriveGreenStakePda, getStakePda} from "../../pda/stake-pda";
 import {deriveAtaPda} from "../../pda/ata-pda";
 import {SystemProgram, SYSVAR_RENT_PUBKEY} from "@solana/web3.js";
 import {SPL_ASSOCIATED_TOKEN_PROGRAM_ID, SPL_TOKEN_PROGRAM_ID, W_SOL} from "../../util/constants";
-import {getPools} from "../../pda/get-pools";
+import {getGlobal} from "../../pda/get-global";
 
 export async function ix(
     app,
@@ -58,23 +58,9 @@ export async function ix(
                 rent: SYSVAR_RENT_PUBKEY,
             }
         ).rpc();
-    const pools = await getPools(
+    await getGlobal(
+        app,
         provider,
         programs
-    );
-    const user = {
-        wallet: provider.wallet.publicKey.toString(),
-        tvl: pools.tvl,
-        pools: pools.pools
-    };
-    app.ports.success.send(
-        JSON.stringify(
-            {
-                listener: "global-found-user",
-                more: JSON.stringify(
-                    user
-                )
-            }
-        )
-    );
+    )
 }

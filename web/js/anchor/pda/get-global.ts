@@ -37,6 +37,7 @@ export async function getGlobal(
         provider,
         programs
     );
+    console.log(palette);
     const user = {
         wallet: provider.wallet.publicKey.toString(),
         tvl: pools.tvl,
@@ -72,6 +73,7 @@ export async function getPalette(
                     programs.sRgb,
                     palette
                 );
+                console.log(allPixelIndexArray);
                 const allPixelMintAddresses = allPixelIndexArray.map(pixelIndex =>
                     pixelIndex.pixel
                 );
@@ -80,6 +82,7 @@ export async function getPalette(
                     programs,
                     allPixelMintAddresses
                 );
+                console.log(allPixelArray);
                 return {
                     depth: palette.seeds.depth,
                     pixels: allPixelArray

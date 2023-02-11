@@ -238,7 +238,7 @@ view state =
                                     UserMsg.MintPixel
                                         { r = 1
                                         , g = 1
-                                        , b = 1
+                                        , b = 0
                                         , depth = 1
                                         }
                             ]
