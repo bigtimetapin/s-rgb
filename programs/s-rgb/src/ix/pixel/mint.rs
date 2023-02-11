@@ -3,15 +3,21 @@ use anchor_spl::token::{mint_to, MintTo};
 use crate::{
     HasFiveSeeds,
     MintPixel,
+    PaletteSeeds,
     pda::pixel::{
         pixel,
     },
     Pixel,
+    PixelIndexLookupSeeds,
+    PixelIndexSeeds,
 };
 use crate::error::CustomErrors;
 
 pub fn ix(
-    ctx: Context<MintPixel>
+    ctx: Context<MintPixel>,
+    pixel_index_seeds: PixelIndexSeeds,
+    pixel_index_lookup_seeds: PixelIndexLookupSeeds,
+    palette_seeds: PaletteSeeds,
 ) -> Result<()> {
     // get accounts
     let pixel = &ctx.accounts.pixel;
@@ -62,11 +68,17 @@ pub fn ix(
     match pixel_index_lookup.index {
         Some(_) => {}
         None => {
+            // index
             let index = palette.indexer + 1;
-            pixel_index.seeds.index = index;
+            // pixel index
+            pixel_index.seeds = pixel_index_seeds;
+            pixel_index.pixel = pixel.key();
+            // pixel index lookup
+            pixel_index_lookup.seeds = pixel_index_lookup_seeds;
             pixel_index_lookup.index = Some(
                 index
             );
+            palette.seeds = palette_seeds;
             palette.indexer = index;
         }
     }

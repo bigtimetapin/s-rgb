@@ -56,11 +56,16 @@ pub mod s_rgb {
 
     pub fn mint_pixel(
         ctx: Context<MintPixel>,
-        _pixel_index_seeds: PixelIndexSeeds,
-        _pixel_index_lookup_seeds: PixelIndexLookupSeeds,
-        _palette_seeds: PaletteSeeds,
+        pixel_index_seeds: PixelIndexSeeds,
+        pixel_index_lookup_seeds: PixelIndexLookupSeeds,
+        palette_seeds: PaletteSeeds,
     ) -> Result<()> {
-        ix::pixel::mint::ix(ctx)
+        ix::pixel::mint::ix(
+            ctx,
+            pixel_index_seeds,
+            pixel_index_lookup_seeds,
+            palette_seeds,
+        )
     }
 }
 
