@@ -1,6 +1,5 @@
-use std::fmt;
-use std::fmt::Formatter;
 use anchor_lang::prelude::*;
+use crate::pda::HasThreeSeeds;
 
 pub const SEED: &str = "palette";
 
@@ -21,14 +20,16 @@ pub struct PaletteSeeds {
     pub depth: u8,
 }
 
-impl fmt::Display for PaletteSeeds {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}/{}/{}", SEED, self.authority, self.depth)
+impl HasThreeSeeds for PaletteSeeds {
+    fn seed1(&self) -> String {
+        format!("{}", SEED)
     }
-}
 
-impl fmt::Display for Palette {
-    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        PaletteSeeds::fmt(& self.seeds, f)
+    fn seed2(&self) -> String {
+        format!("{}", self.authority)
+    }
+
+    fn seed3(&self) -> String {
+        format!("{}", self.depth)
     }
 }

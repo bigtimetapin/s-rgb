@@ -1,6 +1,5 @@
-use std::fmt;
-use std::fmt::Formatter;
 use anchor_lang::prelude::*;
+use crate::pda::HasFourSeeds;
 
 pub const SEED: &str = "pixel-index";
 
@@ -23,15 +22,20 @@ pub struct PixelIndexSeeds {
     pub index: u128,
 }
 
-impl fmt::Display for PixelIndexSeeds {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        msg!("{}/{}/{}/{}", SEED, self.authority, self.depth, self.index);
-        write!(f, "{}/{}/{}/{}", SEED, self.authority, self.depth, self.index)
+impl HasFourSeeds for PixelIndexSeeds {
+    fn seed1(&self) -> String {
+        format!("{}", SEED)
     }
-}
 
-impl fmt::Display for PixelIndex {
-    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        PixelIndexSeeds::fmt(&self.seeds, f)
+    fn seed2(&self) -> String {
+        format!("{}", self.authority)
+    }
+
+    fn seed3(&self) -> String {
+        format!("{}", self.depth)
+    }
+
+    fn seed4(&self) -> String {
+        format!("{}", self.index)
     }
 }

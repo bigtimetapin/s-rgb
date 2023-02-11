@@ -1,6 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{mint_to, MintTo};
 use crate::{
+    HasFiveSeeds,
     MintPixel,
     pda::pixel::{
         pixel,
@@ -27,9 +28,17 @@ pub fn ix(
     let bump = *ctx.bumps.get(
         pixel::SEED
     ).unwrap();
-    let pixel_seeds = pixel.to_string();
+    let seed1 = pixel.seed1();
+    let seed2 = pixel.seed2();
+    let seed3 = pixel.seed3();
+    let seed4 = pixel.seed4();
+    let seed5 = pixel.seed5();
     let seeds = &[
-        pixel_seeds.as_bytes(),
+        seed1.as_bytes(),
+        seed2.as_bytes(),
+        seed3.as_bytes(),
+        seed4.as_bytes(),
+        seed5.as_bytes(),
         &[bump]
     ];
     let signer_seeds = &[&seeds[..]];

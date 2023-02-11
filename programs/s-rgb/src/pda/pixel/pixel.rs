@@ -1,6 +1,5 @@
-use std::fmt;
-use std::fmt::Formatter;
 use anchor_lang::prelude::*;
+use crate::pda::HasFiveSeeds;
 
 pub const SEED: &str = "pixel";
 
@@ -27,14 +26,46 @@ pub struct PixelSeeds {
     pub depth: u8,
 }
 
-impl fmt::Display for PixelSeeds {
-    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        write!(f, "{}/r{}/g{}/b{}/d{}", SEED, self.r, self.g, self.b, self.depth)
+impl HasFiveSeeds for Pixel {
+    fn seed1(&self) -> String {
+        self.seeds.seed1()
+    }
+
+    fn seed2(&self) -> String {
+        self.seeds.seed2()
+    }
+
+    fn seed3(&self) -> String {
+        self.seeds.seed3()
+    }
+
+    fn seed4(&self) -> String {
+        self.seeds.seed4()
+    }
+
+    fn seed5(&self) -> String {
+        self.seeds.seed5()
     }
 }
 
-impl fmt::Display for Pixel {
-    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        PixelSeeds::fmt(&self.seeds, f)
+impl HasFiveSeeds for PixelSeeds {
+    fn seed1(&self) -> String {
+        format!("{}", SEED)
+    }
+
+    fn seed2(&self) -> String {
+        format!("{}", self.r)
+    }
+
+    fn seed3(&self) -> String {
+        format!("{}", self.g)
+    }
+
+    fn seed4(&self) -> String {
+        format!("{}", self.b)
+    }
+
+    fn seed5(&self) -> String {
+        format!("{}", self.depth)
     }
 }

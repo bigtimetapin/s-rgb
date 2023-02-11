@@ -4,6 +4,7 @@ use anchor_lang::prelude::*;
 use anchor_spl::associated_token::AssociatedToken;
 use anchor_spl::token::{Mint, Token, TokenAccount};
 use crate::pda::authority::authority::Authority;
+use crate::pda::{HasFiveSeeds, HasFourSeeds, HasThreeSeeds};
 use crate::pda::pixel::palette::{Palette, PaletteSeeds};
 use crate::pda::pixel::pixel::{Pixel, PixelSeeds};
 use crate::pda::pixel::pixel_index::{PixelIndex, PixelIndexSeeds};
@@ -479,7 +480,11 @@ pub struct InitPixelMint<'info> {
     // cpi accounts
     #[account(init,
     seeds = [
-    seeds.to_string().as_bytes()
+    seeds.seed1().as_bytes(),
+    seeds.seed2().as_bytes(),
+    seeds.seed3().as_bytes(),
+    seeds.seed4().as_bytes(),
+    seeds.seed5().as_bytes(),
     ], bump,
     space = pda::pixel::pixel::SIZE,
     payer = payer,
@@ -512,13 +517,20 @@ pub struct MintPixel<'info> {
     // pda
     #[account(
     seeds = [
-    pixel.to_string().as_bytes()
+    pixel.seed1().as_bytes(),
+    pixel.seed2().as_bytes(),
+    pixel.seed3().as_bytes(),
+    pixel.seed4().as_bytes(),
+    pixel.seed5().as_bytes(),
     ], bump,
     )]
     pub pixel: Account<'info, Pixel>,
     #[account(init_if_needed,
     seeds = [
-    pixel_index_seeds.to_string().as_bytes()
+    pixel_index_seeds.seed1().as_bytes(),
+    pixel_index_seeds.seed2().as_bytes(),
+    pixel_index_seeds.seed3().as_bytes(),
+    pixel_index_seeds.seed4().as_bytes(),
     ], bump,
     space = pda::pixel::pixel_index::SIZE,
     payer = payer,
@@ -526,7 +538,11 @@ pub struct MintPixel<'info> {
     pub pixel_index: Account<'info, PixelIndex>,
     #[account(init_if_needed,
     seeds = [
-    pixel_index_lookup_seeds.to_string().as_bytes()
+    pixel_index_lookup_seeds.seed1().as_bytes(),
+    pixel_index_lookup_seeds.seed2().as_bytes(),
+    pixel_index_lookup_seeds.seed3().as_bytes(),
+    pixel_index_lookup_seeds.seed4().as_bytes(),
+    pixel_index_lookup_seeds.seed5().as_bytes(),
     ], bump,
     space = pda::pixel::pixel_index_lookup::SIZE,
     payer = payer,
@@ -534,7 +550,9 @@ pub struct MintPixel<'info> {
     pub pixel_index_lookup: Account<'info, PixelIndexLookup>,
     #[account(init_if_needed,
     seeds = [
-    palette_seeds.to_string().as_bytes()
+    palette_seeds.seed1().as_bytes(),
+    palette_seeds.seed2().as_bytes(),
+    palette_seeds.seed3().as_bytes(),
     ], bump,
     space = pda::pixel::palette::SIZE,
     payer = payer,

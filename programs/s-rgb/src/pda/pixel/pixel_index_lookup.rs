@@ -1,6 +1,5 @@
-use std::fmt;
-use std::fmt::Formatter;
 use anchor_lang::prelude::*;
+use crate::HasFiveSeeds;
 use crate::pda::pixel::pixel::SEEDS_SIZE;
 
 pub const SEED: &str = "pixel-index-lookup";
@@ -23,9 +22,24 @@ pub struct PixelIndexLookupSeeds {
     pub depth: u8,
 }
 
+impl HasFiveSeeds for PixelIndexLookupSeeds {
+    fn seed1(&self) -> String {
+        format!("{}", SEED)
+    }
 
-impl fmt::Display for PixelIndexLookupSeeds {
-    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        write!(f, "{}/r{}/g{}/b{}/d{}", SEED, self.r, self.g, self.b, self.depth)
+    fn seed2(&self) -> String {
+        format!("{}", self.r)
+    }
+
+    fn seed3(&self) -> String {
+        format!("{}", self.g)
+    }
+
+    fn seed4(&self) -> String {
+        format!("{}", self.b)
+    }
+
+    fn seed5(&self) -> String {
+        format!("{}", self.depth)
     }
 }
