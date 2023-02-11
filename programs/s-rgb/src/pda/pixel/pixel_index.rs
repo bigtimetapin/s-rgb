@@ -23,19 +23,19 @@ pub struct PixelIndexSeeds {
 }
 
 impl HasFourSeeds for PixelIndexSeeds {
-    fn seed1(&self) -> String {
-        format!("{}", SEED)
+    fn seed1(&self) -> Vec<u8> {
+        SEED.as_bytes().to_vec()
     }
 
-    fn seed2(&self) -> String {
-        format!("{}", self.authority)
+    fn seed2(&self) -> Vec<u8> {
+        self.authority.to_bytes().to_vec()
     }
 
-    fn seed3(&self) -> String {
-        format!("{}", self.depth)
+    fn seed3(&self) -> Vec<u8> {
+        self.depth.to_string().as_bytes().to_vec()
     }
 
-    fn seed4(&self) -> String {
-        format!("{}", self.index)
+    fn seed4(&self) -> Vec<u8> {
+        self.index.to_string().as_bytes().to_vec()
     }
 }

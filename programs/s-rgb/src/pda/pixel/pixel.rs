@@ -27,45 +27,45 @@ pub struct PixelSeeds {
 }
 
 impl HasFiveSeeds for Pixel {
-    fn seed1(&self) -> String {
+    fn seed1(&self) -> Vec<u8> {
         self.seeds.seed1()
     }
 
-    fn seed2(&self) -> String {
+    fn seed2(&self) -> Vec<u8> {
         self.seeds.seed2()
     }
 
-    fn seed3(&self) -> String {
+    fn seed3(&self) -> Vec<u8> {
         self.seeds.seed3()
     }
 
-    fn seed4(&self) -> String {
+    fn seed4(&self) -> Vec<u8> {
         self.seeds.seed4()
     }
 
-    fn seed5(&self) -> String {
+    fn seed5(&self) -> Vec<u8> {
         self.seeds.seed5()
     }
 }
 
 impl HasFiveSeeds for PixelSeeds {
-    fn seed1(&self) -> String {
-        format!("{}", SEED)
+    fn seed1(&self) -> Vec<u8> {
+        SEED.as_bytes().to_vec()
     }
 
-    fn seed2(&self) -> String {
-        format!("{}", self.r)
+    fn seed2(&self) -> Vec<u8> {
+        self.r.to_string().as_bytes().to_vec()
     }
 
-    fn seed3(&self) -> String {
-        format!("{}", self.g)
+    fn seed3(&self) -> Vec<u8> {
+        self.g.to_string().as_bytes().to_vec()
     }
 
-    fn seed4(&self) -> String {
-        format!("{}", self.b)
+    fn seed4(&self) -> Vec<u8> {
+        self.b.to_string().as_bytes().to_vec()
     }
 
-    fn seed5(&self) -> String {
-        format!("{}", self.depth)
+    fn seed5(&self) -> Vec<u8> {
+        self.depth.to_string().as_bytes().to_vec()
     }
 }

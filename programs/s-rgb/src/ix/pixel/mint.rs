@@ -34,11 +34,11 @@ pub fn ix(
     let seed4 = pixel.seed4();
     let seed5 = pixel.seed5();
     let seeds = &[
-        seed1.as_bytes(),
-        seed2.as_bytes(),
-        seed3.as_bytes(),
-        seed4.as_bytes(),
-        seed5.as_bytes(),
+        seed1.as_slice(),
+        seed2.as_slice(),
+        seed3.as_slice(),
+        seed4.as_slice(),
+        seed5.as_slice(),
         &[bump]
     ];
     let signer_seeds = &[&seeds[..]];

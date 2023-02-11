@@ -23,23 +23,23 @@ pub struct PixelIndexLookupSeeds {
 }
 
 impl HasFiveSeeds for PixelIndexLookupSeeds {
-    fn seed1(&self) -> String {
-        format!("{}", SEED)
+    fn seed1(&self) -> Vec<u8> {
+        SEED.as_bytes().to_vec()
     }
 
-    fn seed2(&self) -> String {
-        format!("{}", self.r)
+    fn seed2(&self) -> Vec<u8> {
+        self.r.to_string().as_bytes().to_vec()
     }
 
-    fn seed3(&self) -> String {
-        format!("{}", self.g)
+    fn seed3(&self) -> Vec<u8> {
+        self.g.to_string().as_bytes().to_vec()
     }
 
-    fn seed4(&self) -> String {
-        format!("{}", self.b)
+    fn seed4(&self) -> Vec<u8> {
+        self.b.to_string().as_bytes().to_vec()
     }
 
-    fn seed5(&self) -> String {
-        format!("{}", self.depth)
+    fn seed5(&self) -> Vec<u8> {
+        self.depth.to_string().as_bytes().to_vec()
     }
 }
