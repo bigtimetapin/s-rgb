@@ -71,14 +71,21 @@ export async function getPixelPda(
         provider.wallet.publicKey,
         fetched.mint
     );
-    const tokenAccount = await getTokenAccount(
-        programs.token,
-        ata
-    );
+    let balance;
+    try {
+        const tokenAccount = await getTokenAccount(
+            programs.token,
+            ata
+        );
+        balance = tokenAccount.amount
+    } catch (error) {
+        console.log(error);
+        balance = 0;
+    }
     return {
         seeds: fetched.seeds,
         mint: fetched.mint,
-        balance: tokenAccount.amount
+        balance: balance
     }
 }
 

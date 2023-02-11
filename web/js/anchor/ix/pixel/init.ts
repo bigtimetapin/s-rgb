@@ -36,12 +36,4 @@ export async function ix(
         ).signers(
             [pixelMint]
         ).rpc()
-    const pixel = await Pixel.getPixelPda(
-        provider,
-        programs,
-        pixelPda
-    );
-    console.log(pixel.seeds);
-    console.log(pixel.mint.toString());
-    console.log(pixelMint.publicKey.toString());
 }

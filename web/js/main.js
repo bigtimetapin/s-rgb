@@ -4,7 +4,7 @@ import * as Init from "./anchor/ix/init";
 import * as HarvestBlue from "./anchor/ix/harvest/blue";
 import * as HarvestGreen from "./anchor/ix/harvest/green";
 import * as HarvestRed from "./anchor/ix/harvest/red";
-import * as InitPixel from "./anchor/ix/pixel/init";
+import * as MintPixel from "./anchor/ix/pixel/mint";
 import * as StakeBlue from "./anchor/ix/stake/blue";
 import * as StakeGreen from "./anchor/ix/stake/green"
 import * as StakeRed from "./anchor/ix/stake/red";
@@ -164,7 +164,7 @@ export async function main(app, json) {
                 pp.programs
             );
             // or use init pixel
-        } else if (sender === "user-init-pixel") {
+        } else if (sender === "user-mint-pixel") {
             // get phantom
             phantom = await getPhantom(app);
             // get provider & program
@@ -172,10 +172,10 @@ export async function main(app, json) {
             // parse more json
             const more = JSON.parse(parsed.more);
             // invoke rpc
-            await InitPixel.ix(
+            await MintPixel.ix(
                 app,
                 pp.provider,
-                pp.programs.sRgb,
+                pp.programs,
                 more
             );
             // or throw error

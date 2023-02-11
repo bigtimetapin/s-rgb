@@ -242,7 +242,7 @@ view state =
                                         }
                             ]
                             [ Html.text
-                                """init pixel
+                                """mint pixel
                                 """
                             ]
                         ]

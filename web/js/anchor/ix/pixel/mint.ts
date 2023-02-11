@@ -1,6 +1,6 @@
 import {AnchorProvider, Program, SplToken} from "@project-serum/anchor";
 import {SRgb} from "../../idl/idl";
-import * as MintPixel from "./../../ix/pixel/mint";
+import * as InitPixel from "./init";
 import * as Pixel from "./../../pda/pixel/pixel-pda";
 import * as PixelIndex from "./../../pda/pixel/pixel-index-pda";
 import * as PixelIndexLookup from "./../../pda/pixel/pixel-index-lookup-pda";
@@ -31,7 +31,7 @@ export async function ix(
             pixelPda
         );
     } catch (error) {
-        await MintPixel.ix(
+        await InitPixel.ix(
             app,
             provider,
             programs,
@@ -43,8 +43,6 @@ export async function ix(
             pixelPda
         );
     }
-
-
     const pixelIndexLookupPda = PixelIndexLookup.derivePixelIndexPda(
         programs.sRgb,
         pixelSeeds
