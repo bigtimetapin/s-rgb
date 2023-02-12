@@ -23,6 +23,9 @@ pub fn ix(
     let dst_pixel_mint = &ctx.accounts.dst_pixel_mint;
     let dst_pixel_mint_ata = &ctx.accounts.dst_pixel_mint_ata;
     // assert depth
+    if dst_palette.indexer == 0 {
+        dst_palette.seeds = dst_palette_seeds;
+    }
     assert_depth(src_pixel, dst_pixel, dst_palette)?;
     // assert channels
     assert_channel(src_pixel, dst_pixel, |p| p.seeds.r)?;
@@ -78,9 +81,6 @@ pub fn ix(
         (amount * 2) as u64,
     )?;
     // index
-    if dst_palette.indexer == 0 {
-        dst_palette.seeds = dst_palette_seeds;
-    }
     match dst_pixel_index_lookup.index {
         None => {
             let index = dst_palette.indexer + 1;
