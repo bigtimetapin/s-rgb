@@ -6,4 +6,6 @@ pub enum CustomErrors {
     InvalidBitDepth,
     #[msg("Input value found outside channel bounds.")]
     ChannelOverflow,
+    #[msg("Insufficient balance of primary color token.")]
+    InsufficientPrimaryBalance,
 }

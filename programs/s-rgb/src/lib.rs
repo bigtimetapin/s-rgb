@@ -529,7 +529,7 @@ pub struct MintPixel<'info> {
     pixel.seed5().as_slice(),
     ], bump,
     )]
-    pub pixel: Account<'info, Pixel>,
+    pub pixel: Box<Account<'info, Pixel>>,
     #[account(init_if_needed,
     seeds = [
     pixel_index_seeds.seed1().as_slice(),
@@ -540,7 +540,7 @@ pub struct MintPixel<'info> {
     space = pda::pixel::pixel_index::SIZE,
     payer = payer,
     )]
-    pub pixel_index: Account<'info, PixelIndex>,
+    pub pixel_index: Box<Account<'info, PixelIndex>>,
     #[account(init_if_needed,
     seeds = [
     pixel_index_lookup_seeds.seed1().as_slice(),
@@ -552,7 +552,7 @@ pub struct MintPixel<'info> {
     space = pda::pixel::pixel_index_lookup::SIZE,
     payer = payer,
     )]
-    pub pixel_index_lookup: Account<'info, PixelIndexLookup>,
+    pub pixel_index_lookup: Box<Account<'info, PixelIndexLookup>>,
     #[account(init_if_needed,
     seeds = [
     palette_seeds.seed1().as_slice(),
@@ -562,7 +562,28 @@ pub struct MintPixel<'info> {
     space = pda::pixel::palette::SIZE,
     payer = payer,
     )]
-    pub palette: Account<'info, Palette>,
+    pub palette: Box<Account<'info, Palette>>,
+    #[account(
+    seeds = [
+    pda::primary::primary::SEED.as_bytes(),
+    pda::primary::red::SEED.as_bytes()
+    ], bump,
+    )]
+    pub red: Box<Account<'info, Primary>>,
+    #[account(
+    seeds = [
+    pda::primary::primary::SEED.as_bytes(),
+    pda::primary::green::SEED.as_bytes()
+    ], bump,
+    )]
+    pub green: Box<Account<'info, Primary>>,
+    #[account(
+    seeds = [
+    pda::primary::primary::SEED.as_bytes(),
+    pda::primary::blue::SEED.as_bytes()
+    ], bump,
+    )]
+    pub blue: Box<Account<'info, Primary>>,
     // cpi accounts
     #[account(mut,
     address = pixel.mint,
@@ -574,7 +595,40 @@ pub struct MintPixel<'info> {
     associated_token::authority = payer,
     payer = payer
     )]
-    pub pixel_mint_ata: Account<'info, TokenAccount>,
+    pub pixel_mint_ata: Box<Account<'info, TokenAccount>>,
+    #[account(mut,
+    address = red.mint,
+    owner = token_program.key()
+    )]
+    pub red_mint: Account<'info, Mint>,
+    #[account(init_if_needed,
+    associated_token::mint = red_mint,
+    associated_token::authority = payer,
+    payer = payer
+    )]
+    pub red_mint_ata: Box<Account<'info, TokenAccount>>,
+    #[account(mut,
+    address = green.mint,
+    owner = token_program.key()
+    )]
+    pub green_mint: Account<'info, Mint>,
+    #[account(init_if_needed,
+    associated_token::mint = green_mint,
+    associated_token::authority = payer,
+    payer = payer
+    )]
+    pub green_mint_ata: Box<Account<'info, TokenAccount>>,
+    #[account(mut,
+    address = blue.mint,
+    owner = token_program.key()
+    )]
+    pub blue_mint: Account<'info, Mint>,
+    #[account(init_if_needed,
+    associated_token::mint = blue_mint,
+    associated_token::authority = payer,
+    payer = payer
+    )]
+    pub blue_mint_ata: Box<Account<'info, TokenAccount>>,
     // payer
     #[account(mut)]
     pub payer: Signer<'info>,
