@@ -24,6 +24,9 @@ pub fn ix(
     let blue_mint = &ctx.accounts.blue_mint;
     let blue_mint_ata = &ctx.accounts.blue_mint_ata;
     // assert depth
+    if palette.indexer == 0 {
+        palette.seeds = palette_seeds;
+    }
     assert_depth(pixel, palette)?;
     // assert channels
     assert_channel(pixel, |p| p.seeds.r, red_mint_ata)?;
@@ -112,9 +115,6 @@ pub fn ix(
         )?;
     }
     // index
-    if palette.indexer == 0 {
-        palette.seeds = palette_seeds;
-    }
     match pixel_index_lookup.index {
         Some(_) => {}
         None => {
