@@ -1,16 +1,8 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{burn, Burn, mint_to, MintTo, TokenAccount};
-use crate::{
-    HasFiveSeeds,
-    MintPixel,
-    PaletteSeeds,
-    pda::pixel::{
-        pixel,
-    },
-    Pixel,
-    PixelIndexLookupSeeds,
-    PixelIndexSeeds,
-};
+use crate::{HasFiveSeeds, MintPixel, Palette, PaletteSeeds, pda::pixel::{
+    pixel,
+}, Pixel, PixelIndexLookupSeeds, PixelIndexSeeds};
 use crate::error::CustomErrors;
 
 pub fn ix(
@@ -32,7 +24,7 @@ pub fn ix(
     let blue_mint = &ctx.accounts.blue_mint;
     let blue_mint_ata = &ctx.accounts.blue_mint_ata;
     // assert depth
-    assert_depth(pixel)?;
+    assert_depth(pixel, palette)?;
     // assert channels
     assert_channel(pixel, |p| p.seeds.r, red_mint_ata)?;
     assert_channel(pixel, |p| p.seeds.g, green_mint_ata)?;
@@ -120,6 +112,9 @@ pub fn ix(
         )?;
     }
     // index
+    if palette.indexer == 0 {
+        palette.seeds = palette_seeds;
+    }
     match pixel_index_lookup.index {
         Some(_) => {}
         None => {
@@ -133,7 +128,6 @@ pub fn ix(
             pixel_index_lookup.index = Some(
                 index
             );
-            palette.seeds = palette_seeds;
             palette.indexer = index;
         }
     }
@@ -156,12 +150,12 @@ fn assert_channel(pixel: &Pixel, f: fn(&Pixel) -> u32, token_account: &TokenAcco
     }
 }
 
-fn assert_depth(pixel: &Pixel) -> Result<()> {
-    match pixel.seeds.depth == 1 {
-        true => {
+fn assert_depth(pixel: &Pixel, palette: &Palette) -> Result<()> {
+    match (pixel.seeds.depth == 1, palette.seeds.depth == 1) {
+        (true, true) => {
             Ok(())
         }
-        false => {
+        _ => {
             Err(CustomErrors::InvalidBitDepth.into())
         }
     }

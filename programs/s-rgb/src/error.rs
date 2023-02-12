@@ -8,4 +8,8 @@ pub enum CustomErrors {
     ChannelOverflow,
     #[msg("Insufficient balance of primary color token.")]
     InsufficientPrimaryBalance,
+    #[msg("Source and destination channel values do not match.")]
+    ChannelImbalance,
+    #[msg("Insufficient balance of pixel token.")]
+    InsufficientPixelBalance,
 }

@@ -20,6 +20,20 @@ pub struct PaletteSeeds {
     pub depth: u8,
 }
 
+impl HasThreeSeeds for Palette {
+    fn seed1(&self) -> Vec<u8> {
+        self.seeds.seed1()
+    }
+
+    fn seed2(&self) -> Vec<u8> {
+        self.seeds.seed2()
+    }
+
+    fn seed3(&self) -> Vec<u8> {
+        self.seeds.seed3()
+    }
+}
+
 impl HasThreeSeeds for PaletteSeeds {
     fn seed1(&self) -> Vec<u8> {
         SEED.as_bytes().to_vec()
