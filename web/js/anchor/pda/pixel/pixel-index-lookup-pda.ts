@@ -12,7 +12,7 @@ export interface PixelIndexLookup {
     index: number // encoded as bn
 }
 
-export async function getPixelIndexPda(program: Program<SRgb>, pda: PixelIndexLookupPda): Promise<PixelIndexLookup> {
+export async function getPixelIndexLookupPda(program: Program<SRgb>, pda: PixelIndexLookupPda): Promise<PixelIndexLookup> {
     const fetched = await program.account.pixelIndexLookup.fetch(
         pda.address
     ) as any;
@@ -22,7 +22,7 @@ export async function getPixelIndexPda(program: Program<SRgb>, pda: PixelIndexLo
     }
 }
 
-export function derivePixelIndexPda(program: Program<SRgb>, seeds: Pixel.Seeds): PixelIndexLookupPda {
+export function derivePixelIndexLookupPda(program: Program<SRgb>, seeds: Pixel.Seeds): PixelIndexLookupPda {
     let pda, bump;
     [pda, bump] = PublicKey.findProgramAddressSync(
         [

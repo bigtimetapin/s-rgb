@@ -6,16 +6,15 @@ type Primary
     | Green
     | Blue
 
+
 toSymbol : Primary -> String
 toSymbol primary =
     case primary of
         Red ->
             "$R"
 
-
         Green ->
             "$G"
-
 
         Blue ->
             "$B"

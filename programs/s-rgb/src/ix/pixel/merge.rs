@@ -2,7 +2,6 @@ use anchor_lang::prelude::*;
 use anchor_spl::token::{burn, Burn, mint_to, MintTo, TokenAccount};
 use crate::{HasFiveSeeds, MergePixel, Palette, PaletteSeeds, Pixel, PixelIndexLookupSeeds, PixelIndexSeeds};
 use crate::error::CustomErrors;
-use crate::pda::pixel::pixel;
 
 pub fn ix(
     ctx: Context<MergePixel>,
@@ -35,7 +34,7 @@ pub fn ix(
     assert_balance(src_pixel_mint_ata, amount)?;
     // build signer seeds
     let bump = *ctx.bumps.get(
-        pixel::SEED
+        "dst_pixel"
     ).unwrap();
     let seed1 = dst_pixel.seed1();
     let seed2 = dst_pixel.seed2();

@@ -131,7 +131,7 @@ update msg model =
                     )
 
                 UserMsg.MintPixel seeds ->
-                    ( model
+                    ( Model.waiting model
                     , sender <|
                         Sender.encode
                             { sender = Sender.User fromUserMsg
@@ -139,6 +139,14 @@ update msg model =
                             }
                     )
 
+                UserMsg.MergePixel seeds ->
+                    ( Model.waiting model
+                    , sender <|
+                        Sender.encode
+                            { sender = Sender.User fromUserMsg
+                            , more = Pixel.encode seeds
+                            }
+                    )
 
         FromJs fromJsMsg ->
             case fromJsMsg of

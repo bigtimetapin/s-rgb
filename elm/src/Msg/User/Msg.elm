@@ -9,6 +9,7 @@ type Msg
     | Stake Primary
     | Harvest Primary
     | MintPixel Pixel.Seeds
+    | MergePixel Pixel.Seeds
 
 
 toString : Msg -> String
@@ -35,5 +36,8 @@ toString msg =
         Harvest Blue ->
             "user-harvest-blue"
 
-        MintPixel seeds ->
+        MintPixel _ ->
             "user-mint-pixel"
+
+        MergePixel _ ->
+            "user-merge-pixel"

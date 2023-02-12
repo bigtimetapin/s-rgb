@@ -631,6 +631,105 @@ export type SRgb = {
           }
         }
       ]
+    },
+    {
+      "name": "mergePixel",
+      "accounts": [
+        {
+          "name": "srcPixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dstPixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dstPixelIndex",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dstPixelIndexLookup",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dstPalette",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "srcPixelMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "srcPixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dstPixelMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dstPixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "dstPixelIndexSeeds",
+          "type": {
+            "defined": "PixelIndexSeeds"
+          }
+        },
+        {
+          "name": "dstPixelIndexLookupSeeds",
+          "type": {
+            "defined": "PixelIndexLookupSeeds"
+          }
+        },
+        {
+          "name": "dstPaletteSeeds",
+          "type": {
+            "defined": "PaletteSeeds"
+          }
+        },
+        {
+          "name": "amount",
+          "type": "u32"
+        }
+      ]
     }
   ],
   "accounts": [
@@ -862,6 +961,16 @@ export type SRgb = {
       "code": 6002,
       "name": "InsufficientPrimaryBalance",
       "msg": "Insufficient balance of primary color token."
+    },
+    {
+      "code": 6003,
+      "name": "ChannelImbalance",
+      "msg": "Source and destination channel values do not match."
+    },
+    {
+      "code": 6004,
+      "name": "InsufficientPixelBalance",
+      "msg": "Insufficient balance of pixel token."
     }
   ]
 };
@@ -1499,6 +1608,105 @@ export const IDL: SRgb = {
           }
         }
       ]
+    },
+    {
+      "name": "mergePixel",
+      "accounts": [
+        {
+          "name": "srcPixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dstPixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dstPixelIndex",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dstPixelIndexLookup",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dstPalette",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "srcPixelMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "srcPixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dstPixelMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dstPixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "dstPixelIndexSeeds",
+          "type": {
+            "defined": "PixelIndexSeeds"
+          }
+        },
+        {
+          "name": "dstPixelIndexLookupSeeds",
+          "type": {
+            "defined": "PixelIndexLookupSeeds"
+          }
+        },
+        {
+          "name": "dstPaletteSeeds",
+          "type": {
+            "defined": "PaletteSeeds"
+          }
+        },
+        {
+          "name": "amount",
+          "type": "u32"
+        }
+      ]
     }
   ],
   "accounts": [
@@ -1730,6 +1938,16 @@ export const IDL: SRgb = {
       "code": 6002,
       "name": "InsufficientPrimaryBalance",
       "msg": "Insufficient balance of primary color token."
+    },
+    {
+      "code": 6003,
+      "name": "ChannelImbalance",
+      "msg": "Source and destination channel values do not match."
+    },
+    {
+      "code": 6004,
+      "name": "InsufficientPixelBalance",
+      "msg": "Insufficient balance of pixel token."
     }
   ]
 };

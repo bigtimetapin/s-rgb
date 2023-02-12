@@ -231,20 +231,130 @@ view state =
                     , Html.div
                         [
                         ]
-                        [ Html.button
-                            [ class "button"
-                            , onClick <|
-                                FromUser <|
-                                    UserMsg.MintPixel
-                                        { r = 1
-                                        , g = 0
-                                        , b = 1
-                                        , depth = 1
-                                        }
+                        [ Html.div
+                            [ class "columns"
                             ]
-                            [ Html.text
-                                """mint pixel
-                                """
+                            [ Html.div
+                                [ class "column is-2"
+                                ]
+                                [ Html.button
+                                    [ class "button"
+                                    , onClick <|
+                                        FromUser <|
+                                            UserMsg.MintPixel
+                                                { r = 1
+                                                , g = 0
+                                                , b = 0
+                                                , depth = 1
+                                                }
+                                    ]
+                                    [ Html.text
+                                        """mint pixel: (1, 0, 0) d=1
+                                        """
+                                    ]
+                                ]
+                            , Html.div
+                                [ class "column is-2"
+                                ]
+                                [ Html.button
+                                    [ class "button"
+                                    , onClick <|
+                                        FromUser <|
+                                            UserMsg.MintPixel
+                                                { r = 0
+                                                , g = 1
+                                                , b = 0
+                                                , depth = 1
+                                                }
+                                    ]
+                                    [ Html.text
+                                        """mint pixel: (0, 1, 0) d=1
+                                        """
+                                    ]
+                                ]
+                            , Html.div
+                                [ class "column is-2"
+                                ]
+                                [ Html.button
+                                    [ class "button"
+                                    , onClick <|
+                                        FromUser <|
+                                            UserMsg.MintPixel
+                                                { r = 0
+                                                , g = 0
+                                                , b = 1
+                                                , depth = 1
+                                                }
+                                    ]
+                                    [ Html.text
+                                        """mint pixel: (0, 0, 1) d=1
+                                        """
+                                    ]
+                                ]
+                            , Html.div
+                                [ class "column is-2"
+                                ]
+                                [ Html.button
+                                    [ class "button"
+                                    , onClick <|
+                                        FromUser <|
+                                            UserMsg.MintPixel
+                                                { r = 1
+                                                , g = 1
+                                                , b = 1
+                                                , depth = 1
+                                                }
+                                    ]
+                                    [ Html.text
+                                        """mint pixel: (1, 1, 1) d=1
+                                        """
+                                    ]
+                                ]
+                            , Html.div
+                                [ class "column is-2"
+                                ]
+                                [ Html.button
+                                    [ class "button"
+                                    , onClick <|
+                                        FromUser <|
+                                            UserMsg.MintPixel
+                                                { r = 0
+                                                , g = 0
+                                                , b = 0
+                                                , depth = 1
+                                                }
+                                    ]
+                                    [ Html.text
+                                        """mint pixel: (0, 0, 0) d=1
+                                        """
+                                    ]
+                                ]
+                            ]
+                        ]
+                    , Html.div
+                        []
+                        [ Html.div
+                            [ class "columns"
+                            ]
+                            [ Html.div
+                                [ class "column is-2"
+                                ]
+                                [ Html.button
+                                    [ class "button"
+                                    , onClick <|
+                                        FromUser <|
+                                            UserMsg.MergePixel
+                                                { r = 1
+                                                , g = 0
+                                                , b = 0
+                                                , depth = 1
+                                                }
+                                    ]
+                                    [ Html.text
+                                        """mint pixel: (1, 0, 0) d=2
+                                        """
+                                    ]
+                                ]
                             ]
                         ]
                     , Html.div

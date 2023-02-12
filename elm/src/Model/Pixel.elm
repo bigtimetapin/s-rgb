@@ -1,21 +1,24 @@
-module Model.Pixel exposing (Pixel, Seeds, encode, decoder)
+module Model.Pixel exposing (Pixel, Seeds, decoder, encode)
 
 import Json.Decode as Decode
 import Json.Encode as Encode
 import Model.PublicKey exposing (PublicKey)
 
+
 type alias Pixel =
-    { mint: PublicKey
+    { mint : PublicKey
     , seeds : Seeds
-    , balance: Int
+    , balance : Int
     }
 
+
 type alias Seeds =
-    { r: Int
-    , g: Int
-    , b: Int
-    , depth: Int
+    { r : Int
+    , g : Int
+    , b : Int
+    , depth : Int
     }
+
 
 decoder : Decode.Decoder Pixel
 decoder =
@@ -23,6 +26,7 @@ decoder =
         (Decode.field "mint" Decode.string)
         (Decode.field "seeds" seedsDecoder)
         (Decode.field "balance" Decode.int)
+
 
 seedsDecoder : Decode.Decoder Seeds
 seedsDecoder =
@@ -42,8 +46,8 @@ encode seeds =
 encoder : Seeds -> Encode.Value
 encoder seeds =
     Encode.object
-        [ ("r", Encode.int seeds.r)
-        , ("g", Encode.int seeds.g)
-        , ("b", Encode.int seeds.b)
-        , ("depth", Encode.int seeds.depth)
+        [ ( "r", Encode.int seeds.r )
+        , ( "g", Encode.int seeds.g )
+        , ( "b", Encode.int seeds.b )
+        , ( "depth", Encode.int seeds.depth )
         ]

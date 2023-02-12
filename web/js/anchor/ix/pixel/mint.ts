@@ -44,7 +44,7 @@ export async function ix(
             pixelPda
         );
     }
-    const pixelIndexLookupPda = PixelIndexLookup.derivePixelIndexPda(
+    const pixelIndexLookupPda = PixelIndexLookup.derivePixelIndexLookupPda(
         programs.sRgb,
         pixelSeeds
     );
@@ -71,7 +71,7 @@ export async function ix(
     }
     let pixelIndexLookup: PixelIndexLookup.PixelIndexLookup;
     try {
-        pixelIndexLookup = await PixelIndexLookup.getPixelIndexPda(
+        pixelIndexLookup = await PixelIndexLookup.getPixelIndexLookupPda(
             programs.sRgb,
             pixelIndexLookupPda
         );

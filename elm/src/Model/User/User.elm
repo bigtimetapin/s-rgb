@@ -11,7 +11,7 @@ type alias User =
     { wallet : Wallet
     , tvl : Amount
     , pools : Pools
-    , palette: List Palette
+    , palette : List Palette
     }
 
 
@@ -28,9 +28,10 @@ type alias Pool =
     , balance : Amount
     }
 
+
 type alias Palette =
-    { depth: Int
-    , pixels: List Pixel
+    { depth : Int
+    , pixels : List Pixel
     }
 
 
@@ -62,6 +63,7 @@ poolDecoder =
         (Decode.field "tvl" Amount.decoder)
         (Decode.field "staked" Amount.decoder)
         (Decode.field "balance" Amount.decoder)
+
 
 paletteDecoder : Decode.Decoder Palette
 paletteDecoder =
