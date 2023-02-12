@@ -9,6 +9,7 @@ import {deriveAtaPda} from "../../pda/ata-pda";
 import {SPL_ASSOCIATED_TOKEN_PROGRAM_ID, SPL_TOKEN_PROGRAM_ID} from "../../util/constants";
 import {SystemProgram, SYSVAR_RENT_PUBKEY} from "@solana/web3.js";
 import {getGlobal} from "../../pda/get-global";
+import {deriveBluePda, deriveGreenPda, deriveRedPda, getPrimaryPda} from "../../pda/primary/primary-pda";
 
 export async function ix(
     app,
@@ -93,7 +94,40 @@ export async function ix(
     const pixelMintAta = deriveAtaPda(
         provider.wallet.publicKey,
         pixel.mint
-    )
+    );
+    const redPda = deriveRedPda(
+        programs.sRgb
+    );
+    const red = await getPrimaryPda(
+        programs.sRgb,
+        redPda
+    );
+    const greenPda = deriveGreenPda(
+        programs.sRgb
+    );
+    const green = await getPrimaryPda(
+        programs.sRgb,
+        greenPda
+    );
+    const bluePda = deriveBluePda(
+        programs.sRgb
+    );
+    const blue = await getPrimaryPda(
+        programs.sRgb,
+        bluePda
+    );
+    const redMintAta = deriveAtaPda(
+        provider.wallet.publicKey,
+        red.mint
+    );
+    const greenMintAta = deriveAtaPda(
+        provider.wallet.publicKey,
+        green.mint
+    );
+    const blueMintAta = deriveAtaPda(
+        provider.wallet.publicKey,
+        blue.mint
+    );
     await programs
         .sRgb
         .methods
@@ -108,8 +142,17 @@ export async function ix(
                 pixelIndex: pixelIndexPda.address,
                 pixelIndexLookup: pixelIndexLookupPda.address,
                 palette: palettePda.address,
+                red: redPda.address,
+                green: greenPda.address,
+                blue: bluePda.address,
                 pixelMint: pixel.mint,
                 pixelMintAta: pixelMintAta,
+                redMint: red.mint,
+                redMintAta: redMintAta,
+                greenMint: green.mint,
+                greenMintAta: greenMintAta,
+                blueMint: blue.mint,
+                blueMintAta: blueMintAta,
                 payer: provider.wallet.publicKey,
                 tokenProgram: SPL_TOKEN_PROGRAM_ID,
                 associatedTokenProgram: SPL_ASSOCIATED_TOKEN_PROGRAM_ID,

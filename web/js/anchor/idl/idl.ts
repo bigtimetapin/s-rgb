@@ -531,12 +531,57 @@ export type SRgb = {
           "isSigner": false
         },
         {
+          "name": "red",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "green",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "blue",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "pixelMint",
           "isMut": true,
           "isSigner": false
         },
         {
           "name": "pixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "redMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "redMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "greenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "greenMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "blueMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "blueMintAta",
           "isMut": true,
           "isSigner": false
         },
@@ -812,6 +857,11 @@ export type SRgb = {
       "code": 6001,
       "name": "ChannelOverflow",
       "msg": "Input value found outside channel bounds."
+    },
+    {
+      "code": 6002,
+      "name": "InsufficientPrimaryBalance",
+      "msg": "Insufficient balance of primary color token."
     }
   ]
 };
@@ -1349,12 +1399,57 @@ export const IDL: SRgb = {
           "isSigner": false
         },
         {
+          "name": "red",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "green",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "blue",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "pixelMint",
           "isMut": true,
           "isSigner": false
         },
         {
           "name": "pixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "redMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "redMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "greenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "greenMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "blueMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "blueMintAta",
           "isMut": true,
           "isSigner": false
         },
@@ -1630,6 +1725,11 @@ export const IDL: SRgb = {
       "code": 6001,
       "name": "ChannelOverflow",
       "msg": "Input value found outside channel bounds."
+    },
+    {
+      "code": 6002,
+      "name": "InsufficientPrimaryBalance",
+      "msg": "Insufficient balance of primary color token."
     }
   ]
 };
