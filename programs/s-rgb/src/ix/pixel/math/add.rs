@@ -2,6 +2,7 @@ use anchor_lang::prelude::*;
 use anchor_spl::token::{burn, Burn, mint_to, MintTo};
 use crate::{AddPixel, HasFiveSeeds, Pixel, PixelIndexLookupSeeds, PixelIndexSeeds};
 use crate::error::CustomErrors;
+use crate::ix::pixel::math::{assert_depth, index};
 
 pub fn ix(
     ctx: Context<AddPixel>,
@@ -82,31 +83,15 @@ pub fn ix(
         1,
     )?;
     // index
-    match dst_pixel_index_lookup.index {
-        None => {
-            let index = dst_palette.indexer + 1;
-            dst_pixel_index.pixel = dst_pixel.key();
-            dst_pixel_index.seeds = dst_pixel_index_seeds;
-            dst_pixel_index_lookup.index = Some(
-                index
-            );
-            dst_pixel_index_lookup.seeds = dst_pixel_index_lookup_seeds;
-            dst_palette.indexer = index;
-        }
-        Some(_) => {}
-    };
+    index(
+        dst_palette.key(),
+        dst_pixel_index,
+        dst_pixel_index_seeds,
+        dst_pixel_index_lookup,
+        dst_pixel_index_lookup_seeds,
+        dst_palette,
+    );
     Ok(())
-}
-
-fn assert_depth(left: &Pixel, right: &Pixel, dst: &Pixel) -> Result<()> {
-    match left.seeds.depth.eq(&right.seeds.depth) && right.seeds.depth.eq(&dst.seeds.depth) {
-        true => {
-            Ok(())
-        }
-        _ => {
-            Err(CustomErrors::InvalidBitDepth.into())
-        }
-    }
 }
 
 fn assert_addition(left: &Pixel, right: &Pixel, dst: &Pixel) -> Result<()> {
