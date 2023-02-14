@@ -730,6 +730,110 @@ export type SRgb = {
           "type": "u32"
         }
       ]
+    },
+    {
+      "name": "addPixel",
+      "accounts": [
+        {
+          "name": "leftPixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rightPixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dstPixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dstPixelIndex",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dstPixelIndexLookup",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dstPalette",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "leftPixelMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "leftPixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rightPixelMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rightPixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dstPixelMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dstPixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "dstPixelIndexSeeds",
+          "type": {
+            "defined": "PixelIndexSeeds"
+          }
+        },
+        {
+          "name": "dstPixelIndexLookupSeeds",
+          "type": {
+            "defined": "PixelIndexLookupSeeds"
+          }
+        }
+      ]
     }
   ],
   "accounts": [
@@ -971,6 +1075,11 @@ export type SRgb = {
       "code": 6004,
       "name": "InsufficientPixelBalance",
       "msg": "Insufficient balance of pixel token."
+    },
+    {
+      "code": 6005,
+      "name": "InvalidAddition",
+      "msg": "Destination pixel specified is not the addition of the source pixels."
     }
   ]
 };
@@ -1707,6 +1816,110 @@ export const IDL: SRgb = {
           "type": "u32"
         }
       ]
+    },
+    {
+      "name": "addPixel",
+      "accounts": [
+        {
+          "name": "leftPixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rightPixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dstPixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "dstPixelIndex",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dstPixelIndexLookup",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dstPalette",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "leftPixelMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "leftPixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rightPixelMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rightPixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dstPixelMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dstPixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "dstPixelIndexSeeds",
+          "type": {
+            "defined": "PixelIndexSeeds"
+          }
+        },
+        {
+          "name": "dstPixelIndexLookupSeeds",
+          "type": {
+            "defined": "PixelIndexLookupSeeds"
+          }
+        }
+      ]
     }
   ],
   "accounts": [
@@ -1948,6 +2161,11 @@ export const IDL: SRgb = {
       "code": 6004,
       "name": "InsufficientPixelBalance",
       "msg": "Insufficient balance of pixel token."
+    },
+    {
+      "code": 6005,
+      "name": "InvalidAddition",
+      "msg": "Destination pixel specified is not the addition of the source pixels."
     }
   ]
 };

@@ -229,10 +229,9 @@ view state =
                             ]
                         ]
                     , Html.div
-                        [
-                        ]
+                        []
                         [ Html.div
-                            [ class "columns"
+                            [ class "columns is-multiline"
                             ]
                             [ Html.div
                                 [ class "column is-2"
@@ -269,6 +268,25 @@ view state =
                                     ]
                                     [ Html.text
                                         """mint pixel: (0, 1, 0) d=1
+                                        """
+                                    ]
+                                ]
+                            , Html.div
+                                [ class "column is-2"
+                                ]
+                                [ Html.button
+                                    [ class "button"
+                                    , onClick <|
+                                        FromUser <|
+                                            UserMsg.MintPixel
+                                                { r = 0
+                                                , g = 1
+                                                , b = 1
+                                                , depth = 1
+                                                }
+                                    ]
+                                    [ Html.text
+                                        """mint pixel: (0, 1, 1) d=1
                                         """
                                     ]
                                 ]
@@ -332,7 +350,8 @@ view state =
                             ]
                         ]
                     , Html.div
-                        []
+                        [ class "mb-6"
+                        ]
                         [ Html.div
                             [ class "columns"
                             ]
@@ -352,6 +371,110 @@ view state =
                                     ]
                                     [ Html.text
                                         """mint pixel: (1, 0, 0) d=2
+                                        """
+                                    ]
+                                ]
+                            ]
+                        ]
+                    , Html.div
+                        [ class "mb-6"
+                        ]
+                        [ Html.div
+                            [ class "columns is-multiline"
+                            ]
+                            [ Html.div
+                                [ class "column is-4"
+                                ]
+                                [ Html.button
+                                    [ class "button"
+                                    , onClick <|
+                                        FromUser <|
+                                            UserMsg.AddPixel
+                                                { r = 1
+                                                , g = 0
+                                                , b = 0
+                                                , depth = 1
+                                                }
+                                                { r = 0
+                                                , g = 1
+                                                , b = 1
+                                                , depth = 1
+                                                }
+                                    ]
+                                    [ Html.text
+                                        """add pixel: (1, 0, 0),d=1 + (0, 1, 1),d=1
+                                        """
+                                    ]
+                                ]
+                            , Html.div
+                                [ class "column is-4"
+                                ]
+                                [ Html.button
+                                    [ class "button"
+                                    , onClick <|
+                                        FromUser <|
+                                            UserMsg.AddPixel
+                                                { r = 1
+                                                , g = 0
+                                                , b = 0
+                                                , depth = 2
+                                                }
+                                                { r = 1
+                                                , g = 0
+                                                , b = 0
+                                                , depth = 2
+                                                }
+                                    ]
+                                    [ Html.text
+                                        """add pixel: (1, 0, 0),d=2 + (1, 0, 0),d=2
+                                        """
+                                    ]
+                                ]
+                            , Html.div
+                                [ class "column is-4"
+                                ]
+                                [ Html.button
+                                    [ class "button"
+                                    , onClick <|
+                                        FromUser <|
+                                            UserMsg.AddPixel
+                                                { r = 1
+                                                , g = 0
+                                                , b = 0
+                                                , depth = 1
+                                                }
+                                                { r = 1
+                                                , g = 0
+                                                , b = 0
+                                                , depth = 2
+                                                }
+                                    ]
+                                    [ Html.text
+                                        """add pixel: (1, 0, 0),d=1 + (1, 0, 0),d=2
+                                        """
+                                    ]
+                                ]
+                            , Html.div
+                                [ class "column is-4"
+                                ]
+                                [ Html.button
+                                    [ class "button"
+                                    , onClick <|
+                                        FromUser <|
+                                            UserMsg.AddPixel
+                                                { r = 1
+                                                , g = 0
+                                                , b = 0
+                                                , depth = 1
+                                                }
+                                                { r = 1
+                                                , g = 0
+                                                , b = 0
+                                                , depth = 1
+                                                }
+                                    ]
+                                    [ Html.text
+                                        """add pixel: (1, 0, 0),d=1 + (1, 0, 0),d=1
                                         """
                                     ]
                                 ]
@@ -392,7 +515,8 @@ view state =
                                         ]
                                     ]
                                 , Html.tbody
-                                    [] <|
+                                    []
+                                  <|
                                     List.map
                                         pixelRow
                                         (List.concatMap
@@ -404,6 +528,7 @@ view state =
                         ]
                     ]
                 ]
+
 
 pixelRow : Pixel -> Html Msg
 pixelRow pixel =

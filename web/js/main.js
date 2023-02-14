@@ -4,6 +4,7 @@ import * as Init from "./anchor/ix/init";
 import * as HarvestBlue from "./anchor/ix/harvest/blue";
 import * as HarvestGreen from "./anchor/ix/harvest/green";
 import * as HarvestRed from "./anchor/ix/harvest/red";
+import * as AddPixel from "./anchor/ix/pixel/add";
 import * as MergePixel from "./anchor/ix/pixel/merge";
 import * as MintPixel from "./anchor/ix/pixel/mint";
 import * as StakeBlue from "./anchor/ix/stake/blue";
@@ -194,6 +195,21 @@ export async function main(app, json) {
                 pp.programs,
                 more,
                 1
+            );
+            // or user add pixel
+        } else if (sender === "user-add-pixel") {
+            // get phantom
+            phantom = await getPhantom(app);
+            // get provider & program
+            const pp = getPP(phantom);
+            // parse more json
+            const more = JSON.parse(parsed.more);
+            // invoke rpc
+            await AddPixel.ix(
+                app,
+                pp.provider,
+                pp.programs,
+                more
             );
             // or throw error
         } else {

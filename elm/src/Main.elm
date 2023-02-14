@@ -148,6 +148,15 @@ update msg model =
                             }
                     )
 
+                UserMsg.AddPixel left right ->
+                    ( Model.waiting model
+                    , sender <|
+                        Sender.encode
+                            { sender = Sender.User fromUserMsg
+                            , more = Pixel.encodeTwo left right
+                            }
+                    )
+
         FromJs fromJsMsg ->
             case fromJsMsg of
                 -- JS sending success for decoding

@@ -1,4 +1,4 @@
-module Model.Pixel exposing (Pixel, Seeds, decoder, encode)
+module Model.Pixel exposing (Pixel, Seeds, decoder, encode, encodeTwo)
 
 import Json.Decode as Decode
 import Json.Encode as Encode
@@ -41,6 +41,19 @@ encode : Seeds -> String
 encode seeds =
     Encode.encode 0 <|
         encoder seeds
+
+
+encodeTwo : Seeds -> Seeds -> String
+encodeTwo left right =
+    let
+        encoder_ =
+            Encode.object
+                [ ( "left", encoder left )
+                , ( "right", encoder right )
+                ]
+    in
+    Encode.encode 0 <|
+        encoder_
 
 
 encoder : Seeds -> Encode.Value

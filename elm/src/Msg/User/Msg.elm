@@ -10,6 +10,7 @@ type Msg
     | Harvest Primary
     | MintPixel Pixel.Seeds
     | MergePixel Pixel.Seeds
+    | AddPixel Pixel.Seeds Pixel.Seeds
 
 
 toString : Msg -> String
@@ -41,3 +42,6 @@ toString msg =
 
         MergePixel _ ->
             "user-merge-pixel"
+
+        AddPixel _ _ ->
+            "user-add-pixel"
