@@ -30,8 +30,8 @@ fn assert_depth(seeds: &PixelSeeds) -> Result<()> {
 }
 
 fn assert_channel(seeds: &PixelSeeds, f: fn(&PixelSeeds) -> u32) -> Result<()> {
-    let max: u128 = u128::pow(2, seeds.depth as u32) - 1;
-    match (f(seeds) as u128) <= max {
+    let max: u32 = u32::pow(2, seeds.depth as u32) - 1;
+    match f(seeds) <= max {
         true => {
             Ok(())
         }

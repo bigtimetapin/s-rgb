@@ -83,6 +83,18 @@ pub mod s_rgb {
             amount,
         )
     }
+
+    pub fn add_pixel(
+        ctx: Context<AddPixel>,
+        dst_pixel_index_seeds: PixelIndexSeeds,
+        dst_pixel_index_lookup_seeds: PixelIndexLookupSeeds,
+    ) -> Result<()> {
+        ix::pixel::add::ix(
+            ctx,
+            dst_pixel_index_seeds,
+            dst_pixel_index_lookup_seeds,
+        )
+    }
 }
 
 #[derive(Accounts)]
@@ -728,6 +740,117 @@ pub struct MergePixel<'info> {
     associated_token::authority = payer
     )]
     pub src_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
+    #[account(mut,
+    address = dst_pixel.mint,
+    owner = token_program.key()
+    )]
+    pub dst_pixel_mint: Account<'info, Mint>,
+    #[account(init_if_needed,
+    associated_token::mint = dst_pixel_mint,
+    associated_token::authority = payer,
+    payer = payer
+    )]
+    pub dst_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
+    // payer
+    #[account(mut)]
+    pub payer: Signer<'info>,
+    // cpi programs
+    pub token_program: Program<'info, Token>,
+    pub associated_token_program: Program<'info, AssociatedToken>,
+    // system
+    pub system_program: Program<'info, System>,
+    pub rent: Sysvar<'info, Rent>,
+}
+
+#[derive(Accounts)]
+#[instruction(
+dst_pixel_index_seeds: PixelIndexSeeds,
+dst_pixel_index_lookup_seeds: PixelIndexLookupSeeds,
+)]
+pub struct AddPixel<'info> {
+    // pda
+    #[account(
+    seeds = [
+    left_pixel.seed1().as_slice(),
+    left_pixel.seed2().as_slice(),
+    left_pixel.seed3().as_slice(),
+    left_pixel.seed4().as_slice(),
+    left_pixel.seed5().as_slice(),
+    ], bump,
+    )]
+    pub left_pixel: Box<Account<'info, Pixel>>,
+    #[account(
+    seeds = [
+    right_pixel.seed1().as_slice(),
+    right_pixel.seed2().as_slice(),
+    right_pixel.seed3().as_slice(),
+    right_pixel.seed4().as_slice(),
+    right_pixel.seed5().as_slice(),
+    ], bump,
+    )]
+    pub right_pixel: Box<Account<'info, Pixel>>,
+    #[account(
+    seeds = [
+    dst_pixel.seed1().as_slice(),
+    dst_pixel.seed2().as_slice(),
+    dst_pixel.seed3().as_slice(),
+    dst_pixel.seed4().as_slice(),
+    dst_pixel.seed5().as_slice(),
+    ], bump,
+    )]
+    pub dst_pixel: Box<Account<'info, Pixel>>,
+    #[account(init_if_needed,
+    seeds = [
+    dst_pixel_index_seeds.seed1().as_slice(),
+    dst_pixel_index_seeds.seed2().as_slice(),
+    dst_pixel_index_seeds.seed3().as_slice(),
+    dst_pixel_index_seeds.seed4().as_slice(),
+    ], bump,
+    space = pda::pixel::pixel_index::SIZE,
+    payer = payer,
+    )]
+    pub dst_pixel_index: Box<Account<'info, PixelIndex>>,
+    #[account(init_if_needed,
+    seeds = [
+    dst_pixel_index_lookup_seeds.seed1().as_slice(),
+    dst_pixel_index_lookup_seeds.seed2().as_slice(),
+    dst_pixel_index_lookup_seeds.seed3().as_slice(),
+    dst_pixel_index_lookup_seeds.seed4().as_slice(),
+    dst_pixel_index_lookup_seeds.seed5().as_slice(),
+    ], bump,
+    space = pda::pixel::pixel_index_lookup::SIZE,
+    payer = payer,
+    )]
+    pub dst_pixel_index_lookup: Box<Account<'info, PixelIndexLookup>>,
+    #[account(mut,
+    seeds = [
+    dst_palette.seed1().as_slice(),
+    dst_palette.seed2().as_slice(),
+    dst_palette.seed3().as_slice(),
+    ], bump,
+    )]
+    pub dst_palette: Box<Account<'info, Palette>>,
+    // cpi accounts
+    #[account(mut,
+    address = left_pixel.mint,
+    owner = token_program.key()
+    )]
+    pub left_pixel_mint: Account<'info, Mint>,
+    #[account(mut,
+    associated_token::mint = left_pixel_mint,
+    associated_token::authority = payer
+    )]
+    pub left_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
+    #[account(mut,
+    address = right_pixel.mint,
+    owner = token_program.key()
+    )]
+    pub right_pixel_mint: Account<'info, Mint>,
+    #[account(mut,
+    associated_token::mint = right_pixel_mint,
+    associated_token::authority = payer
+    )]
+    pub right_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
     #[account(mut,
     address = dst_pixel.mint,
     owner = token_program.key()

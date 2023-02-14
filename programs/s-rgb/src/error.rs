@@ -12,4 +12,6 @@ pub enum CustomErrors {
     ChannelImbalance,
     #[msg("Insufficient balance of pixel token.")]
     InsufficientPixelBalance,
+    #[msg("Destination pixel specified is not the addition of the source pixels.")]
+    InvalidAddition,
 }
