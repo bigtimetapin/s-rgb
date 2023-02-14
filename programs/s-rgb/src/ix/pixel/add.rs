@@ -111,9 +111,9 @@ fn assert_depth(left: &Pixel, right: &Pixel, dst: &Pixel) -> Result<()> {
 
 fn assert_addition(left: &Pixel, right: &Pixel, dst: &Pixel) -> Result<()> {
     let max = u32::pow(2, dst.seeds.depth as u32) - 1;
-    let r = u32::max(left.seeds.r + right.seeds.r, max);
-    let g = u32::max(left.seeds.g + right.seeds.g, max);
-    let b = u32::max(left.seeds.b + right.seeds.b, max);
+    let r = u32::min(left.seeds.r + right.seeds.r, max);
+    let g = u32::min(left.seeds.g + right.seeds.g, max);
+    let b = u32::min(left.seeds.b + right.seeds.b, max);
     match (r.eq(&dst.seeds.r), g.eq(&dst.seeds.g), b.eq(&dst.seeds.b)) {
         (true, true, true) => {
             Ok(())
