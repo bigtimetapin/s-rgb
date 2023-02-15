@@ -20,6 +20,8 @@ pub fn ix(
     assert_depth(left_pixel, right_pixel, dst_pixel)?;
     // assert separation
     assert_separation(left_pixel, right_pixel, dst_pixel)?;
+    // assert subset
+    assert_subset(left_pixel, right_pixel)?;
     // build signer seeds
     let bump = *ctx.bumps.get(
         "dst_pixel"
@@ -85,6 +87,20 @@ fn assert_separation(left: &Pixel, right: &Pixel, dst: &Pixel) -> Result<()> {
     let g = left.seeds.g - right.seeds.g;
     let b = left.seeds.b - right.seeds.b;
     match (r.eq(&dst.seeds.r), g.eq(&dst.seeds.g), b.eq(&dst.seeds.b)) {
+        (true, true, true) => {
+            Ok(())
+        }
+        _ => {
+            Err(CustomErrors::InvalidSeparation.into())
+        }
+    }
+}
+
+fn assert_subset(left: &Pixel, right: &Pixel) -> Result<()> {
+    let r = left.seeds.r >= right.seeds.r;
+    let g = left.seeds.g >= right.seeds.g;
+    let b = left.seeds.b >= right.seeds.b;
+    match (r, g, b) {
         (true, true, true) => {
             Ok(())
         }
