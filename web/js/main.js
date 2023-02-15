@@ -7,6 +7,7 @@ import * as HarvestRed from "./anchor/ix/harvest/red";
 import * as AddPixel from "./anchor/ix/pixel/add";
 import * as MergePixel from "./anchor/ix/pixel/merge";
 import * as MintPixel from "./anchor/ix/pixel/mint";
+import * as SeparatePixel from "./anchor/ix/pixel/separate";
 import * as StakeBlue from "./anchor/ix/stake/blue";
 import * as StakeGreen from "./anchor/ix/stake/green"
 import * as StakeRed from "./anchor/ix/stake/red";
@@ -206,6 +207,21 @@ export async function main(app, json) {
             const more = JSON.parse(parsed.more);
             // invoke rpc
             await AddPixel.ix(
+                app,
+                pp.provider,
+                pp.programs,
+                more
+            );
+            // or user separate pixel
+        } else if (sender === "user-separate-pixel") {
+            // get phantom
+            phantom = await getPhantom(app);
+            // get provider & program
+            const pp = getPP(phantom);
+            // parse more json
+            const more = JSON.parse(parsed.more);
+            // invoke rpc
+            await SeparatePixel.ix(
                 app,
                 pp.provider,
                 pp.programs,

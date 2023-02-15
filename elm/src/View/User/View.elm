@@ -374,6 +374,25 @@ view state =
                                         """
                                     ]
                                 ]
+                            , Html.div
+                                [ class "column is-2"
+                                ]
+                                [ Html.button
+                                    [ class "button"
+                                    , onClick <|
+                                        FromUser <|
+                                            UserMsg.MergePixel
+                                                { r = 0
+                                                , g = 0
+                                                , b = 0
+                                                , depth = 1
+                                                }
+                                    ]
+                                    [ Html.text
+                                        """mint pixel: (0, 0, 0) d=2
+                                        """
+                                    ]
+                                ]
                             ]
                         ]
                     , Html.div
@@ -475,6 +494,134 @@ view state =
                                     ]
                                     [ Html.text
                                         """add pixel: (1, 0, 0),d=1 + (1, 0, 0),d=1
+                                        """
+                                    ]
+                                ]
+                            ]
+                        ]
+                    , Html.div
+                        [ class "mb-6"
+                        ]
+                        [ Html.div
+                            [ class "columns is-multiline"
+                            ]
+                            [ Html.div
+                                [ class "column is-4"
+                                ]
+                                [ Html.button
+                                    [ class "button"
+                                    , onClick <|
+                                        FromUser <|
+                                            UserMsg.SeparatePixel
+                                                { r = 1
+                                                , g = 0
+                                                , b = 0
+                                                , depth = 1
+                                                }
+                                                { r = 0
+                                                , g = 0
+                                                , b = 0
+                                                , depth = 1
+                                                }
+                                    ]
+                                    [ Html.text
+                                        """separate pixel: (1, 0, 0),d=1 + (0, 0, 0),d=1
+                                        """
+                                    ]
+                                ]
+                            , Html.div
+                                [ class "column is-4"
+                                ]
+                                [ Html.button
+                                    [ class "button"
+                                    , onClick <|
+                                        FromUser <|
+                                            UserMsg.SeparatePixel
+                                                { r = 1
+                                                , g = 0
+                                                , b = 0
+                                                , depth = 1
+                                                }
+                                                { r = 1
+                                                , g = 0
+                                                , b = 0
+                                                , depth = 1
+                                                }
+                                    ]
+                                    [ Html.text
+                                        """separate pixel: (1, 0, 0),d=1 + (1, 0, 0),d=1
+                                        """
+                                    ]
+                                ]
+                            , Html.div
+                                [ class "column is-4"
+                                ]
+                                [ Html.button
+                                    [ class "button"
+                                    , onClick <|
+                                        FromUser <|
+                                            UserMsg.SeparatePixel
+                                                { r = 1
+                                                , g = 0
+                                                , b = 0
+                                                , depth = 2
+                                                }
+                                                { r = 1
+                                                , g = 0
+                                                , b = 0
+                                                , depth = 2
+                                                }
+                                    ]
+                                    [ Html.text
+                                        """separate pixel: (1, 0, 0),d=2 + (1, 0, 0),d=2
+                                        """
+                                    ]
+                                ]
+                            , Html.div
+                                [ class "column is-4"
+                                ]
+                                [ Html.button
+                                    [ class "button"
+                                    , onClick <|
+                                        FromUser <|
+                                            UserMsg.SeparatePixel
+                                                { r = 1
+                                                , g = 0
+                                                , b = 0
+                                                , depth = 1
+                                                }
+                                                { r = 1
+                                                , g = 0
+                                                , b = 0
+                                                , depth = 2
+                                                }
+                                    ]
+                                    [ Html.text
+                                        """separate pixel: (1, 0, 0),d=1 + (1, 0, 0),d=2
+                                        """
+                                    ]
+                                ]
+                            , Html.div
+                                [ class "column is-4"
+                                ]
+                                [ Html.button
+                                    [ class "button"
+                                    , onClick <|
+                                        FromUser <|
+                                            UserMsg.SeparatePixel
+                                                { r = 0
+                                                , g = 0
+                                                , b = 0
+                                                , depth = 2
+                                                }
+                                                { r = 1
+                                                , g = 0
+                                                , b = 0
+                                                , depth = 2
+                                                }
+                                    ]
+                                    [ Html.text
+                                        """separate pixel: (0, 0, 0),d=2 + (1, 0, 0),d=2
                                         """
                                     ]
                                 ]

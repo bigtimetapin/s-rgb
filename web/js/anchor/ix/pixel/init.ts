@@ -37,3 +37,40 @@ export async function ix(
             [pixelMint]
         ).rpc()
 }
+
+export async function getOrInit(
+    app,
+    provider: AnchorProvider,
+    programs: {
+        sRgb: Program<SRgb>;
+        token: Program<SplToken>
+    },
+    pixelSeeds: Pixel.Seeds,
+): Promise<Pixel.Pixel> {
+    const pixelPda = Pixel.derivePixelPda(
+        programs.sRgb,
+        pixelSeeds
+    );
+    let pixel: Pixel.Pixel;
+    try {
+        pixel = await Pixel.getPixelPda(
+            provider,
+            programs,
+            pixelPda
+        );
+    } catch (error) {
+        console.log(error);
+        await ix(
+            app,
+            provider,
+            programs,
+            pixelSeeds
+        );
+        pixel = await Pixel.getPixelPda(
+            provider,
+            programs,
+            pixelPda
+        );
+    }
+    return pixel
+}

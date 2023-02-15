@@ -11,6 +11,7 @@ type Msg
     | MintPixel Pixel.Seeds
     | MergePixel Pixel.Seeds
     | AddPixel Pixel.Seeds Pixel.Seeds
+    | SeparatePixel Pixel.Seeds Pixel.Seeds
 
 
 toString : Msg -> String
@@ -45,3 +46,6 @@ toString msg =
 
         AddPixel _ _ ->
             "user-add-pixel"
+
+        SeparatePixel _ _ ->
+            "user-separate-pixel"

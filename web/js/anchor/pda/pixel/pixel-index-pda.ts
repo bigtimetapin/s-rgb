@@ -1,8 +1,9 @@
 import {Pda} from "../pda";
 import {PublicKey} from "@solana/web3.js";
-import {BN, Program} from "@project-serum/anchor";
+import {AnchorProvider, BN, Program} from "@project-serum/anchor";
 import {SRgb} from "../../idl/idl";
-import {Palette} from "./palette-pda";
+import * as Palette from "./palette-pda";
+import * as PixelIndexLookup from "./pixel-index-lookup-pda";
 
 
 export interface PixelIndexPda extends Pda {
@@ -39,7 +40,35 @@ export function toRaw(seeds: Seeds): RawSeeds {
     }
 }
 
-export async function getAllPixelIndexPda(program: Program<SRgb>, palette: Palette): Promise<PixelIndex[]> {
+export async function getOrIncrementSeeds(
+    provider: AnchorProvider,
+    program: Program<SRgb>,
+    pixelIndexLookupPda: PixelIndexLookup.PixelIndexLookupPda,
+    palette: Palette.Palette,
+): Promise<Seeds> {
+    let pixelIndexSeeds: Seeds;
+    try {
+        const pixelIndexLookup = await PixelIndexLookup.getPixelIndexLookupPda(
+            program,
+            pixelIndexLookupPda
+        );
+        pixelIndexSeeds = {
+            authority: provider.wallet.publicKey,
+            depth: palette.seeds.depth,
+            index: pixelIndexLookup.index
+        };
+    } catch (error) {
+        console.log(error);
+        pixelIndexSeeds = {
+            authority: provider.wallet.publicKey,
+            depth: palette.seeds.depth,
+            index: palette.indexer + 1
+        };
+    }
+    return pixelIndexSeeds
+}
+
+export async function getAllPixelIndexPda(program: Program<SRgb>, palette: Palette.Palette): Promise<PixelIndex[]> {
     const pdaArray = Array.from(new Array(palette.indexer), (_, i) =>
         derivePixelIndexPda(
             program,
