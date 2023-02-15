@@ -72,7 +72,7 @@ export async function ix(
     try {
         dstPalette = await Palette.getPalettePda(
             programs.sRgb,
-            dstPixelPda
+            dstPalettePda
         );
     } catch (error) {
         console.log(error);
