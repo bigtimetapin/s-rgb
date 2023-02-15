@@ -84,7 +84,7 @@ pub fn ix(
     )?;
     // index
     index(
-        dst_palette.key(),
+        dst_pixel.key(),
         dst_pixel_index,
         dst_pixel_index_seeds,
         dst_pixel_index_lookup,
