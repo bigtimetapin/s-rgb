@@ -37,11 +37,6 @@ export async function ix(
         programs.sRgb,
         input.right
     );
-    const rightPixel = await Pixel.getPixelPda(
-        provider,
-        programs,
-        rightPixelPda
-    );
     const dstPixelSeeds = separate(
         input.left,
         input.right
