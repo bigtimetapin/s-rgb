@@ -1,5 +1,6 @@
 import {Connection, Keypair} from "@solana/web3.js";
-import {AnchorProvider, Program, Spl, SplToken, Wallet} from "@project-serum/anchor";
+import {AnchorProvider, Program, Spl, SplToken} from "@project-serum/anchor";
+import {Wallet} from "@project-serum/anchor/dist/cjs/provider";
 import {COMMITMENT, NETWORK, PROGRAM_ID} from "../config";
 import {EphemeralWallet, PhantomWallet} from "../wallet";
 import {SRgb, IDL} from "../idl/idl";
