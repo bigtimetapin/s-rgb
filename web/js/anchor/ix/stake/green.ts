@@ -3,7 +3,14 @@ import {SRgb} from "../../idl/idl";
 import {deriveAuthorityPda} from "../../pda/authority-pda";
 import {deriveGreenPda} from "../../pda/primary/primary-pda";
 import {deriveGreenStakePda} from "../../pda/stake-pda";
-import {Keypair, LAMPORTS_PER_SOL, SystemProgram, SYSVAR_RENT_PUBKEY} from "@solana/web3.js";
+import {
+    Keypair,
+    LAMPORTS_PER_SOL,
+    SystemProgram,
+    SYSVAR_RENT_PUBKEY,
+    Transaction,
+    TransactionInstruction
+} from "@solana/web3.js";
 import {SPL_ASSOCIATED_TOKEN_PROGRAM_ID, SPL_TOKEN_PROGRAM_ID, W_SOL} from "../../util/constants";
 import {deriveAtaPda} from "../../pda/ata-pda";
 import {getGlobal} from "../../pda/get-global";
@@ -33,7 +40,7 @@ export async function ix(
         W_SOL
     );
     const sol = 1;
-    await programs
+    const ix: TransactionInstruction = await programs
         .sRgb
         .methods
         .stakeGreen(
@@ -53,12 +60,31 @@ export async function ix(
                 systemProgram: SystemProgram.programId,
                 rent: SYSVAR_RENT_PUBKEY,
             }
-        ).signers(
-            [
-                greenStakeTokenAccount
-            ]
-        )
-        .rpc();
+        ).instruction();
+    const latestBlockhash = await provider.connection.getLatestBlockhash();
+    const tx = new Transaction(
+        {
+            recentBlockhash: latestBlockhash.blockhash,
+            feePayer: provider.wallet.publicKey
+        }
+    );
+    tx.add(
+        ix
+    );
+    // const signed = await provider.wallet.signTransaction(
+    //     tx
+    // );
+    // const ready = {
+    //     tx: signed,
+    //     signers: [
+    //         greenStakeTokenAccount
+    //     ]
+    // };
+    const sent = await provider.sendAndConfirm(
+        tx,
+        [greenStakeTokenAccount]
+    );
+    console.log(sent);
     await getGlobal(
         app,
         provider,
