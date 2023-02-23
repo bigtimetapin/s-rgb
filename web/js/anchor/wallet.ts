@@ -1,5 +1,5 @@
 import {Keypair, PublicKey, Transaction} from "@solana/web3.js";
-import {Wallet} from "@project-serum/anchor";
+import {Wallet} from "@project-serum/anchor/dist/cjs/provider";
 
 export class PhantomWallet implements Wallet {
 
@@ -11,10 +11,8 @@ export class PhantomWallet implements Wallet {
     }
 
     async signAllTransactions(txs: Transaction[]): Promise<Transaction[]> {
-        return txs.map((t) => {
-            this.phantom.windowSolana.signTransaction(t);
-            return t;
-        });
+        console.log(txs);
+        return this.phantom.windowSolana.signAllTransactions(txs);
     }
 
     async signMessage(message) {

@@ -71,18 +71,16 @@ export async function ix(
     tx.add(
         ix
     );
-    // const signed = await provider.wallet.signTransaction(
-    //     tx
-    // );
-    // const ready = {
-    //     tx: signed,
-    //     signers: [
-    //         greenStakeTokenAccount
-    //     ]
-    // };
-    const sent = await provider.sendAndConfirm(
-        tx,
-        [greenStakeTokenAccount]
+    const ready = {
+        tx: tx,
+        signers: [
+            greenStakeTokenAccount
+        ]
+    };
+    const sent = await provider.sendAll(
+        [
+            ready
+        ]
     );
     console.log(sent);
     await getGlobal(
