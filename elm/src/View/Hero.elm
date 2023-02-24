@@ -117,7 +117,7 @@ view exception global body =
             [ View.Header.view global
             ]
         , Html.div
-            [ class "mx-6 my-6 has-red-cursor"
+            [ class "mx-6 my-6"
             ]
             [ body
             , exceptionModal
