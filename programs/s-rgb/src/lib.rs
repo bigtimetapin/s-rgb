@@ -1,10 +1,10 @@
-extern crate core;
-
 use anchor_lang::prelude::*;
 use anchor_spl::associated_token::AssociatedToken;
 use anchor_spl::token::{Mint, Token, TokenAccount};
+use mpl_token_metadata::state::{PREFIX};
 use crate::pda::authority::authority::Authority;
 use crate::pda::{HasFiveSeeds, HasFourSeeds, HasThreeSeeds};
+use crate::pda::paint::blueprint::Blueprint;
 use crate::pda::pixel::palette::{Palette, PaletteSeeds};
 use crate::pda::pixel::pixel::{Pixel, PixelSeeds};
 use crate::pda::pixel::pixel_index::{PixelIndex, PixelIndexSeeds};
@@ -106,6 +106,10 @@ pub mod s_rgb {
             dst_pixel_index_seeds,
             dst_pixel_index_lookup_seeds,
         )
+    }
+
+    pub fn paint(ctx: Context<Paint>, blueprint: Blueprint) -> Result<()> {
+        ix::paint::paint::ix(ctx, blueprint)
     }
 }
 
@@ -984,4 +988,208 @@ pub struct SeparatePixel<'info> {
     // system
     pub system_program: Program<'info, System>,
     pub rent: Sysvar<'info, Rent>,
+}
+
+#[derive(Accounts)]
+#[instruction(
+blueprint: Blueprint
+)]
+pub struct Paint<'info> {
+    // pda
+    #[account(
+    seeds = [
+    pda::authority::authority::SEED.as_bytes()
+    ], bump,
+    )]
+    pub authority: Box<Account<'info, Authority>>,
+    #[account(
+    seeds = [
+    pda::pixel::pixel::SEED.as_bytes(),
+    (1 as u32).to_string().as_bytes(), // r
+    (0 as u32).to_string().as_bytes(), // g
+    (0 as u32).to_string().as_bytes(), // b
+    (1 as u32).to_string().as_bytes(), // depth
+    ], bump,
+    )]
+    pub red_pixel: Box<Account<'info, Pixel>>,
+    #[account(
+    seeds = [
+    pda::pixel::pixel::SEED.as_bytes(),
+    (0 as u32).to_string().as_bytes(), // r
+    (1 as u32).to_string().as_bytes(), // g
+    (0 as u32).to_string().as_bytes(), // b
+    (1 as u32).to_string().as_bytes(), // depth
+    ], bump,
+    )]
+    pub green_pixel: Box<Account<'info, Pixel>>,
+    #[account(
+    seeds = [
+    pda::pixel::pixel::SEED.as_bytes(),
+    (0 as u32).to_string().as_bytes(), // r
+    (0 as u32).to_string().as_bytes(), // g
+    (1 as u32).to_string().as_bytes(), // b
+    (1 as u32).to_string().as_bytes(), // depth
+    ], bump,
+    )]
+    pub blue_pixel: Box<Account<'info, Pixel>>,
+    #[account(
+    seeds = [
+    pda::pixel::pixel::SEED.as_bytes(),
+    (1 as u32).to_string().as_bytes(), // r
+    (1 as u32).to_string().as_bytes(), // g
+    (0 as u32).to_string().as_bytes(), // b
+    (1 as u32).to_string().as_bytes(), // depth
+    ], bump,
+    )]
+    pub yellow_pixel: Box<Account<'info, Pixel>>,
+    #[account(
+    seeds = [
+    pda::pixel::pixel::SEED.as_bytes(),
+    (1 as u32).to_string().as_bytes(), // r
+    (0 as u32).to_string().as_bytes(), // g
+    (1 as u32).to_string().as_bytes(), // b
+    (1 as u32).to_string().as_bytes(), // depth
+    ], bump,
+    )]
+    pub magenta_pixel: Box<Account<'info, Pixel>>,
+    #[account(
+    seeds = [
+    pda::pixel::pixel::SEED.as_bytes(),
+    (0 as u32).to_string().as_bytes(), // r
+    (1 as u32).to_string().as_bytes(), // g
+    (1 as u32).to_string().as_bytes(), // b
+    (1 as u32).to_string().as_bytes(), // depth
+    ], bump,
+    )]
+    pub cyan_pixel: Box<Account<'info, Pixel>>,
+    #[account(
+    seeds = [
+    pda::pixel::pixel::SEED.as_bytes(),
+    (1 as u32).to_string().as_bytes(), // r
+    (1 as u32).to_string().as_bytes(), // g
+    (1 as u32).to_string().as_bytes(), // b
+    (1 as u32).to_string().as_bytes(), // depth
+    ], bump,
+    )]
+    pub white_pixel: Box<Account<'info, Pixel>>,
+    // cpi accounts
+    #[account(mut,
+    address = red_pixel.mint,
+    owner = token_program.key()
+    )]
+    pub red_pixel_mint: Account<'info, Mint>,
+    #[account(init_if_needed,
+    associated_token::mint = red_pixel_mint,
+    associated_token::authority = payer,
+    payer = payer
+    )]
+    pub red_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
+    #[account(mut,
+    address = green_pixel.mint,
+    owner = token_program.key()
+    )]
+    pub green_pixel_mint: Account<'info, Mint>,
+    #[account(init_if_needed,
+    associated_token::mint = green_pixel_mint,
+    associated_token::authority = payer,
+    payer = payer
+    )]
+    pub green_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
+    #[account(mut,
+    address = blue_pixel.mint,
+    owner = token_program.key()
+    )]
+    pub blue_pixel_mint: Account<'info, Mint>,
+    #[account(init_if_needed,
+    associated_token::mint = blue_pixel_mint,
+    associated_token::authority = payer,
+    payer = payer
+    )]
+    pub blue_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
+    #[account(mut,
+    address = yellow_pixel.mint,
+    owner = token_program.key()
+    )]
+    pub yellow_pixel_mint: Account<'info, Mint>,
+    #[account(init_if_needed,
+    associated_token::mint = yellow_pixel_mint,
+    associated_token::authority = payer,
+    payer = payer
+    )]
+    pub yellow_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
+    #[account(mut,
+    address = magenta_pixel.mint,
+    owner = token_program.key()
+    )]
+    pub magenta_pixel_mint: Account<'info, Mint>,
+    #[account(init_if_needed,
+    associated_token::mint = magenta_pixel_mint,
+    associated_token::authority = payer,
+    payer = payer
+    )]
+    pub magenta_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
+    #[account(mut,
+    address = cyan_pixel.mint,
+    owner = token_program.key()
+    )]
+    pub cyan_pixel_mint: Account<'info, Mint>,
+    #[account(init_if_needed,
+    associated_token::mint = cyan_pixel_mint,
+    associated_token::authority = payer,
+    payer = payer
+    )]
+    pub cyan_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
+    #[account(mut,
+    address = white_pixel.mint,
+    owner = token_program.key()
+    )]
+    pub white_pixel_mint: Account<'info, Mint>,
+    #[account(init_if_needed,
+    associated_token::mint = white_pixel_mint,
+    associated_token::authority = payer,
+    payer = payer
+    )]
+    pub white_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
+    #[account(init,
+    mint::authority = authority,
+    mint::freeze_authority = authority,
+    mint::decimals = 0,
+    payer = payer
+    )]
+    pub mint: Box<Account<'info, Mint>>,
+    #[account(init,
+    associated_token::mint = mint,
+    associated_token::authority = payer,
+    payer = payer
+    )]
+    pub mint_ata: Box<Account<'info, TokenAccount>>,
+    #[account(mut,
+    seeds = [
+    PREFIX.as_bytes(),
+    metadata_program.key().as_ref(),
+    mint.key().as_ref()
+    ], bump,
+    seeds::program = metadata_program.key()
+    )]
+    /// CHECK: uninitialized metadata
+    pub metadata: UncheckedAccount<'info>,
+    // payer
+    #[account(mut)]
+    pub payer: Signer<'info>,
+    // cpi programs
+    pub token_program: Program<'info, Token>,
+    pub associated_token_program: Program<'info, AssociatedToken>,
+    pub metadata_program: Program<'info, MetadataProgram>,
+    // system
+    pub system_program: Program<'info, System>,
+    pub rent: Sysvar<'info, Rent>,
+}
+
+#[derive(Clone)]
+pub struct MetadataProgram;
+
+impl anchor_lang::Id for MetadataProgram {
+    fn id() -> Pubkey {
+        mpl_token_metadata::ID
+    }
 }

@@ -2,6 +2,7 @@ pub mod authority;
 pub mod primary;
 pub mod stake;
 pub mod pixel;
+pub mod paint;
 
 pub trait HasThreeSeeds {
     fn seed1(&self) -> Vec<u8>;
