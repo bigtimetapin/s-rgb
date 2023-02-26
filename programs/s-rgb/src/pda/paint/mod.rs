@@ -1,1 +1,1 @@
-pub mod blueprint;
+pub mod proof;

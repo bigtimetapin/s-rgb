@@ -4,7 +4,7 @@ use anchor_spl::token::{Mint, Token, TokenAccount};
 use mpl_token_metadata::state::{PREFIX};
 use crate::pda::authority::authority::Authority;
 use crate::pda::{HasFiveSeeds, HasFourSeeds, HasThreeSeeds};
-use crate::pda::paint::blueprint::Blueprint;
+use crate::pda::paint::proof::{Burned, Proof};
 use crate::pda::pixel::palette::{Palette, PaletteSeeds};
 use crate::pda::pixel::pixel::{Pixel, PixelSeeds};
 use crate::pda::pixel::pixel_index::{PixelIndex, PixelIndexSeeds};
@@ -108,8 +108,8 @@ pub mod s_rgb {
         )
     }
 
-    pub fn paint(ctx: Context<Paint>, blueprint: Blueprint) -> Result<()> {
-        ix::paint::paint::ix(ctx, blueprint)
+    pub fn paint(ctx: Context<Paint>, burned: Burned) -> Result<()> {
+        ix::paint::paint::ix(ctx, burned)
     }
 }
 
@@ -991,9 +991,6 @@ pub struct SeparatePixel<'info> {
 }
 
 #[derive(Accounts)]
-#[instruction(
-blueprint: Blueprint
-)]
 pub struct Paint<'info> {
     // pda
     #[account(
@@ -1002,6 +999,14 @@ pub struct Paint<'info> {
     ], bump,
     )]
     pub authority: Box<Account<'info, Authority>>,
+    #[account(init,
+    seeds = [
+    pda::paint::proof::SEED.as_bytes()
+    ], bump,
+    space = pda::paint::proof::SIZE,
+    payer = payer
+    )]
+    pub proof: Box<Account<'info, Proof>>,
     #[account(
     seeds = [
     pda::pixel::pixel::SEED.as_bytes(),
@@ -1074,10 +1079,9 @@ pub struct Paint<'info> {
     pub white_pixel: Box<Account<'info, Pixel>>,
     // cpi accounts
     #[account(mut,
-    address = red_pixel.mint,
-    owner = token_program.key()
+    address = red_pixel.mint
     )]
-    pub red_pixel_mint: Account<'info, Mint>,
+    pub red_pixel_mint: Box<Account<'info, Mint>>,
     #[account(init_if_needed,
     associated_token::mint = red_pixel_mint,
     associated_token::authority = payer,
@@ -1085,10 +1089,9 @@ pub struct Paint<'info> {
     )]
     pub red_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
     #[account(mut,
-    address = green_pixel.mint,
-    owner = token_program.key()
+    address = green_pixel.mint
     )]
-    pub green_pixel_mint: Account<'info, Mint>,
+    pub green_pixel_mint: Box<Account<'info, Mint>>,
     #[account(init_if_needed,
     associated_token::mint = green_pixel_mint,
     associated_token::authority = payer,
@@ -1096,10 +1099,9 @@ pub struct Paint<'info> {
     )]
     pub green_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
     #[account(mut,
-    address = blue_pixel.mint,
-    owner = token_program.key()
+    address = blue_pixel.mint
     )]
-    pub blue_pixel_mint: Account<'info, Mint>,
+    pub blue_pixel_mint: Box<Account<'info, Mint>>,
     #[account(init_if_needed,
     associated_token::mint = blue_pixel_mint,
     associated_token::authority = payer,
@@ -1107,10 +1109,9 @@ pub struct Paint<'info> {
     )]
     pub blue_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
     #[account(mut,
-    address = yellow_pixel.mint,
-    owner = token_program.key()
+    address = yellow_pixel.mint
     )]
-    pub yellow_pixel_mint: Account<'info, Mint>,
+    pub yellow_pixel_mint: Box<Account<'info, Mint>>,
     #[account(init_if_needed,
     associated_token::mint = yellow_pixel_mint,
     associated_token::authority = payer,
@@ -1118,10 +1119,9 @@ pub struct Paint<'info> {
     )]
     pub yellow_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
     #[account(mut,
-    address = magenta_pixel.mint,
-    owner = token_program.key()
+    address = magenta_pixel.mint
     )]
-    pub magenta_pixel_mint: Account<'info, Mint>,
+    pub magenta_pixel_mint: Box<Account<'info, Mint>>,
     #[account(init_if_needed,
     associated_token::mint = magenta_pixel_mint,
     associated_token::authority = payer,
@@ -1129,10 +1129,9 @@ pub struct Paint<'info> {
     )]
     pub magenta_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
     #[account(mut,
-    address = cyan_pixel.mint,
-    owner = token_program.key()
+    address = cyan_pixel.mint
     )]
-    pub cyan_pixel_mint: Account<'info, Mint>,
+    pub cyan_pixel_mint: Box<Account<'info, Mint>>,
     #[account(init_if_needed,
     associated_token::mint = cyan_pixel_mint,
     associated_token::authority = payer,
@@ -1140,10 +1139,9 @@ pub struct Paint<'info> {
     )]
     pub cyan_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
     #[account(mut,
-    address = white_pixel.mint,
-    owner = token_program.key()
+    address = white_pixel.mint
     )]
-    pub white_pixel_mint: Account<'info, Mint>,
+    pub white_pixel_mint: Box<Account<'info, Mint>>,
     #[account(init_if_needed,
     associated_token::mint = white_pixel_mint,
     associated_token::authority = payer,

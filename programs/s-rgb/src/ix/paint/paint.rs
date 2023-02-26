@@ -6,10 +6,11 @@ use mpl_token_metadata::instruction::{
 };
 use crate::{Paint, pda};
 use crate::error::CustomErrors;
-use crate::pda::paint::blueprint::Blueprint;
+use crate::pda::paint::proof::Burned;
 
-pub fn ix(ctx: Context<Paint>, blueprint: Blueprint) -> Result<()> {
+pub fn ix(ctx: Context<Paint>, burned: Burned) -> Result<()> {
     // get accounts
+    let proof = &mut ctx.accounts.proof;
     let red_pixel_mint_ata = &ctx.accounts.red_pixel_mint_ata;
     let green_pixel_mint_ata = &ctx.accounts.green_pixel_mint_ata;
     let blue_pixel_mint_ata = &ctx.accounts.blue_pixel_mint_ata;
@@ -18,13 +19,13 @@ pub fn ix(ctx: Context<Paint>, blueprint: Blueprint) -> Result<()> {
     let cyan_pixel_mint_ata = &ctx.accounts.cyan_pixel_mint_ata;
     let white_pixel_mint_ata = &ctx.accounts.white_pixel_mint_ata;
     // assert pixel balances
-    assert_pixel_balance(red_pixel_mint_ata, &blueprint, |b| b.red)?;
-    assert_pixel_balance(green_pixel_mint_ata, &blueprint, |b| b.green)?;
-    assert_pixel_balance(blue_pixel_mint_ata, &blueprint, |b| b.blue)?;
-    assert_pixel_balance(yellow_pixel_mint_ata, &blueprint, |b| b.yellow)?;
-    assert_pixel_balance(magenta_pixel_mint_ata, &blueprint, |b| b.magenta)?;
-    assert_pixel_balance(cyan_pixel_mint_ata, &blueprint, |b| b.cyan)?;
-    assert_pixel_balance(white_pixel_mint_ata, &blueprint, |b| b.white)?;
+    assert_pixel_balance(red_pixel_mint_ata, &burned, |b| b.red)?;
+    assert_pixel_balance(green_pixel_mint_ata, &burned, |b| b.green)?;
+    assert_pixel_balance(blue_pixel_mint_ata, &burned, |b| b.blue)?;
+    assert_pixel_balance(yellow_pixel_mint_ata, &burned, |b| b.yellow)?;
+    assert_pixel_balance(magenta_pixel_mint_ata, &burned, |b| b.magenta)?;
+    assert_pixel_balance(cyan_pixel_mint_ata, &burned, |b| b.cyan)?;
+    assert_pixel_balance(white_pixel_mint_ata, &burned, |b| b.white)?;
     // build signer seeds
     let bump = *ctx.bumps.get(
         pda::authority::authority::SEED
@@ -120,15 +121,17 @@ pub fn ix(ctx: Context<Paint>, blueprint: Blueprint) -> Result<()> {
             ctx.accounts.mint_ata.to_account_info()
         ],
     )?;
+    // proof
+    proof.burned = burned;
     Ok(())
 }
 
 fn assert_pixel_balance(
     token_account: &TokenAccount,
-    blueprint: &Blueprint,
-    pixel: fn(&Blueprint) -> u8,
+    burned: &Burned,
+    pixel: fn(&Burned) -> u64,
 ) -> Result<()> {
-    match token_account.amount >= (pixel(blueprint) as u64) {
+    match token_account.amount >= pixel(burned) {
         true => {
             Ok(())
         }
