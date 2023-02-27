@@ -3,8 +3,10 @@ use anchor_spl::associated_token::AssociatedToken;
 use anchor_spl::token::{Mint, Token, TokenAccount};
 use mpl_token_metadata::state::{PREFIX};
 use crate::pda::authority::authority::Authority;
-use crate::pda::{HasFiveSeeds, HasFourSeeds, HasThreeSeeds};
+use crate::pda::{HasSixSeeds, HasFiveSeeds, HasFourSeeds, HasThreeSeeds};
 use crate::pda::paint::proof::{Burned, Proof};
+use crate::pda::paint::proof_index::ProofIndex;
+use crate::pda::paint::proof_indexer::ProofIndexer;
 use crate::pda::pixel::palette::{Palette, PaletteSeeds};
 use crate::pda::pixel::pixel::{Pixel, PixelSeeds};
 use crate::pda::pixel::pixel_index::{PixelIndex, PixelIndexSeeds};
@@ -106,6 +108,10 @@ pub mod s_rgb {
             dst_pixel_index_seeds,
             dst_pixel_index_lookup_seeds,
         )
+    }
+
+    pub fn init_proof_indexer(_ctx: Context<InitProofIndexer>) -> Result<()> {
+        Ok(())
     }
 
     pub fn paint(ctx: Context<Paint>, burned: Burned) -> Result<()> {
@@ -991,22 +997,52 @@ pub struct SeparatePixel<'info> {
 }
 
 #[derive(Accounts)]
-pub struct Paint<'info> {
-    // pda
-    #[account(
-    seeds = [
-    pda::authority::authority::SEED.as_bytes()
-    ], bump,
-    )]
-    pub authority: Box<Account<'info, Authority>>,
+pub struct InitProofIndexer<'info> {
     #[account(init,
     seeds = [
-    pda::paint::proof::SEED.as_bytes()
+    pda::paint::proof_indexer::SEED.as_bytes(),
+    & payer.key().to_bytes()
+    ], bump,
+    space = pda::paint::proof_indexer::SIZE,
+    payer = payer
+    )]
+    pub proof_indexer: Box<Account<'info, ProofIndexer>>,
+    // payer
+    #[account(mut)]
+    pub payer: Signer<'info>,
+    // system
+    pub system_program: Program<'info, System>,
+}
+
+#[derive(Accounts)]
+pub struct Paint<'info> {
+    // pda
+    #[account(init,
+    seeds = [
+    pda::paint::proof::SEED.as_bytes(),
+    & mint.key().to_bytes()
     ], bump,
     space = pda::paint::proof::SIZE,
     payer = payer
     )]
     pub proof: Box<Account<'info, Proof>>,
+    #[account(init,
+    seeds = [
+    pda::paint::proof_index::SEED.as_bytes(),
+    & payer.key().to_bytes(),
+    (proof_indexer.indexer + 1).to_string().as_bytes()
+    ], bump,
+    space = pda::paint::proof_index::SIZE,
+    payer = payer
+    )]
+    pub proof_index: Box<Account<'info, ProofIndex>>,
+    #[account(mut,
+    seeds = [
+    pda::paint::proof_indexer::SEED.as_bytes(),
+    & payer.key().to_bytes()
+    ], bump,
+    )]
+    pub proof_indexer: Box<Account<'info, ProofIndexer>>,
     #[account(
     seeds = [
     pda::pixel::pixel::SEED.as_bytes(),
@@ -1149,8 +1185,8 @@ pub struct Paint<'info> {
     )]
     pub white_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
     #[account(init,
-    mint::authority = authority,
-    mint::freeze_authority = authority,
+    mint::authority = proof,
+    mint::freeze_authority = proof,
     mint::decimals = 0,
     payer = payer
     )]

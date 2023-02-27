@@ -11,6 +11,8 @@ use crate::pda::paint::proof::Burned;
 pub fn ix(ctx: Context<Paint>, burned: Burned) -> Result<()> {
     // get accounts
     let proof = &mut ctx.accounts.proof;
+    let proof_index = &mut ctx.accounts.proof_index;
+    let proof_indexer = &mut ctx.accounts.proof_indexer;
     let red_pixel_mint_ata = &ctx.accounts.red_pixel_mint_ata;
     let green_pixel_mint_ata = &ctx.accounts.green_pixel_mint_ata;
     let blue_pixel_mint_ata = &ctx.accounts.blue_pixel_mint_ata;
@@ -28,10 +30,10 @@ pub fn ix(ctx: Context<Paint>, burned: Burned) -> Result<()> {
     assert_pixel_balance(white_pixel_mint_ata, &burned, |b| b.white)?;
     // build signer seeds
     let bump = *ctx.bumps.get(
-        pda::authority::authority::SEED
+        pda::paint::proof::SEED
     ).unwrap();
     let seeds = &[
-        pda::authority::authority::SEED.as_bytes(),
+        pda::paint::proof::SEED.as_bytes(),
         &[bump]
     ];
     let signer_seeds = &[&seeds[..]];
@@ -40,9 +42,9 @@ pub fn ix(ctx: Context<Paint>, burned: Burned) -> Result<()> {
         ctx.accounts.metadata_program.key(),
         ctx.accounts.metadata.key(),
         ctx.accounts.mint.key(),
-        ctx.accounts.authority.key(),
+        proof.key(),
         ctx.accounts.payer.key(),
-        ctx.accounts.authority.key(),
+        proof.key(),
         String::from("s-rgb"),
         String::from("SRGB"),
         String::from("https://rgb.industries"),
@@ -70,7 +72,7 @@ pub fn ix(ctx: Context<Paint>, burned: Burned) -> Result<()> {
     let mint_ata_cpi_accounts = MintTo {
         mint: ctx.accounts.mint.to_account_info(),
         to: ctx.accounts.mint_ata.to_account_info(),
-        authority: ctx.accounts.authority.to_account_info(),
+        authority: proof.to_account_info(),
     };
     let mint_ata_cpi_context = CpiContext::new(
         ctx.accounts.token_program.to_account_info(),
@@ -89,9 +91,9 @@ pub fn ix(ctx: Context<Paint>, burned: Burned) -> Result<()> {
         &[
             ctx.accounts.metadata.to_account_info(),
             ctx.accounts.mint.to_account_info(),
-            ctx.accounts.authority.to_account_info(),
+            proof.to_account_info(),
             ctx.accounts.payer.to_account_info(),
-            ctx.accounts.authority.to_account_info(),
+            proof.to_account_info(),
             ctx.accounts.system_program.to_account_info(),
             ctx.accounts.rent.to_account_info()
         ],
@@ -123,6 +125,12 @@ pub fn ix(ctx: Context<Paint>, burned: Burned) -> Result<()> {
     )?;
     // proof
     proof.burned = burned;
+    proof.mint = ctx.accounts.mint.key();
+    // index
+    let index = proof_indexer.indexer + 1;
+    proof_index.index = index;
+    proof_index.proof = proof.key();
+    proof_indexer.indexer = index;
     Ok(())
 }
 
