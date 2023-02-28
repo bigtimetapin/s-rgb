@@ -583,7 +583,7 @@ pub struct MintPixel<'info> {
     #[account(init_if_needed,
     seeds = [
     pixel_index_seeds.seed1().as_slice(),
-    pixel_index_seeds.seed2().as_slice(),
+    payer.key().as_ref(),
     pixel_index_seeds.seed3().as_slice(),
     pixel_index_seeds.seed4().as_slice(),
     ], bump,
@@ -594,10 +594,11 @@ pub struct MintPixel<'info> {
     #[account(init_if_needed,
     seeds = [
     pixel_index_lookup_seeds.seed1().as_slice(),
-    pixel_index_lookup_seeds.seed2().as_slice(),
+    payer.key().as_ref(),
     pixel_index_lookup_seeds.seed3().as_slice(),
     pixel_index_lookup_seeds.seed4().as_slice(),
     pixel_index_lookup_seeds.seed5().as_slice(),
+    pixel_index_lookup_seeds.seed6().as_slice(),
     ], bump,
     space = pda::pixel::pixel_index_lookup::SIZE,
     payer = payer,
@@ -606,7 +607,7 @@ pub struct MintPixel<'info> {
     #[account(init_if_needed,
     seeds = [
     palette_seeds.seed1().as_slice(),
-    palette_seeds.seed2().as_slice(),
+    payer.key().as_ref(),
     palette_seeds.seed3().as_slice(),
     ], bump,
     space = pda::pixel::palette::SIZE,
@@ -721,7 +722,7 @@ pub struct MergePixel<'info> {
     #[account(init_if_needed,
     seeds = [
     dst_pixel_index_seeds.seed1().as_slice(),
-    dst_pixel_index_seeds.seed2().as_slice(),
+    payer.key().as_ref(),
     dst_pixel_index_seeds.seed3().as_slice(),
     dst_pixel_index_seeds.seed4().as_slice(),
     ], bump,
@@ -732,10 +733,11 @@ pub struct MergePixel<'info> {
     #[account(init_if_needed,
     seeds = [
     dst_pixel_index_lookup_seeds.seed1().as_slice(),
-    dst_pixel_index_lookup_seeds.seed2().as_slice(),
+    payer.key().as_ref(),
     dst_pixel_index_lookup_seeds.seed3().as_slice(),
     dst_pixel_index_lookup_seeds.seed4().as_slice(),
     dst_pixel_index_lookup_seeds.seed5().as_slice(),
+    dst_pixel_index_lookup_seeds.seed6().as_slice(),
     ], bump,
     space = pda::pixel::pixel_index_lookup::SIZE,
     payer = payer,
@@ -744,7 +746,7 @@ pub struct MergePixel<'info> {
     #[account(init_if_needed,
     seeds = [
     dst_palette_seeds.seed1().as_slice(),
-    dst_palette_seeds.seed2().as_slice(),
+    payer.key().as_ref(),
     dst_palette_seeds.seed3().as_slice(),
     ], bump,
     space = pda::pixel::palette::SIZE,
@@ -824,7 +826,7 @@ pub struct AddPixel<'info> {
     #[account(init_if_needed,
     seeds = [
     dst_pixel_index_seeds.seed1().as_slice(),
-    dst_pixel_index_seeds.seed2().as_slice(),
+    payer.key().as_ref(),
     dst_pixel_index_seeds.seed3().as_slice(),
     dst_pixel_index_seeds.seed4().as_slice(),
     ], bump,
@@ -835,10 +837,11 @@ pub struct AddPixel<'info> {
     #[account(init_if_needed,
     seeds = [
     dst_pixel_index_lookup_seeds.seed1().as_slice(),
-    dst_pixel_index_lookup_seeds.seed2().as_slice(),
+    payer.key().as_ref(),
     dst_pixel_index_lookup_seeds.seed3().as_slice(),
     dst_pixel_index_lookup_seeds.seed4().as_slice(),
     dst_pixel_index_lookup_seeds.seed5().as_slice(),
+    dst_pixel_index_lookup_seeds.seed6().as_slice(),
     ], bump,
     space = pda::pixel::pixel_index_lookup::SIZE,
     payer = payer,
@@ -847,7 +850,7 @@ pub struct AddPixel<'info> {
     #[account(mut,
     seeds = [
     dst_palette.seed1().as_slice(),
-    dst_palette.seed2().as_slice(),
+    payer.key().as_ref(),
     dst_palette.seed3().as_slice(),
     ], bump,
     )]
@@ -935,7 +938,7 @@ pub struct SeparatePixel<'info> {
     #[account(init_if_needed,
     seeds = [
     dst_pixel_index_seeds.seed1().as_slice(),
-    dst_pixel_index_seeds.seed2().as_slice(),
+    payer.key().as_ref(),
     dst_pixel_index_seeds.seed3().as_slice(),
     dst_pixel_index_seeds.seed4().as_slice(),
     ], bump,
@@ -946,10 +949,11 @@ pub struct SeparatePixel<'info> {
     #[account(init_if_needed,
     seeds = [
     dst_pixel_index_lookup_seeds.seed1().as_slice(),
-    dst_pixel_index_lookup_seeds.seed2().as_slice(),
+    payer.key().as_ref(),
     dst_pixel_index_lookup_seeds.seed3().as_slice(),
     dst_pixel_index_lookup_seeds.seed4().as_slice(),
     dst_pixel_index_lookup_seeds.seed5().as_slice(),
+    dst_pixel_index_lookup_seeds.seed6().as_slice(),
     ], bump,
     space = pda::pixel::pixel_index_lookup::SIZE,
     payer = payer,
@@ -958,7 +962,7 @@ pub struct SeparatePixel<'info> {
     #[account(mut,
     seeds = [
     dst_palette.seed1().as_slice(),
-    dst_palette.seed2().as_slice(),
+    payer.key().as_ref(),
     dst_palette.seed3().as_slice(),
     ], bump,
     )]
