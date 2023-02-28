@@ -46,10 +46,10 @@ export async function ix(
         dstPixelSeeds
     );
     const dstPixel = await InitPixel.getOrInit(
-        app,
         provider,
         programs,
-        dstPixelSeeds
+        dstPixelSeeds,
+        dstPixelPda
     );
     const dstPalettePda = Palette.derivePalettePda(
         programs.sRgb,

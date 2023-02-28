@@ -5,25 +5,21 @@ import {Keypair, SystemProgram, SYSVAR_RENT_PUBKEY} from "@solana/web3.js";
 import {SPL_TOKEN_PROGRAM_ID} from "../../util/constants";
 
 export async function ix(
-    app,
     provider: AnchorProvider,
     programs: {
         sRgb: Program<SRgb>;
         token: Program<SplToken>
     },
-    seeds: Pixel.Seeds
+    pixelSeeds: Pixel.Seeds,
+    pixelPda: Pixel.PixelPda
 ): Promise<void> {
-    const pixelPda = Pixel.derivePixelPda(
-        programs.sRgb,
-        seeds
-    );
     const pixelMint = Keypair.generate(
     );
     await programs
         .sRgb
         .methods
         .initPixel(
-            seeds as any
+            pixelSeeds as any
         ).accounts(
             {
                 pixel: pixelPda.address,
@@ -39,18 +35,14 @@ export async function ix(
 }
 
 export async function getOrInit(
-    app,
     provider: AnchorProvider,
     programs: {
         sRgb: Program<SRgb>;
         token: Program<SplToken>
     },
     pixelSeeds: Pixel.Seeds,
+    pixelPda: Pixel.PixelPda
 ): Promise<Pixel.Pixel> {
-    const pixelPda = Pixel.derivePixelPda(
-        programs.sRgb,
-        pixelSeeds
-    );
     let pixel: Pixel.Pixel;
     try {
         pixel = await Pixel.getPixelPda(
@@ -61,10 +53,10 @@ export async function getOrInit(
     } catch (error) {
         console.log(error);
         await ix(
-            app,
             provider,
             programs,
-            pixelSeeds
+            pixelSeeds,
+            pixelPda
         );
         pixel = await Pixel.getPixelPda(
             provider,

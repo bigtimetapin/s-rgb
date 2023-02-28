@@ -50,26 +50,12 @@ export async function ix(
         programs.sRgb,
         dstPixelSeeds
     );
-    let dstPixel: Pixel.Pixel;
-    try {
-        dstPixel = await Pixel.getPixelPda(
-            provider,
-            programs,
-            dstPixelPda
-        );
-    } catch (error) {
-        await InitPixel.ix(
-            app,
-            provider,
-            programs,
-            dstPixelSeeds
-        );
-        dstPixel = await Pixel.getPixelPda(
-            provider,
-            programs,
-            dstPixelPda
-        );
-    }
+    const dstPixel: Pixel.Pixel = await InitPixel.getOrInit(
+        provider,
+        programs,
+        dstPixelSeeds,
+        dstPixelPda
+    );
     const dstPalettePda = Palette.derivePalettePda(
         programs.sRgb,
         {

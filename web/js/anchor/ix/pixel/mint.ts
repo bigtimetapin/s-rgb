@@ -24,26 +24,12 @@ export async function ix(
         programs.sRgb,
         pixelSeeds
     );
-    let pixel: Pixel.Pixel;
-    try {
-        pixel = await Pixel.getPixelPda(
-            provider,
-            programs,
-            pixelPda
-        );
-    } catch (error) {
-        await InitPixel.ix(
-            app,
-            provider,
-            programs,
-            pixelSeeds
-        );
-        pixel = await Pixel.getPixelPda(
-            provider,
-            programs,
-            pixelPda
-        );
-    }
+    let pixel: Pixel.Pixel = await InitPixel.getOrInit(
+        provider,
+        programs,
+        pixelSeeds,
+        pixelPda
+    );
     const pixelIndexLookupPda = PixelIndexLookup.derivePixelIndexLookupPda(
         programs.sRgb,
         pixelSeeds

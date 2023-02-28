@@ -48,126 +48,140 @@ export async function ix(
         programs.sRgb,
         proofIndexer.indexer + 1
     );
+    const redPixelSeeds = {
+        r: 1,
+        g: 0,
+        b: 0,
+        depth: 1
+    };
     const redPixelPda = Pixel.derivePixelPda(
         programs.sRgb,
-        {
-            r: 1,
-            g: 0,
-            b: 0,
-            depth: 1
-        }
+        redPixelSeeds
     );
     const redPixel = await InitPixel.getOrInit(
         provider,
         programs,
+        redPixelSeeds,
         redPixelPda
     );
     const redPixelMintAta = deriveAtaPda(
         provider.wallet.publicKey,
         redPixel.mint
     );
+    const greenPixelSeeds = {
+        r: 0,
+        g: 1,
+        b: 0,
+        depth: 1
+    };
     const greenPixelPda = Pixel.derivePixelPda(
         programs.sRgb,
-        {
-            r: 0,
-            g: 1,
-            b: 0,
-            depth: 1
-        }
+        greenPixelSeeds
     );
     const greenPixel = await InitPixel.getOrInit(
         provider,
         programs,
+        greenPixelSeeds,
         greenPixelPda
     );
     const greenPixelMintAta = deriveAtaPda(
         provider.wallet.publicKey,
         greenPixel.mint
     );
+    const bluePixelSeeds = {
+        r: 0,
+        g: 0,
+        b: 1,
+        depth: 1
+    };
     const bluePixelPda = Pixel.derivePixelPda(
         programs.sRgb,
-        {
-            r: 0,
-            g: 0,
-            b: 1,
-            depth: 1
-        }
+        bluePixelSeeds
     );
     const bluePixel = await InitPixel.getOrInit(
         provider,
         programs,
+        bluePixelSeeds,
         bluePixelPda
     );
     const bluePixelMintAta = deriveAtaPda(
         provider.wallet.publicKey,
         bluePixel.mint
     );
+    const yellowPixelSeeds = {
+        r: 1,
+        g: 1,
+        b: 0,
+        depth: 1
+    };
     const yellowPixelPda = Pixel.derivePixelPda(
         programs.sRgb,
-        {
-            r: 1,
-            g: 1,
-            b: 0,
-            depth: 1
-        }
+        yellowPixelSeeds
     );
     const yellowPixel = await InitPixel.getOrInit(
         provider,
         programs,
+        yellowPixelSeeds,
         yellowPixelPda
     );
     const yellowPixelMintAta = deriveAtaPda(
         provider.wallet.publicKey,
         yellowPixel.mint
     );
+    const magentaPixelSeeds = {
+        r: 1,
+        g: 0,
+        b: 1,
+        depth: 1
+    };
     const magentaPixelPda = Pixel.derivePixelPda(
         programs.sRgb,
-        {
-            r: 1,
-            g: 0,
-            b: 1,
-            depth: 1
-        }
+        magentaPixelSeeds
     );
     const magentaPixel = await InitPixel.getOrInit(
         provider,
         programs,
+        magentaPixelSeeds,
         magentaPixelPda
     );
     const magentaPixelMintAta = deriveAtaPda(
         provider.wallet.publicKey,
         magentaPixel.mint
     );
+    const cyanPixelSeeds = {
+        r: 0,
+        g: 1,
+        b: 1,
+        depth: 1
+    };
     const cyanPixelPda = Pixel.derivePixelPda(
         programs.sRgb,
-        {
-            r: 0,
-            g: 1,
-            b: 1,
-            depth: 1
-        }
+        cyanPixelSeeds
     );
     const cyanPixel = await InitPixel.getOrInit(
         provider,
         programs,
+        cyanPixelSeeds,
         cyanPixelPda
     );
     const cyanPixelMintAta = deriveAtaPda(
         provider.wallet.publicKey,
         cyanPixel.mint
     );
+    const whitePixelSeeds = {
+        r: 1,
+        g: 1,
+        b: 1,
+        depth: 1
+    };
     const whitePixelPda = Pixel.derivePixelPda(
         programs.sRgb,
-        {
-            r: 1,
-            g: 1,
-            b: 1,
-            depth: 1
-        }
+        whitePixelSeeds
     );
     const whitePixel = await InitPixel.getOrInit(
         provider,
         programs,
+        whitePixelSeeds,
         whitePixelPda
     );
     const whitePixelMintAta = deriveAtaPda(

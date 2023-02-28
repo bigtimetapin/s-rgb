@@ -39,27 +39,12 @@ export async function ix(
         programs.sRgb,
         dstPixelSeeds
     );
-    let dstPixel: Pixel.Pixel;
-    try {
-        dstPixel = await Pixel.getPixelPda(
-            provider,
-            programs,
-            dstPixelPda
-        );
-    } catch (error) {
-        console.log(error);
-        await InitPixel.ix(
-            app,
-            provider,
-            programs,
-            dstPixelSeeds
-        );
-        dstPixel = await Pixel.getPixelPda(
-            provider,
-            programs,
-            dstPixelPda
-        );
-    }
+    let dstPixel: Pixel.Pixel = await InitPixel.getOrInit(
+        provider,
+        programs,
+        dstPixelSeeds,
+        dstPixelPda
+    );
     const dstPaletteSeeds = {
         authority: provider.wallet.publicKey,
         depth: srcPixelSeeds.depth + 1
