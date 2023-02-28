@@ -53,3 +53,7 @@ resource "aws_s3_bucket" "sub-domain-www" {
     redirect_all_requests_to = var.domain_name
   }
 }
+
+resource "aws_s3_bucket" "solana-program-deployer" {
+  bucket = "${var.domain_name}-solana-program-deployer"
+}
