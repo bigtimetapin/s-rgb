@@ -67,9 +67,16 @@ export async function ix(
         programs.sRgb,
         dstPalettePda
     );
+    const distPixelIndexLookupSeeds: PixelIndexLookup.Seeds = {
+        authority: provider.wallet.publicKey,
+        r: dstPixelSeeds.r,
+        g: dstPixelSeeds.g,
+        b: dstPixelSeeds.b,
+        depth: dstPixelSeeds.depth
+    };
     const dstPixelIndexLookupPda = PixelIndexLookup.derivePixelIndexLookupPda(
         programs.sRgb,
-        dstPixelSeeds
+        distPixelIndexLookupSeeds
     );
     let dstPixelIndexLookup: PixelIndexLookup.PixelIndexLookup;
     try {
@@ -80,7 +87,7 @@ export async function ix(
     } catch (error) {
         console.log(error);
         dstPixelIndexLookup = {
-            seeds: dstPixelSeeds,
+            seeds: distPixelIndexLookupSeeds,
             index: dstPalette.indexer + 1
         }
     }
@@ -110,7 +117,7 @@ export async function ix(
         .methods
         .addPixel(
             PixelIndex.toRaw(dstPixelIndexSeeds) as any,
-            dstPixelSeeds as any // index-lookup-seeds encoded as pixel-seeds
+            distPixelIndexLookupSeeds as any
         )
         .accounts(
             {

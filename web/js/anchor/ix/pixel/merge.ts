@@ -66,12 +66,13 @@ export async function ix(
             indexer: 0
         };
     }
-    const dstPixelIndexLookupSeeds = {
+    const dstPixelIndexLookupSeeds: PixelIndexLookup.Seeds = {
+        authority: provider.wallet.publicKey,
         r: srcPixelSeeds.r,
         g: srcPixelSeeds.g,
         b: srcPixelSeeds.b,
         depth: srcPixelSeeds.depth + 1
-    } as Pixel.Seeds;
+    };
     const dstPixelIndexLookupPda = PixelIndexLookup.derivePixelIndexLookupPda(
         programs.sRgb,
         dstPixelIndexLookupSeeds
@@ -84,7 +85,7 @@ export async function ix(
         );
     } catch (error) {
         dstPixelIndexLookup = {
-            seeds: dstPixelSeeds,
+            seeds: dstPixelIndexLookupSeeds,
             index: dstPalette.indexer + 1
         };
     }

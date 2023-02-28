@@ -8,8 +8,12 @@ export interface PixelIndexLookupPda extends Pda {
 }
 
 export interface PixelIndexLookup {
-    seeds: Pixel.Seeds
+    seeds: Seeds
     index: number // encoded as bn
+}
+
+export interface Seeds extends Pixel.Seeds {
+    authority: PublicKey
 }
 
 export async function getPixelIndexLookupPda(program: Program<SRgb>, pda: PixelIndexLookupPda): Promise<PixelIndexLookup> {
@@ -22,12 +26,14 @@ export async function getPixelIndexLookupPda(program: Program<SRgb>, pda: PixelI
     }
 }
 
-export function derivePixelIndexLookupPda(program: Program<SRgb>, seeds: Pixel.Seeds): PixelIndexLookupPda {
+export function derivePixelIndexLookupPda(program: Program<SRgb>, seeds: Seeds): PixelIndexLookupPda {
     let pda, bump;
     [pda, bump] = PublicKey.findProgramAddressSync(
         [
             Buffer.from(
                 SEED
+            ),
+            seeds.authority.toBuffer(
             ),
             Buffer.from(
                 seeds.r.toString()

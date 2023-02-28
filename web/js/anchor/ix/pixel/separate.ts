@@ -62,9 +62,16 @@ export async function ix(
         programs.sRgb,
         dstPalettePda
     );
+    const dstPixelIndexLookupSeeds: PixelIndexLookup.Seeds = {
+        authority: provider.wallet.publicKey,
+        r: dstPixelSeeds.r,
+        g: dstPixelSeeds.g,
+        b: dstPixelSeeds.b,
+        depth: dstPixelSeeds.depth
+    };
     const dstPixelIndexLookupPda = PixelIndexLookup.derivePixelIndexLookupPda(
         programs.sRgb,
-        dstPixelSeeds
+        dstPixelIndexLookupSeeds
     );
     const dstPixelIndexSeeds = await PixelIndex.getOrIncrementSeeds(
         provider,
@@ -89,7 +96,7 @@ export async function ix(
         .methods
         .separatePixel(
             PixelIndex.toRaw(dstPixelIndexSeeds) as any,
-            dstPixelSeeds as any // encoded as lookup-seeds
+            dstPixelIndexLookupSeeds as any
         ).accounts(
             {
                 leftPixel: leftPixelPda.address,

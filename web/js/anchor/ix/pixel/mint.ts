@@ -30,9 +30,16 @@ export async function ix(
         pixelSeeds,
         pixelPda
     );
+    const pixelIndexLookupSeeds: PixelIndexLookup.Seeds = {
+        authority: provider.wallet.publicKey,
+        r: pixelSeeds.r,
+        g: pixelSeeds.g,
+        b: pixelSeeds.b,
+        depth: pixelSeeds.depth
+    };
     const pixelIndexLookupPda = PixelIndexLookup.derivePixelIndexLookupPda(
         programs.sRgb,
-        pixelSeeds
+        pixelIndexLookupSeeds
     );
     const paletteSeeds: Palette.Seeds = {
         authority: provider.wallet.publicKey,
@@ -64,7 +71,7 @@ export async function ix(
     } catch (error) {
         console.log(error);
         pixelIndexLookup = {
-            seeds: pixelSeeds,
+            seeds: pixelIndexLookupSeeds,
             index: palette.indexer + 1
         }
     }
@@ -119,7 +126,7 @@ export async function ix(
         .methods
         .mintPixel(
             PixelIndex.toRaw(pixelIndexSeeds) as any,
-            pixelSeeds as any, // encoded as pixel-index-lookup-seeds
+            pixelIndexLookupSeeds as any,
             paletteSeeds as any
         )
         .accounts(
