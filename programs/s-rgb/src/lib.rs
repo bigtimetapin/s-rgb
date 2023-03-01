@@ -4,7 +4,7 @@ use anchor_spl::token::{Mint, Token, TokenAccount};
 use mpl_token_metadata::state::{PREFIX};
 use crate::pda::authority::authority::Authority;
 use crate::pda::{HasSixSeeds, HasFiveSeeds, HasFourSeeds, HasThreeSeeds};
-use crate::pda::paint::proof::{Burned, Proof};
+use crate::pda::paint::proof::{Plan, Proof};
 use crate::pda::paint::proof_index::ProofIndex;
 use crate::pda::paint::proof_indexer::ProofIndexer;
 use crate::pda::pixel::palette::{Palette, PaletteSeeds};
@@ -114,8 +114,8 @@ pub mod s_rgb {
         Ok(())
     }
 
-    pub fn paint(ctx: Context<Paint>, burned: Burned) -> Result<()> {
-        ix::paint::paint::ix(ctx, burned)
+    pub fn mint_nft_for_paint(ctx: Context<MintNftForPaint>, plan: Plan, url: Pubkey) -> Result<()> {
+        ix::paint::mint::ix(ctx, plan, url)
     }
 }
 
@@ -1019,7 +1019,7 @@ pub struct InitProofIndexer<'info> {
 }
 
 #[derive(Accounts)]
-pub struct Paint<'info> {
+pub struct MintNftForPaint<'info> {
     // pda
     #[account(init,
     seeds = [
@@ -1047,6 +1047,52 @@ pub struct Paint<'info> {
     ], bump,
     )]
     pub proof_indexer: Box<Account<'info, ProofIndexer>>,
+    // cpi accounts
+    #[account(init,
+    mint::authority = proof,
+    mint::freeze_authority = proof,
+    mint::decimals = 0,
+    payer = payer
+    )]
+    pub mint: Box<Account<'info, Mint>>,
+    #[account(init,
+    associated_token::mint = mint,
+    associated_token::authority = payer,
+    payer = payer
+    )]
+    pub mint_ata: Box<Account<'info, TokenAccount>>,
+    #[account(mut,
+    seeds = [
+    PREFIX.as_bytes(),
+    metadata_program.key().as_ref(),
+    mint.key().as_ref()
+    ], bump,
+    seeds::program = metadata_program.key()
+    )]
+    /// CHECK: uninitialized metadata
+    pub metadata: UncheckedAccount<'info>,
+    // payer
+    #[account(mut)]
+    pub payer: Signer<'info>,
+    // cpi programs
+    pub token_program: Program<'info, Token>,
+    pub associated_token_program: Program<'info, AssociatedToken>,
+    pub metadata_program: Program<'info, MetadataProgram>,
+    // system
+    pub system_program: Program<'info, System>,
+    pub rent: Sysvar<'info, Rent>,
+}
+
+#[derive(Accounts)]
+pub struct BurnPixelsForPaint<'info> {
+    // pda
+    #[account(mut,
+    seeds = [
+    pda::paint::proof::SEED.as_bytes(),
+    & mint.key().to_bytes()
+    ], bump,
+    )]
+    pub proof: Box<Account<'info, Proof>>,
     #[account(
     seeds = [
     pda::pixel::pixel::SEED.as_bytes(),
@@ -1188,36 +1234,21 @@ pub struct Paint<'info> {
     payer = payer
     )]
     pub white_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
-    #[account(init,
-    mint::authority = proof,
-    mint::freeze_authority = proof,
-    mint::decimals = 0,
-    payer = payer
+    #[account(mut,
+    address = proof.nft.mint
     )]
     pub mint: Box<Account<'info, Mint>>,
-    #[account(init,
+    #[account(
     associated_token::mint = mint,
-    associated_token::authority = payer,
-    payer = payer
+    associated_token::authority = payer
     )]
     pub mint_ata: Box<Account<'info, TokenAccount>>,
-    #[account(mut,
-    seeds = [
-    PREFIX.as_bytes(),
-    metadata_program.key().as_ref(),
-    mint.key().as_ref()
-    ], bump,
-    seeds::program = metadata_program.key()
-    )]
-    /// CHECK: uninitialized metadata
-    pub metadata: UncheckedAccount<'info>,
     // payer
     #[account(mut)]
     pub payer: Signer<'info>,
     // cpi programs
     pub token_program: Program<'info, Token>,
     pub associated_token_program: Program<'info, AssociatedToken>,
-    pub metadata_program: Program<'info, MetadataProgram>,
     // system
     pub system_program: Program<'info, System>,
     pub rent: Sysvar<'info, Rent>,

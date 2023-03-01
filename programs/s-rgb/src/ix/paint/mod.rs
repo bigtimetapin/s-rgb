@@ -1,1 +1,1 @@
-pub mod paint;
+pub mod mint;
