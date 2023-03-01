@@ -206,49 +206,49 @@ export async function ix(
         cyan: new BN(1),
         white: new BN(1)
     };
-    await programs
-        .sRgb
-        .methods
-        .paint(
-            burned as any
-        )
-        .accounts(
-            {
-                proof: proofPda.address,
-                proofIndex: proofIndexPda.address,
-                proofIndexer: proofIndexerPda.address,
-                redPixel: redPixelPda.address,
-                greenPixel: greenPixelPda.address,
-                bluePixel: bluePixelPda.address,
-                yellowPixel: yellowPixelPda.address,
-                magentaPixel: magentaPixelPda.address,
-                cyanPixel: cyanPixelPda.address,
-                whitePixel: whitePixelPda.address,
-                redPixelMint: redPixel.mint,
-                redPixelMintAta: redPixelMintAta,
-                greenPixelMint: greenPixel.mint,
-                greenPixelMintAta: greenPixelMintAta,
-                bluePixelMint: bluePixel.mint,
-                bluePixelMintAta: bluePixelMintAta,
-                yellowPixelMint: yellowPixel.mint,
-                yellowPixelMintAta: yellowPixelMintAta,
-                magentaPixelMint: magentaPixel.mint,
-                magentaPixelMintAta: magentaPixelMintAta,
-                cyanPixelMint: cyanPixel.mint,
-                cyanPixelMintAta: cyanPixelMintAta,
-                whitePixelMint: whitePixel.mint,
-                whitePixelMintAta: whitePixelMintAta,
-                mint: mint.publicKey,
-                mintAta: mintAta,
-                metadata: metadataPda,
-                payer: provider.wallet.publicKey,
-                tokenProgram: SPL_TOKEN_PROGRAM_ID,
-                associatedTokenProgram: SPL_ASSOCIATED_TOKEN_PROGRAM_ID,
-                metadataProgram: MPL_TOKEN_METADATA_PROGRAM_ID,
-                systemProgram: SystemProgram.programId,
-                rent: SYSVAR_RENT_PUBKEY
-            }
-        ).rpc();
+    //await programs
+    //    .sRgb
+    //    .methods
+    //    .paint(
+    //        burned as any
+    //    )
+    //    .accounts(
+    //        {
+    //            proof: proofPda.address,
+    //            proofIndex: proofIndexPda.address,
+    //            proofIndexer: proofIndexerPda.address,
+    //            redPixel: redPixelPda.address,
+    //            greenPixel: greenPixelPda.address,
+    //            bluePixel: bluePixelPda.address,
+    //            yellowPixel: yellowPixelPda.address,
+    //            magentaPixel: magentaPixelPda.address,
+    //            cyanPixel: cyanPixelPda.address,
+    //            whitePixel: whitePixelPda.address,
+    //            redPixelMint: redPixel.mint,
+    //            redPixelMintAta: redPixelMintAta,
+    //            greenPixelMint: greenPixel.mint,
+    //            greenPixelMintAta: greenPixelMintAta,
+    //            bluePixelMint: bluePixel.mint,
+    //            bluePixelMintAta: bluePixelMintAta,
+    //            yellowPixelMint: yellowPixel.mint,
+    //            yellowPixelMintAta: yellowPixelMintAta,
+    //            magentaPixelMint: magentaPixel.mint,
+    //            magentaPixelMintAta: magentaPixelMintAta,
+    //            cyanPixelMint: cyanPixel.mint,
+    //            cyanPixelMintAta: cyanPixelMintAta,
+    //            whitePixelMint: whitePixel.mint,
+    //            whitePixelMintAta: whitePixelMintAta,
+    //            mint: mint.publicKey,
+    //            mintAta: mintAta,
+    //            metadata: metadataPda,
+    //            payer: provider.wallet.publicKey,
+    //            tokenProgram: SPL_TOKEN_PROGRAM_ID,
+    //            associatedTokenProgram: SPL_ASSOCIATED_TOKEN_PROGRAM_ID,
+    //            metadataProgram: MPL_TOKEN_METADATA_PROGRAM_ID,
+    //            systemProgram: SystemProgram.programId,
+    //            rent: SYSVAR_RENT_PUBKEY
+    //        }
+    //    ).rpc();
     await getGlobal(
         app,
         provider,

@@ -4,7 +4,7 @@ import * as Init from "./anchor/ix/init";
 import * as HarvestBlue from "./anchor/ix/harvest/blue";
 import * as HarvestGreen from "./anchor/ix/harvest/green";
 import * as HarvestRed from "./anchor/ix/harvest/red";
-import * as Paint from "./anchor/ix/paint/paint";
+import * as MintNftForPaint from "./anchor/ix/paint/mint";
 import * as AddPixel from "./anchor/ix/pixel/add";
 import * as MergePixel from "./anchor/ix/pixel/merge";
 import * as MintPixel from "./anchor/ix/pixel/mint";
@@ -235,7 +235,7 @@ export async function main(app, json) {
             // get provider & program
             const pp = getPP(phantom);
             // invoke rpc
-            await Paint.ix(
+            await MintNftForPaint.ix(
                 app,
                 pp.provider,
                 pp.programs

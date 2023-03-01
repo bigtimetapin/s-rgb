@@ -951,7 +951,7 @@ export type SRgb = {
       "args": []
     },
     {
-      "name": "paint",
+      "name": "mintNftForPaint",
       "accounts": [
         {
           "name": "proof",
@@ -965,111 +965,6 @@ export type SRgb = {
         },
         {
           "name": "proofIndexer",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "redPixel",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "greenPixel",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "bluePixel",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "yellowPixel",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "magentaPixel",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "cyanPixel",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "whitePixel",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "redPixelMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "redPixelMintAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "greenPixelMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "greenPixelMintAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "bluePixelMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "bluePixelMintAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "yellowPixelMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "yellowPixelMintAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "magentaPixelMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "magentaPixelMintAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "cyanPixelMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "cyanPixelMintAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "whitePixelMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "whitePixelMintAta",
           "isMut": true,
           "isSigner": false
         },
@@ -1121,10 +1016,14 @@ export type SRgb = {
       ],
       "args": [
         {
-          "name": "burned",
+          "name": "plan",
           "type": {
-            "defined": "Burned"
+            "defined": "Plan"
           }
+        },
+        {
+          "name": "url",
+          "type": "publicKey"
         }
       ]
     }
@@ -1180,13 +1079,15 @@ export type SRgb = {
         "kind": "struct",
         "fields": [
           {
-            "name": "mint",
-            "type": "publicKey"
-          },
-          {
             "name": "burned",
             "type": {
               "defined": "Burned"
+            }
+          },
+          {
+            "name": "nft",
+            "type": {
+              "defined": "Nft"
             }
           }
         ]
@@ -1305,7 +1206,41 @@ export type SRgb = {
   ],
   "types": [
     {
+      "name": "Nft",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "url",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
       "name": "Burned",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "burned",
+            "type": "bool"
+          },
+          {
+            "name": "plan",
+            "type": {
+              "defined": "Plan"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Plan",
       "type": {
         "kind": "struct",
         "fields": [
@@ -2421,7 +2356,7 @@ export const IDL: SRgb = {
       "args": []
     },
     {
-      "name": "paint",
+      "name": "mintNftForPaint",
       "accounts": [
         {
           "name": "proof",
@@ -2435,111 +2370,6 @@ export const IDL: SRgb = {
         },
         {
           "name": "proofIndexer",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "redPixel",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "greenPixel",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "bluePixel",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "yellowPixel",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "magentaPixel",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "cyanPixel",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "whitePixel",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "redPixelMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "redPixelMintAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "greenPixelMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "greenPixelMintAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "bluePixelMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "bluePixelMintAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "yellowPixelMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "yellowPixelMintAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "magentaPixelMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "magentaPixelMintAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "cyanPixelMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "cyanPixelMintAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "whitePixelMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "whitePixelMintAta",
           "isMut": true,
           "isSigner": false
         },
@@ -2591,10 +2421,14 @@ export const IDL: SRgb = {
       ],
       "args": [
         {
-          "name": "burned",
+          "name": "plan",
           "type": {
-            "defined": "Burned"
+            "defined": "Plan"
           }
+        },
+        {
+          "name": "url",
+          "type": "publicKey"
         }
       ]
     }
@@ -2650,13 +2484,15 @@ export const IDL: SRgb = {
         "kind": "struct",
         "fields": [
           {
-            "name": "mint",
-            "type": "publicKey"
-          },
-          {
             "name": "burned",
             "type": {
               "defined": "Burned"
+            }
+          },
+          {
+            "name": "nft",
+            "type": {
+              "defined": "Nft"
             }
           }
         ]
@@ -2775,7 +2611,41 @@ export const IDL: SRgb = {
   ],
   "types": [
     {
+      "name": "Nft",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "url",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
       "name": "Burned",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "burned",
+            "type": "bool"
+          },
+          {
+            "name": "plan",
+            "type": {
+              "defined": "Plan"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Plan",
       "type": {
         "kind": "struct",
         "fields": [
