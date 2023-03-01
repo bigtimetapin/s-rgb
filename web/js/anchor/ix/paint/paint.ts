@@ -1,4 +1,4 @@
-import {AnchorProvider, Program, SplToken} from "@project-serum/anchor";
+import {AnchorProvider, BN, Program, SplToken} from "@project-serum/anchor";
 import {SRgb} from "../../idl/idl";
 import {Keypair, PublicKey, SystemProgram, SYSVAR_RENT_PUBKEY} from "@solana/web3.js";
 import * as InitPixel from "../pixel/init";
@@ -197,14 +197,14 @@ export async function ix(
         ],
         MPL_TOKEN_METADATA_PROGRAM_ID
     );
-    const burned: Proof.Burned = {
-        red: 1,
-        green: 1,
-        blue: 1,
-        yellow: 1,
-        magenta: 1,
-        cyan: 1,
-        white: 1
+    const burned = {
+        red: new BN(1),
+        green: new BN(1),
+        blue: new BN(1),
+        yellow: new BN(1),
+        magenta: new BN(1),
+        cyan: new BN(1),
+        white: new BN(1)
     };
     await programs
         .sRgb
@@ -248,7 +248,7 @@ export async function ix(
                 systemProgram: SystemProgram.programId,
                 rent: SYSVAR_RENT_PUBKEY
             }
-        );
+        ).rpc();
     await getGlobal(
         app,
         provider,

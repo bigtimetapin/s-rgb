@@ -628,6 +628,21 @@ view state =
                             ]
                         ]
                     , Html.div
+                        [ class "mb-6"
+                        ]
+                        [ Html.div
+                            []
+                            [ Html.button
+                                [ class "button"
+                                , onClick <|
+                                    FromUser <|
+                                        UserMsg.Paint
+                                ]
+                                [ Html.text "paint"
+                                ]
+                            ]
+                        ]
+                    , Html.div
                         []
                         [ Html.div
                             [ class "table-container"

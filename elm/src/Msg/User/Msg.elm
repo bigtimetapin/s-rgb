@@ -12,6 +12,7 @@ type Msg
     | MergePixel Pixel.Seeds
     | AddPixel Pixel.Seeds Pixel.Seeds
     | SeparatePixel Pixel.Seeds Pixel.Seeds
+    | Paint
 
 
 toString : Msg -> String
@@ -49,3 +50,6 @@ toString msg =
 
         SeparatePixel _ _ ->
             "user-separate-pixel"
+
+        Paint ->
+            "user-paint"

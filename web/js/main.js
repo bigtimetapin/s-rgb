@@ -4,6 +4,7 @@ import * as Init from "./anchor/ix/init";
 import * as HarvestBlue from "./anchor/ix/harvest/blue";
 import * as HarvestGreen from "./anchor/ix/harvest/green";
 import * as HarvestRed from "./anchor/ix/harvest/red";
+import * as Paint from "./anchor/ix/paint/paint";
 import * as AddPixel from "./anchor/ix/pixel/add";
 import * as MergePixel from "./anchor/ix/pixel/merge";
 import * as MintPixel from "./anchor/ix/pixel/mint";
@@ -226,6 +227,18 @@ export async function main(app, json) {
                 pp.provider,
                 pp.programs,
                 more
+            );
+            // or user paint
+        } else if (sender === "user-paint") {
+            // get phantom
+            phantom = await getPhantom(app);
+            // get provider & program
+            const pp = getPP(phantom);
+            // invoke rpc
+            await Paint.ix(
+                app,
+                pp.provider,
+                pp.programs
             );
             // or throw error
         } else {

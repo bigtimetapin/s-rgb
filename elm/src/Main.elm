@@ -166,6 +166,12 @@ update msg model =
                             }
                     )
 
+                UserMsg.Paint ->
+                    ( Model.waiting model
+                    , sender <|
+                        Sender.encode0 <|
+                            Sender.User fromUserMsg
+                    )
 
         FromJs fromJsMsg ->
             case fromJsMsg of
