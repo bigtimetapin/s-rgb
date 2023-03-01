@@ -9,7 +9,7 @@ mod pda;
 mod ix;
 mod error;
 
-declare_id!("CA5SrtUBZ27Xw47wD9XuSKcDWLBo37WsHaB8oHpd5uke");
+declare_id!("76LubTW8SfX1jYm9nAmXwnpLaTd6h2sxsGaKki8zUHXy");
 
 #[program]
 pub mod s_rgb {
