@@ -8,12 +8,12 @@ import {
     LAMPORTS_PER_SOL,
     SystemProgram,
     SYSVAR_RENT_PUBKEY,
-    Transaction,
     TransactionInstruction
 } from "@solana/web3.js";
 import {SPL_ASSOCIATED_TOKEN_PROGRAM_ID, SPL_TOKEN_PROGRAM_ID, W_SOL} from "../../util/constants";
 import {deriveAtaPda} from "../../pda/ata-pda";
 import {getGlobal} from "../../pda/get-global";
+import {buildTxForMany} from "../../util/tx";
 
 export async function ix(
     app,
@@ -61,22 +61,13 @@ export async function ix(
                 rent: SYSVAR_RENT_PUBKEY,
             }
         ).instruction();
-    const latestBlockhash = await provider.connection.getLatestBlockhash();
-    const tx = new Transaction(
-        {
-            recentBlockhash: latestBlockhash.blockhash,
-            feePayer: provider.wallet.publicKey
-        }
-    );
-    tx.add(
-        ix
-    );
-    const ready = {
-        tx: tx,
-        signers: [
+    const ready = await buildTxForMany(
+        provider,
+        ix,
+        [
             greenStakeTokenAccount
         ]
-    };
+    )
     const sent = await provider.sendAll(
         [
             ready

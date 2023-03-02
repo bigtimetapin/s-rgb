@@ -1026,6 +1026,152 @@ export type SRgb = {
           "type": "publicKey"
         }
       ]
+    },
+    {
+      "name": "burnPixelsForPaint",
+      "accounts": [
+        {
+          "name": "proof",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "redPixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "greenPixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bluePixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "yellowPixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "magentaPixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "cyanPixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "whitePixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "redPixelMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "redPixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "greenPixelMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "greenPixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bluePixelMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bluePixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "yellowPixelMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "yellowPixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "magentaPixelMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "magentaPixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "cyanPixelMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "cyanPixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whitePixelMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whitePixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
     }
   ],
   "accounts": [
@@ -2431,6 +2577,152 @@ export const IDL: SRgb = {
           "type": "publicKey"
         }
       ]
+    },
+    {
+      "name": "burnPixelsForPaint",
+      "accounts": [
+        {
+          "name": "proof",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "redPixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "greenPixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "bluePixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "yellowPixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "magentaPixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "cyanPixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "whitePixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "redPixelMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "redPixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "greenPixelMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "greenPixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bluePixelMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bluePixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "yellowPixelMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "yellowPixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "magentaPixelMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "magentaPixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "cyanPixelMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "cyanPixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whitePixelMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "whitePixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
     }
   ],
   "accounts": [

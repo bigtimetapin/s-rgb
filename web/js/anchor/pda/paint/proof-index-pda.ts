@@ -15,12 +15,17 @@ export async function getMany(program: Program<SRgb>, pdaArray: ProofIndexPda[])
     const fetched = (await program.account.proofIndex.fetchMultiple(
         pdaArray.map(pda => pda.address)
     )).filter(Boolean) as any[];
-    return fetched.map(obj => {
-            return {
-                proof: obj.proof,
-                index: obj.index.toNumber()
-            } as ProofIndex
-        }
+    return fetched.map(obj =>
+        fromObj(obj)
+    )
+}
+
+export async function get(program: Program<SRgb>, pda: ProofIndexPda): Promise<ProofIndex> {
+    const fetched = await program.account.proofIndex.fetch(
+        pda.address
+    );
+    return fromObj(
+        fetched
     )
 }
 
@@ -38,6 +43,13 @@ export function derive(provider: AnchorProvider, program: Program<SRgb>, index: 
         address: pda,
         bump
     }
+}
+
+function fromObj(obj: any): ProofIndex {
+    return {
+        proof: obj.proof,
+        index: obj.index.toNumber()
+    } as ProofIndex
 }
 
 const SEED = "proof-index";

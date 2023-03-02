@@ -13,6 +13,7 @@ import {
     SPL_TOKEN_PROGRAM_ID
 } from "../../util/constants";
 import {getGlobal} from "../../pda/get-global";
+import * as Burn from "./burn";
 
 export async function ix(
     app,
@@ -93,6 +94,10 @@ export async function ix(
                 mint
             ]
         ).rpc();
+    await Burn.ix(
+        provider,
+        programs
+    );
     await getGlobal(
         app,
         provider,
