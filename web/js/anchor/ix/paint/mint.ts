@@ -88,6 +88,10 @@ export async function ix(
                 systemProgram: SystemProgram.programId,
                 rent: SYSVAR_RENT_PUBKEY
             }
+        ).signers(
+            [
+                mint
+            ]
         ).rpc();
     await getGlobal(
         app,
