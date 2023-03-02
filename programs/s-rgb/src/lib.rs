@@ -18,7 +18,7 @@ mod pda;
 mod ix;
 mod error;
 
-declare_id!("3tgVL9TfPbEe7tgxjjmMCLUMzyFqspJkGW3u4hiEoFu6");
+declare_id!("AKp4ZmWbXB11bd8xYLW2eZpqJSgXfvDQNSJRrGazKKAx");
 
 #[program]
 pub mod s_rgb {

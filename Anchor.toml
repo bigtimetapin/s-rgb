@@ -2,7 +2,7 @@
 seeds = false
 skip-lint = false
 [programs.mainnet]
-s_rgb= "3tgVL9TfPbEe7tgxjjmMCLUMzyFqspJkGW3u4hiEoFu6"
+s_rgb= "AKp4ZmWbXB11bd8xYLW2eZpqJSgXfvDQNSJRrGazKKAx"
 
 [registry]
 url = "https://api.apr.dev"
