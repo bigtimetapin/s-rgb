@@ -117,6 +117,10 @@ pub mod s_rgb {
     pub fn mint_nft_for_paint(ctx: Context<MintNftForPaint>, plan: Plan, url: Pubkey) -> Result<()> {
         ix::paint::mint::ix(ctx, plan, url)
     }
+
+    pub fn burn_pixels_for_paint(ctx: Context<BurnPixelsForPaint>) -> Result<()> {
+        ix::paint::burn::ix(ctx)
+    }
 }
 
 #[derive(Accounts)]
@@ -1238,11 +1242,6 @@ pub struct BurnPixelsForPaint<'info> {
     address = proof.nft.mint
     )]
     pub mint: Box<Account<'info, Mint>>,
-    #[account(
-    associated_token::mint = mint,
-    associated_token::authority = payer
-    )]
-    pub mint_ata: Box<Account<'info, TokenAccount>>,
     // payer
     #[account(mut)]
     pub payer: Signer<'info>,
