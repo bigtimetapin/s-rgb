@@ -17,6 +17,7 @@ pub fn ix(ctx: Context<MintNftForPaint>, plan: Plan, url: Pubkey) -> Result<()> 
     ).unwrap();
     let seeds = &[
         pda::paint::proof::SEED.as_bytes(),
+        &ctx.accounts.mint.key().to_bytes(),
         &[bump]
     ];
     let signer_seeds = &[&seeds[..]];
