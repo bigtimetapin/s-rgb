@@ -21,7 +21,7 @@ mod error;
 declare_id!("AKp4ZmWbXB11bd8xYLW2eZpqJSgXfvDQNSJRrGazKKAx");
 
 #[program]
-pub mod s_rgb {
+pub mod s_rgb_stake {
     use super::*;
 
     pub fn init(ctx: Context<Init>) -> Result<()> {
