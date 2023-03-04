@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 use crate::error::CustomErrors;
 use crate::InitPixelMint;
-use crate::pda::pixel::pixel::PixelSeeds;
+use crate::pda::craft::pixel::PixelSeeds;
 
 pub fn ix(ctx: Context<InitPixelMint>, seeds: PixelSeeds) -> Result<()> {
     let pixel = &mut ctx.accounts.pixel;

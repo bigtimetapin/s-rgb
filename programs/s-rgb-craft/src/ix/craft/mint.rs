@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{burn, Burn, mint_to, MintTo, TokenAccount};
-use crate::{HasFiveSeeds, MintPixel, Palette, PaletteSeeds, pda::pixel::{
+use crate::{HasFiveSeeds, MintPixel, Palette, PaletteSeeds, pda::craft::{
     pixel,
 }, Pixel, PixelIndexLookupSeeds, PixelIndexSeeds};
 use crate::error::CustomErrors;

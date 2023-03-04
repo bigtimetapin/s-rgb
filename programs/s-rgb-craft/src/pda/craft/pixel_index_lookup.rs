@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 use crate::pda::HasSixSeeds;
-use crate::pda::pixel::pixel::SEEDS_SIZE;
+use crate::pda::craft::pixel::SEEDS_SIZE;
 
 pub const SEED: &str = "pixel-index-lookup";
 

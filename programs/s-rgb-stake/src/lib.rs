@@ -5,7 +5,7 @@ use crate::pda::authority::authority::Authority;
 use crate::pda::primary::primary::Primary;
 use crate::pda::stake::stake::Stake;
 
-mod pda;
+pub mod pda;
 mod ix;
 
 declare_id!("AKp4ZmWbXB11bd8xYLW2eZpqJSgXfvDQNSJRrGazKKAx");

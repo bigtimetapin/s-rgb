@@ -2,7 +2,7 @@ use anchor_lang::prelude::*;
 use anchor_spl::token::{burn, Burn, mint_to, MintTo};
 use crate::{AddPixel, HasFiveSeeds, Pixel, PixelIndexLookupSeeds, PixelIndexSeeds};
 use crate::error::CustomErrors;
-use crate::ix::pixel::math::{assert_depth, index};
+use crate::ix::craft::math::{assert_depth, index};
 
 pub fn ix(
     ctx: Context<AddPixel>,
