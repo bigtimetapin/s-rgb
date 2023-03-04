@@ -8,7 +8,7 @@ use crate::pda::stake::stake::Stake;
 pub mod pda;
 mod ix;
 
-declare_id!("AKp4ZmWbXB11bd8xYLW2eZpqJSgXfvDQNSJRrGazKKAx");
+declare_id!("FAimDhcwrK9hikkkFnLx3FXs32ZBk2kw8kwzbLJH8AcV");
 
 #[program]
 pub mod s_rgb_stake {

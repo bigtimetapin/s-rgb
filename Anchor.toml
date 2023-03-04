@@ -3,7 +3,9 @@ cluster = "localnet"
 wallet = "~/.config/solana/id.json"
 
 [programs.localnet]
-s_rgb = "AKp4ZmWbXB11bd8xYLW2eZpqJSgXfvDQNSJRrGazKKAx"
+s_rgb_stake = "FAimDhcwrK9hikkkFnLx3FXs32ZBk2kw8kwzbLJH8AcV"
+s_rgb_craft = "G4Wm9es5xZoZLpyzoFHrtgM4Vmo84CenCSrCK6ZxDSmf"
+s_rgb_paint = "BHaigrDd4Ei5ok5XnoNCxzGCGeK9T9RAQtyWKFphGnhi"
 
 [features]
 seeds = false

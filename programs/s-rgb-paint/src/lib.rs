@@ -10,7 +10,7 @@ use crate::pda::paint::proof_indexer::ProofIndexer;
 mod pda;
 mod ix;
 
-declare_id!("AKp4ZmWbXB11bd8xYLW2eZpqJSgXfvDQNSJRrGazKKAx");
+declare_id!("BHaigrDd4Ei5ok5XnoNCxzGCGeK9T9RAQtyWKFphGnhi");
 
 #[program]
 pub mod s_rgb_paint {

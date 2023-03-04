@@ -12,7 +12,7 @@ pub mod pda;
 mod ix;
 mod error;
 
-declare_id!("AKp4ZmWbXB11bd8xYLW2eZpqJSgXfvDQNSJRrGazKKAx");
+declare_id!("G4Wm9es5xZoZLpyzoFHrtgM4Vmo84CenCSrCK6ZxDSmf");
 
 #[program]
 pub mod s_rgb_craft {
