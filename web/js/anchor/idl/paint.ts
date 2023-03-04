@@ -234,6 +234,11 @@ export type SRgbPaint = {
           "isSigner": false
         },
         {
+          "name": "craftingProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "systemProgram",
           "isMut": false,
           "isSigner": false
@@ -603,6 +608,11 @@ export const IDL: SRgbPaint = {
         },
         {
           "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "craftingProgram",
           "isMut": false,
           "isSigner": false
         },

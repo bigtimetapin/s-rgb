@@ -216,6 +216,7 @@ export async function ix(
                 payer: provider.wallet.publicKey,
                 tokenProgram: SPL_TOKEN_PROGRAM_ID,
                 associatedTokenProgram: SPL_ASSOCIATED_TOKEN_PROGRAM_ID,
+                craftingProgram: programs.craft.programId,
                 systemProgram: SystemProgram.programId,
                 rent: SYSVAR_RENT_PUBKEY
             }
