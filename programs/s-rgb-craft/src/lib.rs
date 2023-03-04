@@ -169,6 +169,7 @@ pub struct MintPixel<'info> {
     primary::primary::SEED.as_bytes(),
     primary::red::SEED.as_bytes()
     ], bump,
+    seeds::program = staking_program.key()
     )]
     pub red: Box<Account<'info, Primary>>,
     #[account(
@@ -176,6 +177,7 @@ pub struct MintPixel<'info> {
     primary::primary::SEED.as_bytes(),
     primary::green::SEED.as_bytes()
     ], bump,
+    seeds::program = staking_program.key()
     )]
     pub green: Box<Account<'info, Primary>>,
     #[account(
@@ -183,6 +185,7 @@ pub struct MintPixel<'info> {
     primary::primary::SEED.as_bytes(),
     primary::blue::SEED.as_bytes()
     ], bump,
+    seeds::program = staking_program.key()
     )]
     pub blue: Box<Account<'info, Primary>>,
     // cpi accounts
@@ -236,6 +239,7 @@ pub struct MintPixel<'info> {
     // cpi programs
     pub token_program: Program<'info, Token>,
     pub associated_token_program: Program<'info, AssociatedToken>,
+    pub staking_program: Program<'info, StakingProgram>,
     // system
     pub system_program: Program<'info, System>,
     pub rent: Sysvar<'info, Rent>,
@@ -548,4 +552,13 @@ pub struct SeparatePixel<'info> {
     // system
     pub system_program: Program<'info, System>,
     pub rent: Sysvar<'info, Rent>,
+}
+
+#[derive(Clone)]
+pub struct StakingProgram;
+
+impl anchor_lang::Id for StakingProgram {
+    fn id() -> Pubkey {
+        s_rgb_stake::ID
+    }
 }
