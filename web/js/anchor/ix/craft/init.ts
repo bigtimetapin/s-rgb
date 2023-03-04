@@ -1,13 +1,17 @@
 import {AnchorProvider, Program, SplToken} from "@project-serum/anchor";
-import {SRgb} from "../../idl/idl";
-import * as Pixel from "./../../pda/pixel/pixel-pda";
+import * as Pixel from "../../pda/craft/pixel-pda";
 import {Keypair, SystemProgram, SYSVAR_RENT_PUBKEY} from "@solana/web3.js";
 import {SPL_TOKEN_PROGRAM_ID} from "../../util/constants";
+import {SRgbStake} from "../../idl/stake";
+import {SRgbCraft} from "../../idl/craft";
+import {SRgbPaint} from "../../idl/paint";
 
 export async function ix(
     provider: AnchorProvider,
     programs: {
-        sRgb: Program<SRgb>;
+        stake: Program<SRgbStake>;
+        craft: Program<SRgbCraft>;
+        paint: Program<SRgbPaint>;
         token: Program<SplToken>
     },
     pixelSeeds: Pixel.Seeds,
@@ -16,7 +20,7 @@ export async function ix(
     const pixelMint = Keypair.generate(
     );
     await programs
-        .sRgb
+        .craft
         .methods
         .initPixel(
             pixelSeeds as any
@@ -37,7 +41,9 @@ export async function ix(
 export async function getOrInit(
     provider: AnchorProvider,
     programs: {
-        sRgb: Program<SRgb>;
+        stake: Program<SRgbStake>;
+        craft: Program<SRgbCraft>;
+        paint: Program<SRgbPaint>;
         token: Program<SplToken>
     },
     pixelSeeds: Pixel.Seeds,

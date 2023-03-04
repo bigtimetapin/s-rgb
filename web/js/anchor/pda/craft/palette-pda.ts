@@ -1,7 +1,7 @@
 import {Pda} from "../pda";
 import {PublicKey} from "@solana/web3.js";
 import {AnchorProvider, Program} from "@project-serum/anchor";
-import {SRgb} from "../../idl/idl";
+import {SRgbCraft} from "../../idl/craft";
 
 export interface PalettePda extends Pda {
 }
@@ -21,7 +21,7 @@ export interface Seeds {
     depth: number
 }
 
-export async function getAllPalettePda(provider: AnchorProvider, program: Program<SRgb>): Promise<Palette[]> {
+export async function getAllPalettePda(provider: AnchorProvider, program: Program<SRgbCraft>): Promise<Palette[]> {
     const pdaArray = Array.from(new Array(MAX_DEPTH), (_, i) =>
         derivePalettePda(
             program,
@@ -41,7 +41,7 @@ export async function getAllPalettePda(provider: AnchorProvider, program: Progra
     )
 }
 
-export async function getPalettePda(program: Program<SRgb>, pda: PalettePda): Promise<Palette> {
+export async function getPalettePda(program: Program<SRgbCraft>, pda: PalettePda): Promise<Palette> {
     const fetched = await program.account.palette.fetch(
         pda.address
     ) as RawPalette;
@@ -51,7 +51,7 @@ export async function getPalettePda(program: Program<SRgb>, pda: PalettePda): Pr
     }
 }
 
-export function derivePalettePda(program: Program<SRgb>, seeds: Seeds): PalettePda {
+export function derivePalettePda(program: Program<SRgbCraft>, seeds: Seeds): PalettePda {
     let pda, bump;
     [pda, bump] = PublicKey.findProgramAddressSync(
         [

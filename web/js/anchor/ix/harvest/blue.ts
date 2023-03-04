@@ -1,34 +1,38 @@
 import {AnchorProvider, Program, SplToken} from "@project-serum/anchor";
-import {SRgb} from "../../idl/idl";
 import {deriveAuthorityPda} from "../../pda/authority-pda";
-import {deriveBluePda, getPrimaryPda} from "../../pda/primary/primary-pda";
+import {deriveBluePda, getPrimaryPda} from "../../pda/stake/primary-pda";
 import {deriveBlueStakePda, getStakePda} from "../../pda/stake-pda";
 import {deriveAtaPda} from "../../pda/ata-pda";
 import {SystemProgram, SYSVAR_RENT_PUBKEY} from "@solana/web3.js";
 import {SPL_ASSOCIATED_TOKEN_PROGRAM_ID, SPL_TOKEN_PROGRAM_ID, W_SOL} from "../../util/constants";
 import {getGlobal} from "../../pda/get-global";
+import {SRgbStake} from "../../idl/stake";
+import {SRgbCraft} from "../../idl/craft";
+import {SRgbPaint} from "../../idl/paint";
 
 export async function ix(
     app,
     provider: AnchorProvider,
     programs: {
-        sRgb: Program<SRgb>,
+        stake: Program<SRgbStake>;
+        craft: Program<SRgbCraft>;
+        paint: Program<SRgbPaint>;
         token: Program<SplToken>
     }
 ): Promise<void> {
     const authorityPda = deriveAuthorityPda(
-        programs.sRgb
+        programs.stake
     );
     const bluePda = deriveBluePda(
-        programs.sRgb
+        programs.stake
     );
     const blue = await getPrimaryPda(
-        programs.sRgb,
+        programs.stake,
         bluePda
     );
     const blueStakePda = deriveBlueStakePda(
         provider,
-        programs.sRgb
+        programs.stake
     );
     const blueStake = await getStakePda(
         programs,
@@ -39,7 +43,7 @@ export async function ix(
         blue.mint
     );
     await programs
-        .sRgb
+        .stake
         .methods
         .harvestBlue()
         .accounts(

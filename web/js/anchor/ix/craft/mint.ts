@@ -1,27 +1,31 @@
 import {AnchorProvider, Program, SplToken} from "@project-serum/anchor";
-import {SRgb} from "../../idl/idl";
 import * as InitPixel from "./init";
-import * as Pixel from "./../../pda/pixel/pixel-pda";
-import * as PixelIndex from "./../../pda/pixel/pixel-index-pda";
-import * as PixelIndexLookup from "./../../pda/pixel/pixel-index-lookup-pda";
-import * as Palette from "./../../pda/pixel/palette-pda";
+import * as Pixel from "../../pda/craft/pixel-pda";
+import * as PixelIndex from "../../pda/craft/pixel-index-pda";
+import * as PixelIndexLookup from "../../pda/craft/pixel-index-lookup-pda";
+import * as Palette from "../../pda/craft/palette-pda";
 import {deriveAtaPda} from "../../pda/ata-pda";
 import {SPL_ASSOCIATED_TOKEN_PROGRAM_ID, SPL_TOKEN_PROGRAM_ID} from "../../util/constants";
 import {SystemProgram, SYSVAR_RENT_PUBKEY} from "@solana/web3.js";
 import {getGlobal} from "../../pda/get-global";
-import {deriveBluePda, deriveGreenPda, deriveRedPda, getPrimaryPda} from "../../pda/primary/primary-pda";
+import {deriveBluePda, deriveGreenPda, deriveRedPda, getPrimaryPda} from "../../pda/stake/primary-pda";
+import {SRgbStake} from "../../idl/stake";
+import {SRgbCraft} from "../../idl/craft";
+import {SRgbPaint} from "../../idl/paint";
 
 export async function ix(
     app,
     provider: AnchorProvider,
     programs: {
-        sRgb: Program<SRgb>;
+        stake: Program<SRgbStake>;
+        craft: Program<SRgbCraft>;
+        paint: Program<SRgbPaint>;
         token: Program<SplToken>
     },
     pixelSeeds: Pixel.Seeds,
 ): Promise<void> {
     const pixelPda = Pixel.derivePixelPda(
-        programs.sRgb,
+        programs.craft,
         pixelSeeds
     );
     let pixel: Pixel.Pixel = await InitPixel.getOrInit(
@@ -38,7 +42,7 @@ export async function ix(
         depth: pixelSeeds.depth
     };
     const pixelIndexLookupPda = PixelIndexLookup.derivePixelIndexLookupPda(
-        programs.sRgb,
+        programs.craft,
         pixelIndexLookupSeeds
     );
     const paletteSeeds: Palette.Seeds = {
@@ -46,13 +50,13 @@ export async function ix(
         depth: pixelSeeds.depth
     };
     const palettePda = Palette.derivePalettePda(
-        programs.sRgb,
+        programs.craft,
         paletteSeeds
     );
     let palette: Palette.Palette;
     try {
         palette = await Palette.getPalettePda(
-            programs.sRgb,
+            programs.craft,
             palettePda
         );
     } catch (error) {
@@ -65,7 +69,7 @@ export async function ix(
     let pixelIndexLookup: PixelIndexLookup.PixelIndexLookup;
     try {
         pixelIndexLookup = await PixelIndexLookup.getPixelIndexLookupPda(
-            programs.sRgb,
+            programs.craft,
             pixelIndexLookupPda
         );
     } catch (error) {
@@ -81,7 +85,7 @@ export async function ix(
         index: pixelIndexLookup.index
     };
     const pixelIndexPda = PixelIndex.derivePixelIndexPda(
-        programs.sRgb,
+        programs.craft,
         pixelIndexSeeds
     );
     const pixelMintAta = deriveAtaPda(
@@ -89,24 +93,24 @@ export async function ix(
         pixel.mint
     );
     const redPda = deriveRedPda(
-        programs.sRgb
+        programs.stake
     );
     const red = await getPrimaryPda(
-        programs.sRgb,
+        programs.stake,
         redPda
     );
     const greenPda = deriveGreenPda(
-        programs.sRgb
+        programs.stake
     );
     const green = await getPrimaryPda(
-        programs.sRgb,
+        programs.stake,
         greenPda
     );
     const bluePda = deriveBluePda(
-        programs.sRgb
+        programs.stake
     );
     const blue = await getPrimaryPda(
-        programs.sRgb,
+        programs.stake,
         bluePda
     );
     const redMintAta = deriveAtaPda(
@@ -122,7 +126,7 @@ export async function ix(
         blue.mint
     );
     await programs
-        .sRgb
+        .craft
         .methods
         .mintPixel(
             PixelIndex.toRaw(pixelIndexSeeds) as any,
@@ -149,6 +153,7 @@ export async function ix(
                 payer: provider.wallet.publicKey,
                 tokenProgram: SPL_TOKEN_PROGRAM_ID,
                 associatedTokenProgram: SPL_ASSOCIATED_TOKEN_PROGRAM_ID,
+                stakingProgram: programs.stake.programId,
                 systemProgram: SystemProgram.programId,
                 rent: SYSVAR_RENT_PUBKEY
             }

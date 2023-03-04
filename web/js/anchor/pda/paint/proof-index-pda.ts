@@ -1,7 +1,7 @@
 import {Pda} from "../pda";
 import {PublicKey} from "@solana/web3.js";
 import {AnchorProvider, Program} from "@project-serum/anchor";
-import {SRgb} from "../../idl/idl";
+import {SRgbPaint} from "../../idl/paint";
 
 export interface ProofIndexPda extends Pda {
 }
@@ -11,7 +11,7 @@ export interface ProofIndex {
     index: number // decoded as bn
 }
 
-export async function getMany(program: Program<SRgb>, pdaArray: ProofIndexPda[]): Promise<ProofIndex[]> {
+export async function getMany(program: Program<SRgbPaint>, pdaArray: ProofIndexPda[]): Promise<ProofIndex[]> {
     const fetched = (await program.account.proofIndex.fetchMultiple(
         pdaArray.map(pda => pda.address)
     )).filter(Boolean) as any[];
@@ -20,7 +20,7 @@ export async function getMany(program: Program<SRgb>, pdaArray: ProofIndexPda[])
     )
 }
 
-export async function get(program: Program<SRgb>, pda: ProofIndexPda): Promise<ProofIndex> {
+export async function get(program: Program<SRgbPaint>, pda: ProofIndexPda): Promise<ProofIndex> {
     const fetched = await program.account.proofIndex.fetch(
         pda.address
     );
@@ -29,7 +29,7 @@ export async function get(program: Program<SRgb>, pda: ProofIndexPda): Promise<P
     )
 }
 
-export function derive(provider: AnchorProvider, program: Program<SRgb>, index: number): ProofIndexPda {
+export function derive(provider: AnchorProvider, program: Program<SRgbPaint>, index: number): ProofIndexPda {
     let pda, bump;
     [pda, bump] = PublicKey.findProgramAddressSync(
         [

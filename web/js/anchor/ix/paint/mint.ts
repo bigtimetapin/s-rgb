@@ -1,5 +1,4 @@
 import {AnchorProvider, BN, Program, SplToken} from "@project-serum/anchor";
-import {SRgb} from "../../idl/idl";
 import {Keypair, PublicKey, SystemProgram, SYSVAR_RENT_PUBKEY} from "@solana/web3.js";
 import {deriveAtaPda} from "../../pda/ata-pda";
 import * as Proof from "../../pda/paint/proof-pda";
@@ -14,12 +13,17 @@ import {
 } from "../../util/constants";
 import {getGlobal} from "../../pda/get-global";
 import * as Burn from "./burn";
+import {SRgbStake} from "../../idl/stake";
+import {SRgbCraft} from "../../idl/craft";
+import {SRgbPaint} from "../../idl/paint";
 
 export async function ix(
     app,
     provider: AnchorProvider,
     programs: {
-        sRgb: Program<SRgb>;
+        stake: Program<SRgbStake>;
+        craft: Program<SRgbCraft>;
+        paint: Program<SRgbPaint>;
         token: Program<SplToken>
     }
 ): Promise<void> {
@@ -30,21 +34,21 @@ export async function ix(
         mint.publicKey
     );
     const proofPda = Proof.derive(
-        programs.sRgb,
+        programs.paint,
         mint.publicKey
     );
     const proofIndexerPda = ProofIndexer.derive(
         provider,
-        programs.sRgb
+        programs.paint
     );
     const proofIndexer = await InitProofIndexer.getOrInit(
         provider,
-        programs.sRgb,
+        programs.paint,
         proofIndexerPda
     );
     const proofIndexPda = ProofIndex.derive(
         provider,
-        programs.sRgb,
+        programs.paint,
         proofIndexer.indexer + 1
     );
     let metadataPda, _;
@@ -69,7 +73,7 @@ export async function ix(
         "4BezDfLSWqPCKqFCutLJ8JsNE3WqFCyP5ZjwNcVpMtJ2"
     );
     await programs
-        .sRgb
+        .paint
         .methods
         .mintNftForPaint(
             plan as any,

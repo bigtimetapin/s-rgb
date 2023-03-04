@@ -5,10 +5,10 @@ import * as HarvestBlue from "./anchor/ix/harvest/blue";
 import * as HarvestGreen from "./anchor/ix/harvest/green";
 import * as HarvestRed from "./anchor/ix/harvest/red";
 import * as MintNftForPaint from "./anchor/ix/paint/mint";
-import * as AddPixel from "./anchor/ix/pixel/add";
-import * as MergePixel from "./anchor/ix/pixel/merge";
-import * as MintPixel from "./anchor/ix/pixel/mint";
-import * as SeparatePixel from "./anchor/ix/pixel/separate";
+import * as AddPixel from "./anchor/ix/craft/add";
+import * as MergePixel from "./anchor/ix/craft/merge";
+import * as MintPixel from "./anchor/ix/craft/mint";
+import * as SeparatePixel from "./anchor/ix/craft/separate";
 import * as StakeBlue from "./anchor/ix/stake/blue";
 import * as StakeGreen from "./anchor/ix/stake/green"
 import * as StakeRed from "./anchor/ix/stake/red";
@@ -58,7 +58,7 @@ export async function main(app, json) {
             // invoke rpc
             await Init.ix(
                 pp.provider,
-                pp.programs.sRgb
+                pp.programs.stake
             );
             // or user fetch
         } else if (sender === "user-fetch") {

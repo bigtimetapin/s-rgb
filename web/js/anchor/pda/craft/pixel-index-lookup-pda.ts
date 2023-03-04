@@ -1,8 +1,8 @@
 import {Pda} from "../pda";
 import * as Pixel from "./pixel-pda";
 import {Program} from "@project-serum/anchor";
-import {SRgb} from "../../idl/idl";
 import {PublicKey} from "@solana/web3.js";
+import {SRgbCraft} from "../../idl/craft";
 
 export interface PixelIndexLookupPda extends Pda {
 }
@@ -16,7 +16,7 @@ export interface Seeds extends Pixel.Seeds {
     authority: PublicKey
 }
 
-export async function getPixelIndexLookupPda(program: Program<SRgb>, pda: PixelIndexLookupPda): Promise<PixelIndexLookup> {
+export async function getPixelIndexLookupPda(program: Program<SRgbCraft>, pda: PixelIndexLookupPda): Promise<PixelIndexLookup> {
     const fetched = await program.account.pixelIndexLookup.fetch(
         pda.address
     ) as any;
@@ -26,7 +26,7 @@ export async function getPixelIndexLookupPda(program: Program<SRgb>, pda: PixelI
     }
 }
 
-export function derivePixelIndexLookupPda(program: Program<SRgb>, seeds: Seeds): PixelIndexLookupPda {
+export function derivePixelIndexLookupPda(program: Program<SRgbCraft>, seeds: Seeds): PixelIndexLookupPda {
     let pda, bump;
     [pda, bump] = PublicKey.findProgramAddressSync(
         [

@@ -1,7 +1,6 @@
 import {AnchorProvider, BN, Program, SplToken} from "@project-serum/anchor";
-import {SRgb} from "../../idl/idl";
 import {deriveAuthorityPda} from "../../pda/authority-pda";
-import {deriveGreenPda} from "../../pda/primary/primary-pda";
+import {deriveGreenPda} from "../../pda/stake/primary-pda";
 import {deriveGreenStakePda} from "../../pda/stake-pda";
 import {
     Keypair,
@@ -14,24 +13,29 @@ import {SPL_ASSOCIATED_TOKEN_PROGRAM_ID, SPL_TOKEN_PROGRAM_ID, W_SOL} from "../.
 import {deriveAtaPda} from "../../pda/ata-pda";
 import {getGlobal} from "../../pda/get-global";
 import {buildTxForMany} from "../../util/tx";
+import {SRgbStake} from "../../idl/stake";
+import {SRgbCraft} from "../../idl/craft";
+import {SRgbPaint} from "../../idl/paint";
 
 export async function ix(
     app,
     provider: AnchorProvider,
     programs: {
-        sRgb: Program<SRgb>,
+        stake: Program<SRgbStake>;
+        craft: Program<SRgbCraft>;
+        paint: Program<SRgbPaint>;
         token: Program<SplToken>
     },
 ): Promise<void> {
     const authorityPda = deriveAuthorityPda(
-        programs.sRgb
+        programs.stake
     );
     const greenPda = deriveGreenPda(
-        programs.sRgb
+        programs.stake
     );
     const greenStakePda = deriveGreenStakePda(
         provider,
-        programs.sRgb
+        programs.stake
     );
     const greenStakeTokenAccount = Keypair.generate(
     );
@@ -41,7 +45,7 @@ export async function ix(
     );
     const sol = 1;
     const ix: TransactionInstruction = await programs
-        .sRgb
+        .stake
         .methods
         .stakeGreen(
             new BN(sol * LAMPORTS_PER_SOL)

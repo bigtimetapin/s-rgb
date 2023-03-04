@@ -1,9 +1,9 @@
 import {Pda} from "../pda";
 import {PublicKey} from "@solana/web3.js";
 import {AnchorProvider, BN, Program} from "@project-serum/anchor";
-import {SRgb} from "../../idl/idl";
 import * as Palette from "./palette-pda";
 import * as PixelIndexLookup from "./pixel-index-lookup-pda";
+import {SRgbCraft} from "../../idl/craft";
 
 
 export interface PixelIndexPda extends Pda {
@@ -42,7 +42,7 @@ export function toRaw(seeds: Seeds): RawSeeds {
 
 export async function getOrIncrementSeeds(
     provider: AnchorProvider,
-    program: Program<SRgb>,
+    program: Program<SRgbCraft>,
     pixelIndexLookupPda: PixelIndexLookup.PixelIndexLookupPda,
     palette: Palette.Palette,
 ): Promise<Seeds> {
@@ -68,7 +68,7 @@ export async function getOrIncrementSeeds(
     return pixelIndexSeeds
 }
 
-export async function getAllPixelIndexPda(program: Program<SRgb>, palette: Palette.Palette): Promise<PixelIndex[]> {
+export async function getAllPixelIndexPda(program: Program<SRgbCraft>, palette: Palette.Palette): Promise<PixelIndex[]> {
     const pdaArray = Array.from(new Array(palette.indexer), (_, i) =>
         derivePixelIndexPda(
             program,
@@ -93,7 +93,7 @@ export async function getAllPixelIndexPda(program: Program<SRgb>, palette: Palet
     )
 }
 
-export async function getPixelIndexPda(program: Program<SRgb>, pda: PixelIndexPda): Promise<PixelIndex> {
+async function getPixelIndexPda(program: Program<SRgbCraft>, pda: PixelIndexPda): Promise<PixelIndex> {
     const fetched = await program.account.pixelIndex.fetch(
         pda.address
     ) as RawPixelIndex;
@@ -107,7 +107,7 @@ export async function getPixelIndexPda(program: Program<SRgb>, pda: PixelIndexPd
     }
 }
 
-export function derivePixelIndexPda(program: Program<SRgb>, seeds: Seeds): PixelIndexPda {
+export function derivePixelIndexPda(program: Program<SRgbCraft>, seeds: Seeds): PixelIndexPda {
     let pda, bump;
     [pda, bump] = PublicKey.findProgramAddressSync(
         [

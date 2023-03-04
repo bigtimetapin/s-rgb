@@ -1,9 +1,11 @@
 import {AnchorProvider, Program, SplToken} from "@project-serum/anchor";
-import {SRgb} from "../idl/idl";
 import {Amount, Pool, getPools} from "./get-pools";
-import * as Palette from "./pixel/palette-pda";
-import * as Pixel from "./pixel/pixel-pda";
-import * as PixelIndex from "./pixel/pixel-index-pda";
+import * as Palette from "./craft/palette-pda";
+import * as Pixel from "./craft/pixel-pda";
+import * as PixelIndex from "./craft/pixel-index-pda";
+import {SRgbStake} from "../idl/stake";
+import {SRgbCraft} from "../idl/craft";
+import {SRgbPaint} from "../idl/paint";
 
 export interface User {
     wallet: string // pubkey
@@ -25,7 +27,9 @@ export async function getGlobal(
     app,
     provider: AnchorProvider,
     programs: {
-        sRgb: Program<SRgb>,
+        stake: Program<SRgbStake>;
+        craft: Program<SRgbCraft>;
+        paint: Program<SRgbPaint>;
         token: Program<SplToken>
     },
 ): Promise<void> {
@@ -59,18 +63,20 @@ export async function getGlobal(
 export async function getPalette(
     provider: AnchorProvider,
     programs: {
-        sRgb: Program<SRgb>,
+        stake: Program<SRgbStake>;
+        craft: Program<SRgbCraft>;
+        paint: Program<SRgbPaint>;
         token: Program<SplToken>
     }
 ): Promise<Palette_> {
     const allPalettesPdas = await Palette.getAllPalettePda(
         provider,
-        programs.sRgb
+        programs.craft
     );
     return await Promise.all(
         allPalettesPdas.map(async (palette) => {
                 const allPixelIndexArray = await PixelIndex.getAllPixelIndexPda(
-                    programs.sRgb,
+                    programs.craft,
                     palette
                 );
                 console.log(allPixelIndexArray);

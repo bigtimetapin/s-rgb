@@ -1,27 +1,31 @@
 import {AnchorProvider, Program, SplToken} from "@project-serum/anchor";
-import {SRgb} from "../../idl/idl";
 import * as InitPixel from "./init";
-import * as Palette from "../../pda/pixel/palette-pda";
-import * as Pixel from "../../pda/pixel/pixel-pda";
-import * as PixelIndex from "../../pda/pixel/pixel-index-pda";
-import * as PixelIndexLookup from "../../pda/pixel/pixel-index-lookup-pda";
+import * as Palette from "../../pda/craft/palette-pda";
+import * as Pixel from "../../pda/craft/pixel-pda";
+import * as PixelIndex from "../../pda/craft/pixel-index-pda";
+import * as PixelIndexLookup from "../../pda/craft/pixel-index-lookup-pda";
 import {deriveAtaPda} from "../../pda/ata-pda";
 import {SPL_ASSOCIATED_TOKEN_PROGRAM_ID, SPL_TOKEN_PROGRAM_ID} from "../../util/constants";
 import {SystemProgram, SYSVAR_RENT_PUBKEY} from "@solana/web3.js";
 import {getGlobal} from "../../pda/get-global";
+import {SRgbStake} from "../../idl/stake";
+import {SRgbCraft} from "../../idl/craft";
+import {SRgbPaint} from "../../idl/paint";
 
 export async function ix(
     app,
     provider: AnchorProvider,
     programs: {
-        sRgb: Program<SRgb>;
+        stake: Program<SRgbStake>;
+        craft: Program<SRgbCraft>;
+        paint: Program<SRgbPaint>;
         token: Program<SplToken>
     },
     srcPixelSeeds: Pixel.Seeds,
     amount: number
 ): Promise<void> {
     const srcPixelPda = Pixel.derivePixelPda(
-        programs.sRgb,
+        programs.craft,
         srcPixelSeeds
     );
     const srcPixel = await Pixel.getPixelPda(
@@ -36,7 +40,7 @@ export async function ix(
         depth: srcPixelSeeds.depth + 1
     };
     const dstPixelPda = Pixel.derivePixelPda(
-        programs.sRgb,
+        programs.craft,
         dstPixelSeeds
     );
     let dstPixel: Pixel.Pixel = await InitPixel.getOrInit(
@@ -50,13 +54,13 @@ export async function ix(
         depth: srcPixelSeeds.depth + 1
     } as Palette.Seeds;
     const dstPalettePda = Palette.derivePalettePda(
-        programs.sRgb,
+        programs.craft,
         dstPaletteSeeds
     );
     let dstPalette: Palette.Palette;
     try {
         dstPalette = await Palette.getPalettePda(
-            programs.sRgb,
+            programs.craft,
             dstPalettePda
         );
     } catch (error) {
@@ -74,13 +78,13 @@ export async function ix(
         depth: srcPixelSeeds.depth + 1
     };
     const dstPixelIndexLookupPda = PixelIndexLookup.derivePixelIndexLookupPda(
-        programs.sRgb,
+        programs.craft,
         dstPixelIndexLookupSeeds
     );
     let dstPixelIndexLookup: PixelIndexLookup.PixelIndexLookup;
     try {
         dstPixelIndexLookup = await PixelIndexLookup.getPixelIndexLookupPda(
-            programs.sRgb,
+            programs.craft,
             dstPixelIndexLookupPda
         );
     } catch (error) {
@@ -95,7 +99,7 @@ export async function ix(
         index: dstPixelIndexLookup.index
     };
     const dstPixelIndexPda = PixelIndex.derivePixelIndexPda(
-        programs.sRgb,
+        programs.craft,
         dstPixelIndexSeeds
     );
     const srcPixelMintAta = deriveAtaPda(
@@ -107,7 +111,7 @@ export async function ix(
         dstPixel.mint
     );
     await programs
-        .sRgb
+        .craft
         .methods
         .mergePixel(
             PixelIndex.toRaw(dstPixelIndexSeeds) as any,

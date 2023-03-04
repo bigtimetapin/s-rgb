@@ -1,43 +1,47 @@
 import {AnchorProvider, Program, SplToken} from "@project-serum/anchor";
-import {SRgb} from "../../idl/idl";
 import {SystemProgram, SYSVAR_RENT_PUBKEY} from "@solana/web3.js";
-import * as InitPixel from "../pixel/init";
+import * as InitPixel from "../craft/init";
 import * as Proof from "../../pda/paint/proof-pda";
 import * as ProofIndex from "../../pda/paint/proof-index-pda";
 import * as ProofIndexer from "../../pda/paint/proof-indexer-pda";
-import * as Pixel from "../../pda/pixel/pixel-pda";
+import * as Pixel from "../../pda/craft/pixel-pda";
 import {deriveAtaPda} from "../../pda/ata-pda";
 import {
     SPL_ASSOCIATED_TOKEN_PROGRAM_ID,
     SPL_TOKEN_PROGRAM_ID
 } from "../../util/constants";
+import {SRgbStake} from "../../idl/stake";
+import {SRgbCraft} from "../../idl/craft";
+import {SRgbPaint} from "../../idl/paint";
 
 export async function ix(
     provider: AnchorProvider,
     programs: {
-        sRgb: Program<SRgb>;
+        stake: Program<SRgbStake>;
+        craft: Program<SRgbCraft>;
+        paint: Program<SRgbPaint>;
         token: Program<SplToken>
     }
 ): Promise<void> {
     const proofIndexerPda = ProofIndexer.derive(
         provider,
-        programs.sRgb
+        programs.paint
     );
     const proofIndexer = await ProofIndexer.get(
-        programs.sRgb,
+        programs.paint,
         proofIndexerPda
     );
     const proofIndexPda = ProofIndex.derive(
         provider,
-        programs.sRgb,
+        programs.paint,
         proofIndexer.indexer
     );
     const proofIndex = await ProofIndex.get(
-        programs.sRgb,
+        programs.paint,
         proofIndexPda
     );
     const proof = await Proof.get(
-        programs.sRgb,
+        programs.paint,
         proofIndex.proof
     );
     const redPixelSeeds = {
@@ -47,7 +51,7 @@ export async function ix(
         depth: 1
     };
     const redPixelPda = Pixel.derivePixelPda(
-        programs.sRgb,
+        programs.craft,
         redPixelSeeds
     );
     const redPixel = await InitPixel.getOrInit(
@@ -67,7 +71,7 @@ export async function ix(
         depth: 1
     };
     const greenPixelPda = Pixel.derivePixelPda(
-        programs.sRgb,
+        programs.craft,
         greenPixelSeeds
     );
     const greenPixel = await InitPixel.getOrInit(
@@ -87,7 +91,7 @@ export async function ix(
         depth: 1
     };
     const bluePixelPda = Pixel.derivePixelPda(
-        programs.sRgb,
+        programs.craft,
         bluePixelSeeds
     );
     const bluePixel = await InitPixel.getOrInit(
@@ -107,7 +111,7 @@ export async function ix(
         depth: 1
     };
     const yellowPixelPda = Pixel.derivePixelPda(
-        programs.sRgb,
+        programs.craft,
         yellowPixelSeeds
     );
     const yellowPixel = await InitPixel.getOrInit(
@@ -127,7 +131,7 @@ export async function ix(
         depth: 1
     };
     const magentaPixelPda = Pixel.derivePixelPda(
-        programs.sRgb,
+        programs.craft,
         magentaPixelSeeds
     );
     const magentaPixel = await InitPixel.getOrInit(
@@ -147,7 +151,7 @@ export async function ix(
         depth: 1
     };
     const cyanPixelPda = Pixel.derivePixelPda(
-        programs.sRgb,
+        programs.craft,
         cyanPixelSeeds
     );
     const cyanPixel = await InitPixel.getOrInit(
@@ -167,7 +171,7 @@ export async function ix(
         depth: 1
     };
     const whitePixelPda = Pixel.derivePixelPda(
-        programs.sRgb,
+        programs.craft,
         whitePixelSeeds
     );
     const whitePixel = await InitPixel.getOrInit(
@@ -181,7 +185,7 @@ export async function ix(
         whitePixel.mint
     );
     await programs
-        .sRgb
+        .paint
         .methods
         .burnPixelsForPaint()
         .accounts(

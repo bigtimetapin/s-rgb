@@ -1,11 +1,13 @@
 import {Pda} from "./pda";
 import {LAMPORTS_PER_SOL, PublicKey} from "@solana/web3.js";
 import {AnchorProvider, Program, SplToken} from "@project-serum/anchor";
-import {SRgb} from "../idl/idl";
-import * as Red from "./primary/red"
-import * as Green from "./primary/green"
-import * as Blue from "./primary/blue"
+import * as Red from "./stake/red"
+import * as Green from "./stake/green"
+import * as Blue from "./stake/blue"
 import {getTokenAccount} from "./ata-pda";
+import {SRgbStake} from "../idl/stake";
+import {SRgbCraft} from "../idl/craft";
+import {SRgbPaint} from "../idl/paint";
 
 export interface StakePda extends Pda {
 }
@@ -28,12 +30,14 @@ interface RawStake {
 
 export async function getStakePda(
     programs: {
-        sRgb: Program<SRgb>,
+        stake: Program<SRgbStake>;
+        craft: Program<SRgbCraft>;
+        paint: Program<SRgbPaint>;
         token: Program<SplToken>
     },
     pda: StakePda
 ): Promise<Stake> {
-    const fetched = await programs.sRgb.account.stake.fetch(
+    const fetched = await programs.stake.account.stake.fetch(
         pda.address
     ) as RawStake;
     const ata = await getTokenAccount(
@@ -51,19 +55,19 @@ export async function getStakePda(
     }
 }
 
-export function deriveRedStakePda(provider: AnchorProvider, program: Program<SRgb>): StakePda {
+export function deriveRedStakePda(provider: AnchorProvider, program: Program<SRgbStake>): StakePda {
     return deriveStakePda(provider, program, Red.SEED)
 }
 
-export function deriveGreenStakePda(provider: AnchorProvider, program: Program<SRgb>): StakePda {
+export function deriveGreenStakePda(provider: AnchorProvider, program: Program<SRgbStake>): StakePda {
     return deriveStakePda(provider, program, Green.SEED)
 }
 
-export function deriveBlueStakePda(provider: AnchorProvider, program: Program<SRgb>): StakePda {
+export function deriveBlueStakePda(provider: AnchorProvider, program: Program<SRgbStake>): StakePda {
     return deriveStakePda(provider, program, Blue.SEED)
 }
 
-function deriveStakePda(provider: AnchorProvider, program: Program<SRgb>, primaryColorSeed: string): StakePda {
+function deriveStakePda(provider: AnchorProvider, program: Program<SRgbStake>, primaryColorSeed: string): StakePda {
     let pda, bump;
     [pda, bump] = PublicKey.findProgramAddressSync(
         [

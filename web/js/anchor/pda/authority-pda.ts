@@ -1,7 +1,7 @@
 import {Pda} from "./pda";
 import {Program} from "@project-serum/anchor";
-import {SRgb} from "../idl/idl";
 import {LAMPORTS_PER_SOL, PublicKey} from "@solana/web3.js";
+import {SRgbStake} from "../idl/stake";
 
 export interface AuthorityPda extends Pda {
 }
@@ -17,7 +17,7 @@ export interface RawAuthority {
     tvl: any // decoded as BN
 }
 
-export async function getAuthorityPda(program: Program<SRgb>, pda: AuthorityPda): Promise<Authority> {
+export async function getAuthorityPda(program: Program<SRgbStake>, pda: AuthorityPda): Promise<Authority> {
     const fetched = await program.account.authority.fetch(
         pda.address
     ) as RawAuthority;
@@ -29,7 +29,7 @@ export async function getAuthorityPda(program: Program<SRgb>, pda: AuthorityPda)
     }
 }
 
-export function deriveAuthorityPda(program: Program<SRgb>): AuthorityPda {
+export function deriveAuthorityPda(program: Program<SRgbStake>): AuthorityPda {
     let pda, bump;
     [pda, bump] = PublicKey.findProgramAddressSync(
         [

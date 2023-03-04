@@ -1,9 +1,11 @@
 import {AnchorProvider, Program, SplToken} from "@project-serum/anchor";
-import {SRgb} from "../idl/idl";
 import {deriveAuthorityPda, getAuthorityPda} from "./authority-pda";
-import {deriveBluePda, deriveGreenPda, deriveRedPda, getPrimaryPda, Primary} from "./primary/primary-pda";
+import {deriveBluePda, deriveGreenPda, deriveRedPda, getPrimaryPda, Primary} from "./stake/primary-pda";
 import {deriveBlueStakePda, deriveGreenStakePda, deriveRedStakePda, getStakePda, StakePda} from "./stake-pda";
 import {deriveAtaPda, getTokenAccount} from "./ata-pda";
+import {SRgbStake} from "../idl/stake";
+import {SRgbCraft} from "../idl/craft";
+import {SRgbPaint} from "../idl/paint";
 
 export interface Pools {
     tvl: Amount
@@ -28,46 +30,48 @@ export interface Amount {
 export async function getPools(
     provider: AnchorProvider,
     programs: {
-        sRgb: Program<SRgb>,
+        stake: Program<SRgbStake>;
+        craft: Program<SRgbCraft>;
+        paint: Program<SRgbPaint>;
         token: Program<SplToken>
     },
 ): Promise<Pools> {
     // derive & get authority pda
     const authorityPda = deriveAuthorityPda(
-        programs.sRgb
+        programs.stake
     );
     const authority = await getAuthorityPda(
-        programs.sRgb,
+        programs.stake,
         authorityPda
     );
     // derive & get red pda
     const redPda = deriveRedPda(
-        programs.sRgb
+        programs.stake
     );
     const red = await getPrimaryPda(
-        programs.sRgb,
+        programs.stake,
         redPda
     );
     // derive & get green pda
     const greenPda = deriveGreenPda(
-        programs.sRgb
+        programs.stake
     );
     const green = await getPrimaryPda(
-        programs.sRgb,
+        programs.stake,
         greenPda
     );
     // derive & get blue pda
     const bluePda = deriveBluePda(
-        programs.sRgb
+        programs.stake
     );
     const blue = await getPrimaryPda(
-        programs.sRgb,
+        programs.stake,
         bluePda
     );
     // derive & get red stake pda
     const redStakePda = deriveRedStakePda(
         provider,
-        programs.sRgb
+        programs.stake
     );
     const redPool = await getPool(
         provider,
@@ -79,7 +83,7 @@ export async function getPools(
     // derive & get green stake pda
     const greenStakePda = deriveGreenStakePda(
         provider,
-        programs.sRgb
+        programs.stake
     );
     const greenPool = await getPool(
         provider,
@@ -91,7 +95,7 @@ export async function getPools(
     // derive & get blue stake pda
     const blueStakePda = deriveBlueStakePda(
         provider,
-        programs.sRgb
+        programs.stake
     );
     const bluePool = await getPool(
         provider,
@@ -113,7 +117,9 @@ export async function getPools(
 async function getPool(
     provider: AnchorProvider,
     programs: {
-        sRgb: Program<SRgb>,
+        stake: Program<SRgbStake>;
+        craft: Program<SRgbCraft>;
+        paint: Program<SRgbPaint>;
         token: Program<SplToken>
     },
     pda: StakePda,

@@ -1,15 +1,19 @@
 import {Connection, Keypair} from "@solana/web3.js";
 import {AnchorProvider, Program, Spl, SplToken} from "@project-serum/anchor";
 import {Wallet} from "@project-serum/anchor/dist/cjs/provider";
-import {COMMITMENT, NETWORK, PROGRAM_ID} from "../config";
+import {COMMITMENT, CRAFTING_PROGRAM_ID, NETWORK, PAINTING_PROGRAM_ID, STAKING_PROGRAM_ID} from "../config";
 import {EphemeralWallet, PhantomWallet} from "../wallet";
-import {SRgb, IDL} from "../idl/idl";
+import {IDL as StakingIDL, SRgbStake} from "../idl/stake";
+import {IDL as CraftingIDL, SRgbCraft} from "../idl/craft";
+import {IDL as PaintingIDL, SRgbPaint} from "../idl/paint";
 
 // get provider & program
 export function getPP(_phantom: any): {
     provider: AnchorProvider;
     programs: {
-        sRgb: Program<SRgb>;
+        stake: Program<SRgbStake>;
+        craft: Program<SRgbCraft>;
+        paint: Program<SRgbPaint>;
         token: Program<SplToken>
     }
 } {
@@ -21,7 +25,9 @@ export function getPP(_phantom: any): {
 export function getEphemeralPP(): {
     provider: AnchorProvider;
     programs: {
-        sRgb: Program<SRgb>;
+        stake: Program<SRgbStake>;
+        craft: Program<SRgbCraft>;
+        paint: Program<SRgbPaint>;
         token: Program<SplToken>
     }
 } {
@@ -33,7 +39,9 @@ export function getEphemeralPP(): {
 function getPP_(wallet: Wallet): {
     provider: AnchorProvider;
     programs: {
-        sRgb: Program<SRgb>;
+        stake: Program<SRgbStake>;
+        craft: Program<SRgbCraft>;
+        paint: Program<SRgbPaint>;
         token: Program<SplToken>
     }
 } {
@@ -47,10 +55,20 @@ function getPP_(wallet: Wallet): {
         wallet,
         AnchorProvider.defaultOptions()
     );
-    // s-rgb program
-    const sRgbProgram = new Program<SRgb>(
-        IDL,
-        PROGRAM_ID,
+    // s-rgb programs
+    const stakingProgram = new Program<SRgbStake>(
+        StakingIDL,
+        STAKING_PROGRAM_ID,
+        provider
+    );
+    const craftingProgram: Program<SRgbCraft> = new Program<SRgbCraft>(
+        CraftingIDL,
+        CRAFTING_PROGRAM_ID,
+        provider
+    )
+    const paintingProgram: Program<SRgbPaint> = new Program<SRgbPaint>(
+        PaintingIDL,
+        PAINTING_PROGRAM_ID,
         provider
     );
     // spl-token program
@@ -60,7 +78,9 @@ function getPP_(wallet: Wallet): {
     return {
         provider: provider,
         programs: {
-            sRgb: sRgbProgram,
+            stake: stakingProgram,
+            craft: craftingProgram,
+            paint: paintingProgram,
             token: tokenProgram,
         }
     }

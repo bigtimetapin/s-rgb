@@ -1,17 +1,19 @@
 import {AnchorProvider, Program, SplToken} from "@project-serum/anchor";
-import {SRgb} from "../../idl/idl";
 import * as InitPixel from "./init";
-import * as Palette from "../../pda/pixel/palette-pda";
-import * as Pixel from "../../pda/pixel/pixel-pda";
-import * as PixelIndex from "../../pda/pixel/pixel-index-pda";
-import * as PixelIndexLookup from "../../pda/pixel/pixel-index-lookup-pda";
+import * as Palette from "../../pda/craft/palette-pda";
+import * as Pixel from "../../pda/craft/pixel-pda";
+import * as PixelIndex from "../../pda/craft/pixel-index-pda";
+import * as PixelIndexLookup from "../../pda/craft/pixel-index-lookup-pda";
 import {deriveAtaPda} from "../../pda/ata-pda";
 import {SPL_ASSOCIATED_TOKEN_PROGRAM_ID, SPL_TOKEN_PROGRAM_ID} from "../../util/constants";
 import {SystemProgram, SYSVAR_RENT_PUBKEY} from "@solana/web3.js";
 import {getGlobal} from "../../pda/get-global";
+import {SRgbStake} from "../../idl/stake";
+import {SRgbCraft} from "../../idl/craft";
+import {SRgbPaint} from "../../idl/paint";
 
-export interface Input {
-    left: Pixel.Seeds,
+interface Input {
+    left: Pixel.Seeds
     right: Pixel.Seeds
 }
 
@@ -19,13 +21,15 @@ export async function ix(
     app,
     provider: AnchorProvider,
     programs: {
-        sRgb: Program<SRgb>;
+        stake: Program<SRgbStake>;
+        craft: Program<SRgbCraft>;
+        paint: Program<SRgbPaint>;
         token: Program<SplToken>
     },
     input: Input
 ): Promise<void> {
     const leftPixelPda = Pixel.derivePixelPda(
-        programs.sRgb,
+        programs.craft,
         input.left
     );
     const leftPixel = await Pixel.getPixelPda(
@@ -34,40 +38,35 @@ export async function ix(
         leftPixelPda
     );
     const rightPixelPda = Pixel.derivePixelPda(
-        programs.sRgb,
+        programs.craft,
         input.right
     );
-    const rightPixel = await Pixel.getPixelPda(
-        provider,
-        programs,
-        rightPixelPda
-    );
-    const dstPixelSeeds = add(
+    const dstPixelSeeds = separate(
         input.left,
         input.right
     );
     const dstPixelPda = Pixel.derivePixelPda(
-        programs.sRgb,
+        programs.craft,
         dstPixelSeeds
     );
-    const dstPixel: Pixel.Pixel = await InitPixel.getOrInit(
+    const dstPixel = await InitPixel.getOrInit(
         provider,
         programs,
         dstPixelSeeds,
         dstPixelPda
     );
     const dstPalettePda = Palette.derivePalettePda(
-        programs.sRgb,
+        programs.craft,
         {
             authority: provider.wallet.publicKey,
             depth: input.left.depth
         }
     );
     const dstPalette = await Palette.getPalettePda(
-        programs.sRgb,
+        programs.craft,
         dstPalettePda
     );
-    const distPixelIndexLookupSeeds: PixelIndexLookup.Seeds = {
+    const dstPixelIndexLookupSeeds: PixelIndexLookup.Seeds = {
         authority: provider.wallet.publicKey,
         r: dstPixelSeeds.r,
         g: dstPixelSeeds.g,
@@ -75,51 +74,34 @@ export async function ix(
         depth: dstPixelSeeds.depth
     };
     const dstPixelIndexLookupPda = PixelIndexLookup.derivePixelIndexLookupPda(
-        programs.sRgb,
-        distPixelIndexLookupSeeds
+        programs.craft,
+        dstPixelIndexLookupSeeds
     );
-    let dstPixelIndexLookup: PixelIndexLookup.PixelIndexLookup;
-    try {
-        dstPixelIndexLookup = await PixelIndexLookup.getPixelIndexLookupPda(
-            programs.sRgb,
-            dstPixelIndexLookupPda
-        );
-    } catch (error) {
-        console.log(error);
-        dstPixelIndexLookup = {
-            seeds: distPixelIndexLookupSeeds,
-            index: dstPalette.indexer + 1
-        }
-    }
-    const dstPixelIndexSeeds = {
-        authority: provider.wallet.publicKey,
-        depth: input.left.depth,
-        index: dstPixelIndexLookup.index
-    } as PixelIndex.Seeds;
-    const dstPixelIndexPda = PixelIndex.derivePixelIndexPda(
-        programs.sRgb,
+    const dstPixelIndexSeeds = await PixelIndex.getOrIncrementSeeds(
+        provider,
+        programs.craft,
+        dstPixelIndexLookupPda,
+        dstPalette
+    );
+    const dstPixelIndexPda = await PixelIndex.derivePixelIndexPda(
+        programs.craft,
         dstPixelIndexSeeds
-    )
+    );
     const leftPixelMintAta = deriveAtaPda(
         provider.wallet.publicKey,
         leftPixel.mint
-    );
-    const rightPixelMintAta = deriveAtaPda(
-        provider.wallet.publicKey,
-        rightPixel.mint
     );
     const dstPixelMintAta = deriveAtaPda(
         provider.wallet.publicKey,
         dstPixel.mint
     );
     await programs
-        .sRgb
+        .craft
         .methods
-        .addPixel(
+        .separatePixel(
             PixelIndex.toRaw(dstPixelIndexSeeds) as any,
-            distPixelIndexLookupSeeds as any
-        )
-        .accounts(
+            dstPixelIndexLookupSeeds as any
+        ).accounts(
             {
                 leftPixel: leftPixelPda.address,
                 rightPixel: rightPixelPda.address,
@@ -129,8 +111,6 @@ export async function ix(
                 dstPalette: dstPalettePda.address,
                 leftPixelMint: leftPixel.mint,
                 leftPixelMintAta: leftPixelMintAta,
-                rightPixelMint: rightPixel.mint,
-                rightPixelMintAta: rightPixelMintAta,
                 dstPixelMint: dstPixel.mint,
                 dstPixelMintAta: dstPixelMintAta,
                 payer: provider.wallet.publicKey,
@@ -147,20 +127,10 @@ export async function ix(
     );
 }
 
-function add(left: Pixel.Seeds, right: Pixel.Seeds): Pixel.Seeds {
-    let max = (2 ** left.depth) - 1;
-    let r = Math.min(
-        left.r + right.r,
-        max
-    );
-    let g = Math.min(
-        left.g + right.g,
-        max
-    );
-    let b = Math.min(
-        left.b + right.b,
-        max
-    );
+function separate(left: Pixel.Seeds, right: Pixel.Seeds): Pixel.Seeds {
+    const r = left.r - right.r;
+    const g = left.g - right.g;
+    const b = left.b - right.b;
     return {
         r: r,
         g: g,
