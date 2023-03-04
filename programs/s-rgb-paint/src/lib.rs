@@ -130,6 +130,7 @@ pub struct BurnPixelsForPaint<'info> {
     (0 as u32).to_string().as_bytes(), // b
     (1 as u32).to_string().as_bytes(), // depth
     ], bump,
+    seeds::program = crafting_program.key()
     )]
     pub red_pixel: Box<Account<'info, Pixel>>,
     #[account(
@@ -140,6 +141,7 @@ pub struct BurnPixelsForPaint<'info> {
     (0 as u32).to_string().as_bytes(), // b
     (1 as u32).to_string().as_bytes(), // depth
     ], bump,
+    seeds::program = crafting_program.key()
     )]
     pub green_pixel: Box<Account<'info, Pixel>>,
     #[account(
@@ -150,6 +152,7 @@ pub struct BurnPixelsForPaint<'info> {
     (1 as u32).to_string().as_bytes(), // b
     (1 as u32).to_string().as_bytes(), // depth
     ], bump,
+    seeds::program = crafting_program.key()
     )]
     pub blue_pixel: Box<Account<'info, Pixel>>,
     #[account(
@@ -160,6 +163,7 @@ pub struct BurnPixelsForPaint<'info> {
     (0 as u32).to_string().as_bytes(), // b
     (1 as u32).to_string().as_bytes(), // depth
     ], bump,
+    seeds::program = crafting_program.key()
     )]
     pub yellow_pixel: Box<Account<'info, Pixel>>,
     #[account(
@@ -170,6 +174,7 @@ pub struct BurnPixelsForPaint<'info> {
     (1 as u32).to_string().as_bytes(), // b
     (1 as u32).to_string().as_bytes(), // depth
     ], bump,
+    seeds::program = crafting_program.key()
     )]
     pub magenta_pixel: Box<Account<'info, Pixel>>,
     #[account(
@@ -180,6 +185,7 @@ pub struct BurnPixelsForPaint<'info> {
     (1 as u32).to_string().as_bytes(), // b
     (1 as u32).to_string().as_bytes(), // depth
     ], bump,
+    seeds::program = crafting_program.key()
     )]
     pub cyan_pixel: Box<Account<'info, Pixel>>,
     #[account(
@@ -190,6 +196,7 @@ pub struct BurnPixelsForPaint<'info> {
     (1 as u32).to_string().as_bytes(), // b
     (1 as u32).to_string().as_bytes(), // depth
     ], bump,
+    seeds::program = crafting_program.key()
     )]
     pub white_pixel: Box<Account<'info, Pixel>>,
     // cpi accounts
@@ -197,70 +204,63 @@ pub struct BurnPixelsForPaint<'info> {
     address = red_pixel.mint
     )]
     pub red_pixel_mint: Box<Account<'info, Mint>>,
-    #[account(init_if_needed,
+    #[account(mut,
     associated_token::mint = red_pixel_mint,
     associated_token::authority = payer,
-    payer = payer
     )]
     pub red_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
     #[account(mut,
     address = green_pixel.mint
     )]
     pub green_pixel_mint: Box<Account<'info, Mint>>,
-    #[account(init_if_needed,
+    #[account(mut,
     associated_token::mint = green_pixel_mint,
     associated_token::authority = payer,
-    payer = payer
     )]
     pub green_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
     #[account(mut,
     address = blue_pixel.mint
     )]
     pub blue_pixel_mint: Box<Account<'info, Mint>>,
-    #[account(init_if_needed,
+    #[account(mut,
     associated_token::mint = blue_pixel_mint,
     associated_token::authority = payer,
-    payer = payer
     )]
     pub blue_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
     #[account(mut,
     address = yellow_pixel.mint
     )]
     pub yellow_pixel_mint: Box<Account<'info, Mint>>,
-    #[account(init_if_needed,
+    #[account(mut,
     associated_token::mint = yellow_pixel_mint,
     associated_token::authority = payer,
-    payer = payer
     )]
     pub yellow_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
     #[account(mut,
     address = magenta_pixel.mint
     )]
     pub magenta_pixel_mint: Box<Account<'info, Mint>>,
-    #[account(init_if_needed,
+    #[account(mut,
     associated_token::mint = magenta_pixel_mint,
     associated_token::authority = payer,
-    payer = payer
     )]
     pub magenta_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
     #[account(mut,
     address = cyan_pixel.mint
     )]
     pub cyan_pixel_mint: Box<Account<'info, Mint>>,
-    #[account(init_if_needed,
+    #[account(mut,
     associated_token::mint = cyan_pixel_mint,
     associated_token::authority = payer,
-    payer = payer
     )]
     pub cyan_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
     #[account(mut,
     address = white_pixel.mint
     )]
     pub white_pixel_mint: Box<Account<'info, Mint>>,
-    #[account(init_if_needed,
+    #[account(mut,
     associated_token::mint = white_pixel_mint,
     associated_token::authority = payer,
-    payer = payer
     )]
     pub white_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
     #[account(mut,
@@ -273,6 +273,7 @@ pub struct BurnPixelsForPaint<'info> {
     // cpi programs
     pub token_program: Program<'info, Token>,
     pub associated_token_program: Program<'info, AssociatedToken>,
+    pub crafting_program: Program<'info, CraftingProgram>,
     // system
     pub system_program: Program<'info, System>,
     pub rent: Sysvar<'info, Rent>,
@@ -284,5 +285,14 @@ pub struct MetadataProgram;
 impl anchor_lang::Id for MetadataProgram {
     fn id() -> Pubkey {
         mpl_token_metadata::ID
+    }
+}
+
+#[derive(Clone)]
+pub struct CraftingProgram;
+
+impl anchor_lang::Id for CraftingProgram {
+    fn id() -> Pubkey {
+        s_rgb_craft::ID
     }
 }
