@@ -1,4 +1,4 @@
-module Model.Grid exposing (Grid, init)
+module Model.Grid exposing (Grid, Row, init)
 
 import Model.Cell exposing (Cell)
 import Model.Color as Color

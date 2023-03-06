@@ -2,14 +2,21 @@ module View.User.Paint exposing (body)
 
 import Html exposing (Html)
 import Html.Attributes exposing (class, style)
+import Html.Events exposing (onClick)
 import Model.Cell exposing (Cell)
-import Model.Color as Color
-import Model.Grid exposing (Grid)
-import Msg.Msg exposing (Msg)
+import Model.Color as Color exposing (Color)
+import Model.Grid exposing (Grid, Row)
+import Msg.Msg exposing (Msg(..))
+import Msg.User.Msg as UserMsg
 
 
-body : Grid -> Html Msg
-body grid =
+body : Grid -> Color -> Html Msg
+body grid color =
+    let
+        f =
+            UserMsg.ColorPixel
+                grid
+    in
     Html.div
         []
         [ Html.div
@@ -17,23 +24,26 @@ body grid =
           <|
             List.map
                 (\r ->
-                    row r
+                    row color r f
                 )
                 grid
         ]
 
 
-cell : Cell -> Html Msg
-cell c =
+cell : Color -> Cell -> (Color -> Cell -> UserMsg.Msg) -> Html Msg
+cell color cell_ f =
     Html.button
-        [ class <| Color.toClass c.color
+        [ class <| Color.toClass cell_.color
         , style "padding-top" "100%"
+        , onClick <|
+            FromUser <|
+                f color cell_
         ]
         []
 
 
-row : List Cell -> Html Msg
-row cells =
+row : Color -> Row -> (Color -> Cell -> UserMsg.Msg) -> Html Msg
+row color cells f =
     Html.div
         [ style "display" "grid"
         , style "grid-auto-columns" "1fr"
@@ -42,6 +52,6 @@ row cells =
     <|
         List.map
             (\c ->
-                cell c
+                cell color c f
             )
             cells

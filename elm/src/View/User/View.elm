@@ -730,8 +730,8 @@ view state =
                     ]
                 ]
 
-        Paint grid ->
-            View.User.Paint.body grid
+        Paint color grid ->
+            View.User.Paint.body color grid
 
 
 pixelRow : Pixel -> Html Msg

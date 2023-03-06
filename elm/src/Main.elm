@@ -173,6 +173,49 @@ update msg model =
                             Sender.User fromUserMsg
                     )
 
+                UserMsg.ChangeColor grid color ->
+                    ( { model
+                        | state =
+                            { local = Local.User <| UserState.Paint grid color
+                            , global = model.state.global
+                            , exception = model.state.exception
+                            }
+                      }
+                    , Cmd.none
+                    )
+
+                UserMsg.ColorPixel grid color cell ->
+                    let
+                        rows =
+                            List.map
+                                (\row ->
+                                    List.map
+                                        (\cell_ ->
+                                            case cell.index == cell_.index of
+                                                True ->
+                                                    { cell_ | color = color }
+
+                                                False ->
+                                                    cell_
+                                        )
+                                        row
+                                )
+                                grid
+                    in
+                    ( { model
+                        | state =
+                            { local =
+                                Local.User <|
+                                    UserState.Paint
+                                        rows
+                                        color
+                            , global = model.state.global
+                            , exception = model.state.exception
+                            }
+                      }
+                    , Cmd.none
+                    )
+
         FromJs fromJsMsg ->
             case fromJsMsg of
                 -- JS sending success for decoding

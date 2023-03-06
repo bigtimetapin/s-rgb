@@ -1,18 +1,27 @@
 module Msg.User.Msg exposing (Msg(..), toString)
 
+import Model.Cell exposing (Cell)
+import Model.Color exposing (Color)
+import Model.Grid exposing (Grid)
 import Model.Pixel as Pixel
 import Model.Primary exposing (Primary(..))
 
 
 type Msg
     = Fetch
+      -- stake
     | Stake Primary
     | Harvest Primary
+      -- craft
     | MintPixel Pixel.Seeds
     | MergePixel Pixel.Seeds
     | AddPixel Pixel.Seeds Pixel.Seeds
     | SeparatePixel Pixel.Seeds Pixel.Seeds
+      -- paint
     | Paint
+      -- paint ui
+    | ChangeColor Grid Color
+    | ColorPixel Grid Color Cell
 
 
 toString : Msg -> String
@@ -53,3 +62,6 @@ toString msg =
 
         Paint ->
             "user-paint"
+
+        _ ->
+            "no-op"
