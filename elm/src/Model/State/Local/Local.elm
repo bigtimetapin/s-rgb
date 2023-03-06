@@ -31,6 +31,9 @@ urlParser =
         , UrlParser.map
             (User <| User.Top)
             (UrlParser.s "user")
+        , UrlParser.map
+            (User <| User.Paint)
+            (UrlParser.s "user" </> UrlParser.s "paint")
         ]
 
 

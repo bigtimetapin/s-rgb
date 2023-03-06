@@ -10,6 +10,7 @@ import Model.User.State exposing (State(..))
 import Model.User.User exposing (User)
 import Msg.Msg exposing (Msg(..))
 import Msg.User.Msg as UserMsg
+import View.User.Paint
 
 
 view : State -> Html Msg
@@ -309,7 +310,6 @@ view state =
                                         """
                                     ]
                                 ]
-
                             , Html.div
                                 [ class "column is-2"
                                 ]
@@ -729,6 +729,9 @@ view state =
                         ]
                     ]
                 ]
+
+        Paint ->
+            View.User.Paint.body
 
 
 pixelRow : Pixel -> Html Msg
