@@ -241,7 +241,9 @@ export async function main(app, json) {
             //     pp.provider,
             //     pp.programs
             // );
-            domToImage();
+            const file = await domToImage(
+            );
+            console.log(file);
             // or throw error
         } else {
             const msg = "invalid role sent to js: " + sender;
