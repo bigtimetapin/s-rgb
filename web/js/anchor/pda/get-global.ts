@@ -3,9 +3,13 @@ import {Amount, Pool, getPools} from "./get-pools";
 import * as Palette from "./craft/palette-pda";
 import * as Pixel from "./craft/pixel-pda";
 import * as PixelIndex from "./craft/pixel-index-pda";
+import * as Proof from "./paint/proof-pda";
+import * as ProofIndex from "./paint/proof-index-pda";
+import * as ProofIndexer from "./paint/proof-indexer-pda";
 import {SRgbStake} from "../idl/stake";
 import {SRgbCraft} from "../idl/craft";
 import {SRgbPaint} from "../idl/paint";
+import {buildUrl} from "../../shdw";
 
 export interface User {
     wallet: string // pubkey
@@ -16,11 +20,16 @@ export interface User {
         blue: Pool
     }
     palette: Palette_
+    nfts: Nfts
 }
 
 type Palette_ = {
     depth: number;
     pixels: Pixel.Pixel[]
+}[]
+
+type Nfts = {
+    url: string
 }[]
 
 export async function getGlobal(
@@ -41,12 +50,16 @@ export async function getGlobal(
         provider,
         programs
     );
-    console.log(palette);
+    const nfts = await getNFts(
+        provider,
+        programs.paint
+    );
     const user = {
         wallet: provider.wallet.publicKey.toString(),
         tvl: pools.tvl,
         pools: pools.pools,
-        palette: palette
+        palette: palette,
+        nfts: nfts
     } as User;
     app.ports.success.send(
         JSON.stringify(
@@ -96,4 +109,43 @@ export async function getPalette(
             }
         )
     );
+}
+
+export async function getNFts(
+    provider: AnchorProvider,
+    program: Program<SRgbPaint>
+): Promise<Nfts> {
+    const proofIndexerPda = ProofIndexer.derive(
+        provider,
+        program
+    );
+    let nfts: Nfts;
+    try {
+        const proofIndexer = await ProofIndexer.get(
+            program,
+            proofIndexerPda
+        );
+        const indexes = await ProofIndex.getAll(
+            provider,
+            program,
+            proofIndexer
+        );
+        const proofs = await Proof.getMany(
+            program,
+            indexes.map(i => i.proof)
+        );
+        console.log(proofs);
+        nfts = proofs.map(p => {
+                const url = buildUrl(p.nft.url) + "s-rgb.jpeg";
+                console.log(url);
+                return {
+                    url
+                }
+            }
+        )
+    } catch (error) {
+        console.log(error);
+        nfts = []
+    }
+    return nfts
 }

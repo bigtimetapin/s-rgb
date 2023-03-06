@@ -12,7 +12,7 @@ import * as SeparatePixel from "./anchor/ix/craft/separate";
 import * as StakeBlue from "./anchor/ix/stake/blue";
 import * as StakeGreen from "./anchor/ix/stake/green"
 import * as StakeRed from "./anchor/ix/stake/red";
-import {getGlobal, getPalette} from "./anchor/pda/get-global";
+import {getGlobal, getNFts, getPalette} from "./anchor/pda/get-global";
 import {getPools} from "./anchor/pda/get-pools";
 
 // init phantom
@@ -79,11 +79,16 @@ export async function main(app, json) {
                 pp.provider,
                 pp.programs
             );
+            const nfts = await getNFts(
+                pp.provider,
+                pp.programs.paint
+            );
             const user = {
                 wallet: pp.provider.wallet.toString(),
                 tvl: pools.tvl,
                 pools: pools.pools,
-                palette: palette
+                palette: palette,
+                nfts: nfts
             };
             app.ports.success.send(
                 JSON.stringify(

@@ -1,7 +1,7 @@
 module View.User.View exposing (view)
 
 import Html exposing (Html)
-import Html.Attributes exposing (class)
+import Html.Attributes exposing (class, src)
 import Html.Events exposing (onClick)
 import Model.Amount exposing (Amount)
 import Model.Pixel exposing (Pixel)
@@ -682,7 +682,8 @@ view state =
                             ]
                         ]
                     , Html.div
-                        []
+                        [ class "mb-6"
+                        ]
                         [ Html.div
                             [ class "table-container"
                             ]
@@ -726,6 +727,25 @@ view state =
                                         )
                                 ]
                             ]
+                        ]
+                    , Html.div
+                        []
+                        [ Html.div
+                            [ class "columns is-multiline"
+                            ]
+                          <|
+                            List.map
+                                (\nft ->
+                                    Html.div
+                                        [ class "column is-4"
+                                        ]
+                                        [ Html.img
+                                            [ src nft.url
+                                            ]
+                                            []
+                                        ]
+                                )
+                                user.nfts
                         ]
                     ]
                 ]

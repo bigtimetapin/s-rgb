@@ -12,6 +12,7 @@ type alias User =
     , tvl : Amount
     , pools : Pools
     , palette : List Palette
+    , nfts : List Nft
     }
 
 
@@ -35,6 +36,11 @@ type alias Palette =
     }
 
 
+type alias Nft =
+    { url : String
+    }
+
+
 decode : String -> Result String User
 decode string =
     Util.decode string decoder identity
@@ -42,11 +48,12 @@ decode string =
 
 decoder : Decode.Decoder User
 decoder =
-    Decode.map4 User
+    Decode.map5 User
         (Decode.field "wallet" Decode.string)
         (Decode.field "tvl" Amount.decoder)
         (Decode.field "pools" poolsDecoder)
         (Decode.field "palette" <| Decode.list paletteDecoder)
+        (Decode.field "nfts" <| Decode.list nftDecoder)
 
 
 poolsDecoder : Decode.Decoder Pools
@@ -70,3 +77,8 @@ paletteDecoder =
     Decode.map2 Palette
         (Decode.field "depth" Decode.int)
         (Decode.field "pixels" <| Decode.list Pixel.decoder)
+
+
+nftDecoder =
+    Decode.map Nft
+        (Decode.field "url" Decode.string)
