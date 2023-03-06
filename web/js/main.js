@@ -14,6 +14,7 @@ import * as StakeGreen from "./anchor/ix/stake/green"
 import * as StakeRed from "./anchor/ix/stake/red";
 import {getGlobal, getPalette} from "./anchor/pda/get-global";
 import {getPools} from "./anchor/pda/get-pools";
+import {domToImage} from "./anchor/ix/paint/dom-to-image";
 
 // init phantom
 let phantom = null;
@@ -235,11 +236,12 @@ export async function main(app, json) {
             // get provider & program
             const pp = getPP(phantom);
             // invoke rpc
-            await MintNftForPaint.ix(
-                app,
-                pp.provider,
-                pp.programs
-            );
+            // await MintNftForPaint.ix(
+            //     app,
+            //     pp.provider,
+            //     pp.programs
+            // );
+            domToImage();
             // or throw error
         } else {
             const msg = "invalid role sent to js: " + sender;

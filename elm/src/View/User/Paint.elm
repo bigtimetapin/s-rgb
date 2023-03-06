@@ -1,7 +1,7 @@
 module View.User.Paint exposing (body)
 
 import Html exposing (Html)
-import Html.Attributes exposing (class, style)
+import Html.Attributes exposing (class, id, style)
 import Html.Events exposing (onClick)
 import Model.Cell exposing (Cell)
 import Model.Color as Color exposing (Color)
@@ -20,13 +20,24 @@ body grid color =
     Html.div
         []
         [ Html.div
-            []
+            [ id "s-rgb-pixel-grid"
+            ]
           <|
             List.map
                 (\r ->
                     row color r f
                 )
                 grid
+        , Html.div
+            []
+            [ Html.button
+                [ onClick <|
+                    FromUser <|
+                        UserMsg.Paint
+                ]
+                [ Html.text "mint"
+                ]
+            ]
         ]
 
 
