@@ -16,6 +16,9 @@ import * as Burn from "./burn";
 import {SRgbStake} from "../../idl/stake";
 import {SRgbCraft} from "../../idl/craft";
 import {SRgbPaint} from "../../idl/paint";
+import {buildUrl, provision, uploadMultipleFiles} from "../../../shdw";
+import * as Metadata from "../../pda/paint/metadata";
+import {domToImage} from "./dom-to-image";
 
 export async function ix(
     app,
@@ -69,15 +72,30 @@ export async function ix(
         cyan: new BN(1),
         white: new BN(1)
     };
-    const url = new PublicKey(
-        "4BezDfLSWqPCKqFCutLJ8JsNE3WqFCyP5ZjwNcVpMtJ2"
+    const image = await domToImage(
+    );
+    const provisioned = await provision(
+        provider.connection,
+        provider.wallet,
+        image.size
+    );
+    const metadata = Metadata.build(
+        buildUrl(provisioned.account) + image.name
+    );
+    await uploadMultipleFiles(
+        [
+            image,
+            metadata
+        ],
+        provisioned.drive,
+        provisioned.account
     );
     await programs
         .paint
         .methods
         .mintNftForPaint(
             plan as any,
-            url as any
+            provisioned.account as any
         ).accounts(
             {
                 proof: proofPda.address,
@@ -98,6 +116,7 @@ export async function ix(
                 mint
             ]
         ).rpc();
+    await new Promise(r => setTimeout(r, 1000));
     await Burn.ix(
         provider,
         programs
