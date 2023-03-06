@@ -3,6 +3,7 @@ module Model.State.Local.Local exposing (..)
 import Html
 import Html.Attributes
 import Model.Admin.State as Admin
+import Model.Grid as Grid
 import Model.User.State as User
 import Url
 import Url.Parser as UrlParser exposing ((</>))
@@ -32,7 +33,7 @@ urlParser =
             (User <| User.Top)
             (UrlParser.s "user")
         , UrlParser.map
-            (User <| User.Paint)
+            (User <| User.Paint Grid.init)
             (UrlParser.s "user" </> UrlParser.s "paint")
         ]
 

@@ -2,35 +2,38 @@ module View.User.Paint exposing (body)
 
 import Html exposing (Html)
 import Html.Attributes exposing (class, style)
+import Model.Cell exposing (Cell)
+import Model.Color as Color
+import Model.Grid exposing (Grid)
 import Msg.Msg exposing (Msg)
 
 
-body : Html Msg
-body =
+body : Grid -> Html Msg
+body grid =
     Html.div
         []
         [ Html.div
             []
           <|
             List.map
-                (\_ ->
-                    row 10
+                (\r ->
+                    row r
                 )
-                (List.range 1 10)
+                grid
         ]
 
 
-cell : Html Msg
-cell =
+cell : Cell -> Html Msg
+cell c =
     Html.button
-        [ class "has-white"
+        [ class <| Color.toClass c.color
         , style "padding-top" "100%"
         ]
         []
 
 
-row : Int -> Html Msg
-row int =
+row : List Cell -> Html Msg
+row cells =
     Html.div
         [ style "display" "grid"
         , style "grid-auto-columns" "1fr"
@@ -38,7 +41,7 @@ row int =
         ]
     <|
         List.map
-            (\_ ->
-                cell
+            (\c ->
+                cell c
             )
-            (List.range 1 int)
+            cells
