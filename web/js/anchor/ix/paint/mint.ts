@@ -20,6 +20,10 @@ import {buildUrl, provision, uploadMultipleFiles} from "../../../shdw";
 import * as Metadata from "../../pda/paint/metadata";
 import {domToImage} from "./dom-to-image";
 
+interface Input {
+    white: null
+}
+
 export async function ix(
     app,
     provider: AnchorProvider,
@@ -28,7 +32,8 @@ export async function ix(
         craft: Program<SRgbCraft>;
         paint: Program<SRgbPaint>;
         token: Program<SplToken>
-    }
+    },
+    input: Input
 ): Promise<void> {
     const mint = Keypair.generate(
     );
@@ -64,13 +69,13 @@ export async function ix(
         MPL_TOKEN_METADATA_PROGRAM_ID
     );
     const plan = {
-        red: new BN(1),
-        green: new BN(1),
-        blue: new BN(1),
-        yellow: new BN(1),
-        magenta: new BN(1),
-        cyan: new BN(1),
-        white: new BN(1)
+        red: new BN(0),
+        green: new BN(0),
+        blue: new BN(0),
+        yellow: new BN(0),
+        magenta: new BN(0),
+        cyan: new BN(0),
+        white: new BN(input.white)
     };
     const image = await domToImage(
     );

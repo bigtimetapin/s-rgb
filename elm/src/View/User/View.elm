@@ -670,21 +670,6 @@ view state =
                         [ class "mb-6"
                         ]
                         [ Html.div
-                            []
-                            [ Html.button
-                                [ class "button"
-                                , onClick <|
-                                    FromUser <|
-                                        UserMsg.Paint
-                                ]
-                                [ Html.text "paint"
-                                ]
-                            ]
-                        ]
-                    , Html.div
-                        [ class "mb-6"
-                        ]
-                        [ Html.div
                             [ class "table-container"
                             ]
                             [ Html.table

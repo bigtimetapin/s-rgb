@@ -4,6 +4,7 @@ module Main exposing (main)
 
 import Browser
 import Browser.Navigation as Nav
+import Model.Grid as Grid
 import Model.Model as Model exposing (Model)
 import Model.Pixel as Pixel
 import Model.State.Exception.Exception as Exception
@@ -166,11 +167,13 @@ update msg model =
                             }
                     )
 
-                UserMsg.Paint ->
+                UserMsg.Paint grid ->
                     ( Model.waiting model
                     , sender <|
-                        Sender.encode0 <|
-                            Sender.User fromUserMsg
+                        Sender.encode <|
+                            { sender = Sender.User fromUserMsg
+                            , more = Grid.encode <| Grid.reduce grid
+                            }
                     )
 
                 UserMsg.ChangeColor grid color ->

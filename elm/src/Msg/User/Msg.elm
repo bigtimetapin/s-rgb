@@ -18,7 +18,7 @@ type Msg
     | AddPixel Pixel.Seeds Pixel.Seeds
     | SeparatePixel Pixel.Seeds Pixel.Seeds
       -- paint
-    | Paint
+    | Paint Grid
       -- paint ui
     | ChangeColor Grid Color
     | ColorPixel Grid Color Cell
@@ -60,7 +60,7 @@ toString msg =
         SeparatePixel _ _ ->
             "user-separate-pixel"
 
-        Paint ->
+        Paint _ ->
             "user-paint"
 
         _ ->

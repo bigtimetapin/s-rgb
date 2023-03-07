@@ -34,6 +34,7 @@ body grid color =
                 [ onClick <|
                     FromUser <|
                         UserMsg.Paint
+                            grid
                 ]
                 [ Html.text "mint"
                 ]

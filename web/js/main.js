@@ -239,11 +239,14 @@ export async function main(app, json) {
             phantom = await getPhantom(app);
             // get provider & program
             const pp = getPP(phantom);
+            // parse more json
+            const more = JSON.parse(parsed.more);
             // invoke rpc
             await MintNftForPaint.ix(
                 app,
                 pp.provider,
-                pp.programs
+                pp.programs,
+                more
             );
             // or throw error
         } else {
