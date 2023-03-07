@@ -10,6 +10,7 @@ import {SRgbStake} from "../idl/stake";
 import {SRgbCraft} from "../idl/craft";
 import {SRgbPaint} from "../idl/paint";
 import {buildUrl} from "../../shdw";
+import {PublicKey} from "@solana/web3.js";
 
 export interface User {
     wallet: string // pubkey
@@ -29,7 +30,14 @@ type Palette_ = {
 }[]
 
 type Nfts = {
-    url: string
+    nft: {
+        url: string
+        mint: PublicKey
+    }
+    burned: {
+        burned: boolean
+        plan: Proof.Plan
+    }
 }[]
 
 export async function getGlobal(
@@ -139,7 +147,11 @@ export async function getNFts(
                 const url = buildUrl(p.nft.url) + "s-rgb.jpeg";
                 console.log(url);
                 return {
-                    url
+                    nft: {
+                        url: url,
+                        mint: p.nft.mint
+                    },
+                    burned: p.burned
                 }
             }
         )

@@ -3,6 +3,7 @@ module Model.User.User exposing (User, decode)
 import Json.Decode as Decode
 import Model.Amount as Amount exposing (Amount)
 import Model.Pixel as Pixel exposing (Pixel)
+import Model.PublicKey exposing (PublicKey)
 import Model.Wallet exposing (Wallet)
 import Util.Decode as Util
 
@@ -12,7 +13,7 @@ type alias User =
     , tvl : Amount
     , pools : Pools
     , palette : List Palette
-    , nfts : List Nft
+    , nfts : List Proof
     }
 
 
@@ -36,8 +37,32 @@ type alias Palette =
     }
 
 
+type alias Proof =
+    { nft : Nft
+    , burned : Burned
+    }
+
+
 type alias Nft =
-    { url : String
+    { mint : PublicKey
+    , url : String
+    }
+
+
+type alias Burned =
+    { burned : Bool
+    , plan : Plan
+    }
+
+
+type alias Plan =
+    { red : Int
+    , green : Int
+    , blue : Int
+    , yellow : Int
+    , magenta : Int
+    , cyan : Int
+    , white : Int
     }
 
 
@@ -53,7 +78,7 @@ decoder =
         (Decode.field "tvl" Amount.decoder)
         (Decode.field "pools" poolsDecoder)
         (Decode.field "palette" <| Decode.list paletteDecoder)
-        (Decode.field "nfts" <| Decode.list nftDecoder)
+        (Decode.field "nfts" <| Decode.list proofDecoder)
 
 
 poolsDecoder : Decode.Decoder Pools
@@ -79,6 +104,30 @@ paletteDecoder =
         (Decode.field "pixels" <| Decode.list Pixel.decoder)
 
 
+proofDecoder =
+    Decode.map2 Proof
+        (Decode.field "nft" nftDecoder)
+        (Decode.field "burned" burnedDecoder)
+
+
 nftDecoder =
-    Decode.map Nft
+    Decode.map2 Nft
+        (Decode.field "mint" Decode.string)
         (Decode.field "url" Decode.string)
+
+
+burnedDecoder =
+    Decode.map2 Burned
+        (Decode.field "burned" Decode.bool)
+        (Decode.field "plan" planDecoder)
+
+
+planDecoder =
+    Decode.map7 Plan
+        (Decode.field "red" Decode.int)
+        (Decode.field "green" Decode.int)
+        (Decode.field "blue" Decode.int)
+        (Decode.field "yellow" Decode.int)
+        (Decode.field "magenta" Decode.int)
+        (Decode.field "cyan" Decode.int)
+        (Decode.field "white" Decode.int)

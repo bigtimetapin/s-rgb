@@ -17,7 +17,7 @@ export interface Proof {
     }
 }
 
-interface Plan {
+export interface Plan {
     red: number // decoded as bn
     green: number // decoded as bn
     blue: number // decoded as bn

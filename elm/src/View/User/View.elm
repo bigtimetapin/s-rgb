@@ -735,14 +735,114 @@ view state =
                             ]
                           <|
                             List.map
-                                (\nft ->
+                                (\proof ->
                                     Html.div
                                         [ class "column is-4"
                                         ]
                                         [ Html.img
-                                            [ src nft.url
+                                            [ src proof.nft.url
                                             ]
                                             []
+                                        , Html.div
+                                            []
+                                            [ Html.div
+                                                [ class "table-container"
+                                                ]
+                                                [ Html.table
+                                                    [ class "table is-fullwidth"
+                                                    ]
+                                                    [ Html.thead
+                                                        []
+                                                        [ Html.tr
+                                                            []
+                                                            [ Html.th
+                                                                []
+                                                                [ Html.text "burned"
+                                                                ]
+                                                            , Html.th
+                                                                []
+                                                                [ Html.text "r"
+                                                                ]
+                                                            , Html.th
+                                                                []
+                                                                [ Html.text "g"
+                                                                ]
+                                                            , Html.th
+                                                                []
+                                                                [ Html.text "b"
+                                                                ]
+                                                            , Html.th
+                                                                []
+                                                                [ Html.text "y"
+                                                                ]
+                                                            , Html.th
+                                                                []
+                                                                [ Html.text "m"
+                                                                ]
+                                                            , Html.th
+                                                                []
+                                                                [ Html.text "c"
+                                                                ]
+                                                            , Html.th
+                                                                []
+                                                                [ Html.text "w"
+                                                                ]
+                                                            ]
+                                                        ]
+                                                    , Html.tr
+                                                        []
+                                                        [ Html.td
+                                                            []
+                                                            [ Html.text <|
+                                                                (\bool ->
+                                                                    case bool of
+                                                                        True ->
+                                                                            "true"
+
+                                                                        False ->
+                                                                            "false"
+                                                                )
+                                                                    proof.burned.burned
+                                                            ]
+                                                        , Html.td
+                                                            []
+                                                            [ Html.text <|
+                                                                String.fromInt proof.burned.plan.red
+                                                            ]
+                                                        , Html.td
+                                                            []
+                                                            [ Html.text <|
+                                                                String.fromInt proof.burned.plan.green
+                                                            ]
+                                                        , Html.td
+                                                            []
+                                                            [ Html.text <|
+                                                                String.fromInt proof.burned.plan.blue
+                                                            ]
+                                                        , Html.td
+                                                            []
+                                                            [ Html.text <|
+                                                                String.fromInt proof.burned.plan.yellow
+                                                            ]
+                                                        , Html.td
+                                                            []
+                                                            [ Html.text <|
+                                                                String.fromInt proof.burned.plan.magenta
+                                                            ]
+                                                        , Html.td
+                                                            []
+                                                            [ Html.text <|
+                                                                String.fromInt proof.burned.plan.cyan
+                                                            ]
+                                                        , Html.td
+                                                            []
+                                                            [ Html.text <|
+                                                                String.fromInt proof.burned.plan.white
+                                                            ]
+                                                        ]
+                                                    ]
+                                                ]
+                                            ]
                                         ]
                                 )
                                 user.nfts
