@@ -15,6 +15,12 @@ type alias Row =
 
 type alias Plan =
     { white : Int
+    , red : Int
+    , green : Int
+    , blue : Int
+    , yellow : Int
+    , magenta : Int
+    , cyan : Int
     }
 
 
@@ -60,11 +66,36 @@ reduce grid =
 
                         Color.Black ->
                             plan__
+
+                        Color.Red ->
+                            { plan__ | red = plan__.red + 1 }
+
+                        Color.Green ->
+                            { plan__ | green = plan__.green + 1 }
+
+                        Color.Blue ->
+                            { plan__ | blue = plan__.blue + 1 }
+
+                        Color.Yellow ->
+                            { plan__ | yellow = plan__.yellow + 1 }
+
+                        Color.Magenta ->
+                            { plan__ | magenta = plan__.magenta + 1 }
+
+                        Color.Cyan ->
+                            { plan__ | cyan = plan__.cyan + 1 }
                 )
                 plan_
                 row
         )
-        { white = 0 }
+        { white = 0
+        , red = 0
+        , green = 0
+        , blue = 0
+        , yellow = 0
+        , magenta = 0
+        , cyan = 0
+        }
         grid
 
 

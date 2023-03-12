@@ -16,11 +16,15 @@ body grid color =
         f =
             UserMsg.ColorPixel
                 grid
+
+        select_ =
+            select grid
     in
     Html.div
         []
         [ Html.div
-            [ id "s-rgb-pixel-grid"
+            [ class "mb-3"
+            , id "s-rgb-pixel-grid"
             ]
           <|
             List.map
@@ -30,16 +34,45 @@ body grid color =
                 grid
         , Html.div
             []
-            [ Html.button
-                [ onClick <|
-                    FromUser <|
-                        UserMsg.Paint
-                            grid
+            [ Html.div
+                [ class "buttons mb-2"
                 ]
-                [ Html.text "mint"
+                [ select_ Color.White
+                , select_ Color.Red
+                , select_ Color.Black
+                ]
+            , Html.div
+                []
+                [ Html.button
+                    [ class "button"
+                    , onClick <|
+                        FromUser <|
+                            UserMsg.Paint
+                                grid
+                    ]
+                    [ Html.text "mint"
+                    ]
                 ]
             ]
         ]
+
+
+select : Grid -> Color -> Html Msg
+select grid color =
+    Html.button
+        [ class <|
+            String.concat
+                [ Color.toClass color
+                ]
+        , style "width" "100px"
+        , style "height" "100px"
+        , onClick <|
+            FromUser <|
+                UserMsg.ChangeColor
+                    grid
+                    color
+        ]
+        []
 
 
 cell : Color -> Cell -> (Color -> Cell -> UserMsg.Msg) -> Html Msg
