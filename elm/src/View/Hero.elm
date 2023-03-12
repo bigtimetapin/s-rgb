@@ -109,7 +109,7 @@ view exception global body =
                         []
     in
     Html.section
-        [ class "hero is-fullheight has-black is-family-primary"
+        [ class "hero is-fullheight has-off-black is-family-primary"
         ]
         [ Html.div
             [ class "hero-head"

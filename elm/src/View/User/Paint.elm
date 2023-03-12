@@ -21,7 +21,13 @@ body grid color =
             select grid
     in
     Html.div
-        []
+        [ class <|
+            String.concat
+                [ Color.toClass color
+                , "-"
+                , "cursor"
+                ]
+        ]
         [ Html.div
             [ class "mb-3"
             , id "s-rgb-pixel-grid"
@@ -78,7 +84,14 @@ select grid color =
 cell : Color -> Cell -> (Color -> Cell -> UserMsg.Msg) -> Html Msg
 cell color cell_ f =
     Html.button
-        [ class <| Color.toClass cell_.color
+        [ class <|
+            String.concat
+                [ Color.toClass cell_.color
+                , " "
+                , Color.toClass color
+                , "-"
+                , "cursor"
+                ]
         , style "padding-top" "100%"
         , onClick <|
             FromUser <|

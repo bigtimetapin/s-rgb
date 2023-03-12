@@ -50,9 +50,14 @@ $family-secondary: "Roboto Serif", BlinkMacSystemFont, -apple-system, "Helvetica
   color: transparent;
 }
 
-.has-black {
+.has-off-black {
   background-color: #2B2B2B;
   color: #FDF9EF;
+}
+
+.has-black {
+  background-color: black;
+  color: white;
 }
 
 .has-white {
@@ -60,12 +65,70 @@ $family-secondary: "Roboto Serif", BlinkMacSystemFont, -apple-system, "Helvetica
   color: black;
 }
 
+.has-red {
+  background-color: red;
+  color: white;
+}
+
+.has-green {
+  background-color: green;
+  color: white;
+}
+
+.has-blue {
+  background-color: blue;
+  color: white;
+}
+
+.has-yellow {
+  background-color: yellow;
+  color: white;
+}
+
+.has-magenta {
+  background-color: magenta;
+  color: white;
+}
+
+.has-cyan {
+  background-color: cyan;
+  color: white;
+}
+
 .has-sky-blue-text {
   color: #3D92CA !important;
 }
 
+.has-black-cursor {
+  cursor: url("../svg/cursor-black.svg") 48 0, auto;
+}
+
+.has-white-cursor {
+  cursor: url("../svg/cursor-white.svg") 48 0, auto;
+}
+
 .has-red-cursor {
-  cursor: url("../svg/cursor-2.svg"), auto;
+  cursor: url("../svg/cursor-red.svg") 48 0, auto;
+}
+
+.has-green-cursor {
+  cursor: url("../svg/cursor-green.svg"), auto;
+}
+
+.has-blue-cursor {
+  cursor: url("../svg/cursor-blue.svg"), auto;
+}
+
+.has-yellow-cursor {
+  cursor: url("../svg/cursor-yellow.svg"), auto;
+}
+
+.has-magenta-cursor {
+  cursor: url("../svg/cursor-magenta.svg"), auto;
+}
+
+.has-cyan-cursor {
+  cursor: url("../svg/cursor-cyan.svg"), auto;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
