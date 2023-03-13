@@ -18,6 +18,8 @@ echo "Publishing New Assets..."
 aws s3 cp web/index.html $BUCKET --profile s-rgb
 aws s3 cp web/elm.min.js $BUCKET --profile s-rgb
 aws s3 cp web/css/ $BUCKET/css/ --recursive --profile s-rgb
+aws s3 cp web/logo/ $BUCKET/logo/ --recursive --profile s-rgb
+aws s3 cp web/css/ $BUCKET/css/ --recursive --profile s-rgb
 aws s3 cp web/js/bundle.js $BUCKET/js/ --profile s-rgb
 
 ## echo "Invalidating CloudFront Cache..."
