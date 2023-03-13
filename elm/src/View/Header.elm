@@ -79,7 +79,7 @@ right global =
                 [ class "is-text-container-4"
                 ]
                 [ Html.button
-                    [ class "is-size-4"
+                    [ class "is-button-2 is-size-4"
                     , onClick <| Msg.Global FromGlobal.Disconnect
                     ]
                     [ Html.text <|

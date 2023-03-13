@@ -17,7 +17,7 @@ body =
             , style "margin-bottom" "250px"
             ]
             [ Html.button
-                [ class "is-connect-button is-size-3"
+                [ class "is-button-1 is-size-3"
                 , onClick <| Msg.Global FromGlobal.Connect
                 ]
                 [ Html.text "(PLEASE CONNECT YOUR WALLET TO BEGIN)"

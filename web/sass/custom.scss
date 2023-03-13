@@ -169,22 +169,16 @@ $family-primary: "Open Sans", BlinkMacSystemFont, -apple-system, "Helvetica", "A
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // buttons /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-.is-connect-button {
+.is-button-1, .is-button-2:hover {
   border-color: #E6E6E6 !important;
   background-color: #E6E6E6 !important;
   color: #1A1A1A
 }
 
-.is-button-1 {
-  width: 100%;
-  background-color: #1A1A1A;
-  color: #E6E6E6;
-  border-radius: 12px;
-}
-
-.is-button-1:hover {
-  background-color: #E6E6E6;
-  color: #1A1A1A;
+.is-button-2, .is-button-1:hover {
+  border-color: #1A1A1A !important;
+  background-color: #1A1A1A !important;
+  color: #E6E6E6
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
