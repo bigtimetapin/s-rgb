@@ -1,4 +1,4 @@
-module Model.Primary exposing (Primary(..), toSymbol)
+module Model.Primary exposing (Primary(..), toSymbol, toString, text)
 
 
 type Primary
@@ -18,3 +18,32 @@ toSymbol primary =
 
         Blue ->
             "$B"
+
+toString : Primary -> String
+toString primary =
+    case primary of
+        Red ->
+            "red"
+
+
+        Green ->
+            "green"
+
+
+        Blue ->
+            "blue"
+
+
+text : Primary -> String
+text primary =
+    case primary of
+        Red ->
+            "has-red-text"
+
+
+        Green ->
+            "has-green-text"
+
+
+        Blue ->
+            "has-blue-text"

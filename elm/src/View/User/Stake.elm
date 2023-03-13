@@ -1,7 +1,7 @@
 module View.User.Stake exposing (body)
 
 import Html exposing (Html)
-import Html.Attributes exposing (class)
+import Html.Attributes exposing (class, style)
 import Html.Events exposing (onClick)
 import Model.Amount exposing (Amount)
 import Model.Primary as Primary exposing (Primary)
@@ -22,7 +22,8 @@ body user =
                     Html.div
                         []
                         [ Html.button
-                            [ onClick <|
+                            [ class "is-button-1 is-size-6"
+                            , onClick <|
                                 FromUser <|
                                     UserMsg.Stake <|
                                         primary
@@ -37,21 +38,27 @@ body user =
                     Html.div
                         []
                         [ Html.div
-                            []
-                            [ Html.text <|
-                                String.concat
-                                    [ "your stake"
-                                    , ":"
-                                    , " "
-                                    , "$SOL"
-                                    , " "
-                                    , (f user).formatted
-                                    ]
+                            [ class "is-text-container-6"
+                            ]
+                            [ Html.div
+                                [ class "is-size-6"
+                                ]
+                                [ Html.text <|
+                                    String.concat
+                                        [ "your stake"
+                                        , ":"
+                                        , " "
+                                        , "$SOL"
+                                        , " "
+                                        , (f user).formatted
+                                        ]
+                                ]
                             ]
                         , Html.div
                             []
                             [ Html.button
-                                [ onClick <|
+                                [ class "is-button-1 is-size-6"
+                                , onClick <|
                                     FromUser <|
                                         UserMsg.Harvest <|
                                             primary
@@ -77,16 +84,18 @@ body user =
             Html.div
                 []
                 [ Html.div
-                    []
-                    [ Html.text <|
-                        String.concat
-                            [ "your balance"
-                            , ":"
-                            , " "
-                            , Primary.toSymbol primary
-                            , " "
-                            , (f user).formatted
-                            ]
+                    [ class "is-text-container-6"
+                    ]
+                    [ Html.div
+                        [ class "is-size-6"
+                        ]
+                        [ Html.text <|
+                            String.concat
+                                [ Primary.toSymbol primary
+                                , " "
+                                , (f user).formatted
+                                ]
+                        ]
                     ]
                 ]
 
@@ -98,6 +107,33 @@ body user =
 
         balanceBlue =
             balance (\u -> u.pools.blue.balance) Primary.Blue
+
+        tvl formatted =
+            Html.div
+                [ class "is-text-container-6"
+                ]
+                [ Html.div
+                    [ class "is-size-6"
+                    ]
+                    [ Html.text <|
+                        String.concat
+                            [ "$SOL"
+                            , " "
+                            , formatted
+                            ]
+                    ]
+                ]
+
+        tvlRed =
+            tvl user.pools.red.tvl.formatted
+
+        tvlGreen =
+            tvl user.pools.green.tvl.formatted
+
+        tvlBlue =
+            tvl user.pools.blue.tvl.formatted
+
+
     in
     Html.div
         []
@@ -109,17 +145,25 @@ body user =
         , Html.div
             [ class "mb-6"
             ]
-            [ Html.text <|
-                String.concat
-                    [ "TVL"
-                    , ":"
-                    , " "
-                    , "$SOL"
-                    , " "
-                    , user.tvl.formatted
-                    , " "
-                    , "😎"
+            [ Html.div
+                [ class "is-text-container-6"
+                ]
+                [ Html.div
+                    [ class "is-size-6"
                     ]
+                    [ Html.text <|
+                        String.concat
+                            [ "TVL"
+                            , ":"
+                            , " "
+                            , "$SOL"
+                            , " "
+                            , user.tvl.formatted
+                            , " "
+                            , "😎"
+                            ]
+                    ]
+                ]
             ]
         , Html.div
             []
@@ -130,99 +174,125 @@ body user =
                     [ class "column is-one-third"
                     ]
                     [ Html.div
-                        []
-                        [ Html.h3
-                            []
-                            [ Html.text <|
-                                Primary.toSymbol Primary.Red
-                            ]
+                        [ class "mb-6"
+                        ]
+                        [ toString Primary.Red
                         ]
                     , Html.div
                         []
-                        [ Html.text <|
-                            String.concat
-                                [ "TVL"
-                                , ":"
-                                , " "
-                                , "$SOL"
-                                , " "
-                                , user.pools.red.tvl.formatted
-                                , "🟥"
-                                ]
+                        [ table tvlRed balanceRed
                         ]
                     , Html.div
                         []
                         [ stakeRed
                         ]
-                    , Html.div
-                        []
-                        [ balanceRed
-                        ]
                     ]
                 , Html.div
                     [ class "column is-one-third"
                     ]
                     [ Html.div
-                        []
-                        [ Html.h3
-                            []
-                            [ Html.text <|
-                                Primary.toSymbol Primary.Green
-                            ]
+                        [ class "mb-6"
+                        ]
+                        [ toString Primary.Green
                         ]
                     , Html.div
                         []
-                        [ Html.text <|
-                            String.concat
-                                [ "TVL"
-                                , ":"
-                                , " "
-                                , "$SOL"
-                                , " "
-                                , user.pools.green.tvl.formatted
-                                , "🟩"
-                                ]
+                        [ table tvlGreen balanceGreen
                         ]
                     , Html.div
                         []
                         [ stakedGreen
                         ]
-                    , Html.div
-                        []
-                        [ balanceGreen
-                        ]
                     ]
                 , Html.div
                     [ class "column is-one-third"
                     ]
                     [ Html.div
-                        []
-                        [ Html.h3
-                            []
-                            [ Html.text <|
-                                Primary.toSymbol Primary.Blue
-                            ]
+                        [ class "mb-6"
+                        ]
+                        [ toString Primary.Blue
                         ]
                     , Html.div
                         []
-                        [ Html.text <|
-                            String.concat
-                                [ "TVL"
-                                , ":"
-                                , " "
-                                , "$SOL"
-                                , " "
-                                , user.pools.blue.tvl.formatted
-                                , "🟦"
-                                ]
+                        [ table tvlBlue balanceBlue
                         ]
                     , Html.div
                         []
                         [ stakedBlue
                         ]
-                    , Html.div
+                    ]
+                ]
+            ]
+        ]
+
+toString : Primary -> Html Msg
+toString primary =
+    Html.div
+        [ class "is-text-container-6 has-text-weight-bold"
+        ]
+        [ Html.div
+            [ class <|
+                String.concat
+                    [ "is-size-1"
+                    , " "
+                    , Primary.text primary
+                    ]
+            , style "text-transform" "capitalize"
+            ]
+            [ Html.text <|
+                Primary.toString primary
+            ]
+        ]
+
+table : Html Msg -> Html Msg -> Html Msg
+table tvl_ balance_ =
+    Html.div
+        [ class "table-container"
+        ]
+        [ Html.table
+            [ class "table"
+            ]
+            [ Html.thead
+                []
+                [ Html.tr
+                    []
+                    [ Html.th
                         []
-                        [ balanceBlue
+                        [ Html.div
+                            [ class "is-light-text-container-6"
+                            ]
+                            [ Html.div
+                                [ class "is-size-6"
+                                ]
+                                [ Html.text "tvl"
+                                ]
+                            ]
+                        ]
+                    , Html.th
+                        []
+                        [ Html.div
+                            [ class "is-light-text-container-6"
+                            ]
+                            [ Html.div
+                                [ class "is-size-6"
+                                ]
+                                [ Html.text "your balance"
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            , Html.tbody
+                []
+                [ Html.tr
+                    []
+                    [ Html.td
+                        []
+                        [ tvl_
+                        ]
+                    , Html.td
+                        []
+                        [ balance_
                         ]
                     ]
                 ]
