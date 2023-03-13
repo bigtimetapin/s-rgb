@@ -12,7 +12,7 @@ import Msg.Msg as Msg exposing (Msg(..))
 view : Global -> Html Msg
 view global =
     Html.nav
-        [ class "level is-size-4"
+        [ class "level"
         ]
         [ Html.div
             [ class "level-left mx-5 my-3"
