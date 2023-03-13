@@ -13,7 +13,6 @@ import Model.State.Global.Global as Global
 import Model.State.Local.Local as Local exposing (Local)
 import Model.User.State as UserState
 import Model.User.User as User
-import Model.Wallet as Wallet
 import Msg.Admin.Msg as AdminMsg
 import Msg.Js as JsMsg
 import Msg.Msg exposing (Msg(..), resetViewport)
@@ -254,9 +253,7 @@ update msg model =
                                                                     in
                                                                     { model
                                                                         | state =
-                                                                            { local =
-                                                                                Local.User <|
-                                                                                    UserState.Stake user
+                                                                            { local = local
                                                                             , global = model.state.global
                                                                             , exception = Exception.Closed
                                                                             }
@@ -300,7 +297,7 @@ update msg model =
                                                                         | state =
                                                                             { local =
                                                                                 Local.User <|
-                                                                                    UserState.Stake user
+                                                                                    UserState.Vault user
                                                                             , global = Global.HasUser user
                                                                             , exception = Exception.Closed
                                                                             }
