@@ -21,7 +21,13 @@ import * as Metadata from "../../pda/paint/metadata";
 import {domToImage} from "./dom-to-image";
 
 interface Input {
-    white: null
+    white: number
+    red: number
+    green: number
+    blue: number
+    yellow: number
+    magenta: number
+    cyan: number
 }
 
 export async function ix(
@@ -69,12 +75,12 @@ export async function ix(
         MPL_TOKEN_METADATA_PROGRAM_ID
     );
     const plan = {
-        red: new BN(0),
-        green: new BN(0),
-        blue: new BN(0),
-        yellow: new BN(0),
-        magenta: new BN(0),
-        cyan: new BN(0),
+        red: new BN(input.red),
+        green: new BN(input.green),
+        blue: new BN(input.blue),
+        yellow: new BN(input.yellow),
+        magenta: new BN(input.magenta),
+        cyan: new BN(input.cyan),
         white: new BN(input.white)
     };
     const image = await domToImage(

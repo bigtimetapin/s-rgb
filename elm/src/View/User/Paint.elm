@@ -45,6 +45,11 @@ body grid color =
                 ]
                 [ select_ Color.White
                 , select_ Color.Red
+                , select_ Color.Green
+                , select_ Color.Blue
+                , select_ Color.Yellow
+                , select_ Color.Magenta
+                , select_ Color.Cyan
                 , select_ Color.Black
                 ]
             , Html.div
