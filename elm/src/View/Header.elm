@@ -111,14 +111,6 @@ viewGlobal global =
                 [ Html.text "no-wallet-installed"
                 ]
 
-        HasWallet wallet ->
-            Html.div
-                [ class "is-text-container-4 is-family-secondary"
-                ]
-                [ Html.text <|
-                    Wallet.slice wallet
-                ]
-
         HasUser user ->
             Html.div
                 [ class "is-text-container-4 is-family-secondary"

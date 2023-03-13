@@ -3,8 +3,6 @@ module Model.State.Local.Local exposing (..)
 import Html
 import Html.Attributes
 import Model.Admin.State as Admin
-import Model.Color as Color
-import Model.Grid as Grid
 import Model.User.State as User
 import Url
 import Url.Parser as UrlParser exposing ((</>))
@@ -28,14 +26,6 @@ urlParser =
         , UrlParser.map
             (Admin <| Admin.Top)
             (UrlParser.s "admin")
-
-        -- user
-        , UrlParser.map
-            (User <| User.Top)
-            (UrlParser.s "user")
-        , UrlParser.map
-            (User <| User.Paint Grid.init Color.White)
-            (UrlParser.s "user" </> UrlParser.s "paint")
         ]
 
 
@@ -61,9 +51,6 @@ path local =
     case local of
         Admin Admin.Top ->
             "#/admin"
-
-        User User.Top ->
-            "#/user"
 
         _ ->
             -- routes to error

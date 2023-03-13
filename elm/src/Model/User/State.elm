@@ -7,5 +7,7 @@ import Model.User.User exposing (User)
 
 type State
     = Top
-    | Fetched User
-    | Paint Grid Color
+    | Stake User
+    | Mix User
+    | Vault User
+    | Paint User Grid Color

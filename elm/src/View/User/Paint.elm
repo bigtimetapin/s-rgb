@@ -6,19 +6,21 @@ import Html.Events exposing (onClick)
 import Model.Cell exposing (Cell)
 import Model.Color as Color exposing (Color)
 import Model.Grid exposing (Grid, Row)
+import Model.User.User exposing (User)
 import Msg.Msg exposing (Msg(..))
 import Msg.User.Msg as UserMsg
 
 
-body : Grid -> Color -> Html Msg
-body grid color =
+body : User -> Grid -> Color -> Html Msg
+body user grid color =
     let
         f =
             UserMsg.ColorPixel
+                user
                 grid
 
         select_ =
-            select grid
+            select user grid
     in
     Html.div
         [ class <|
@@ -68,8 +70,8 @@ body grid color =
         ]
 
 
-select : Grid -> Color -> Html Msg
-select grid color =
+select : User -> Grid -> Color -> Html Msg
+select user grid color =
     Html.button
         [ class <|
             String.concat
@@ -80,6 +82,7 @@ select grid color =
         , onClick <|
             FromUser <|
                 UserMsg.ChangeColor
+                    user
                     grid
                     color
         ]

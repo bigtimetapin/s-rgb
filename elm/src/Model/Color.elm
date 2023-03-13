@@ -1,4 +1,4 @@
-module Model.Color exposing (Color(..), toClass)
+module Model.Color exposing (Color(..), init, toClass)
 
 
 type Color
@@ -10,6 +10,11 @@ type Color
     | Yellow
     | Magenta
     | Cyan
+
+
+init : Color
+init =
+    White
 
 
 toClass : Color -> String

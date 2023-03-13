@@ -4,6 +4,7 @@ module Main exposing (main)
 
 import Browser
 import Browser.Navigation as Nav
+import Model.Color as Color
 import Model.Grid as Grid
 import Model.Model as Model exposing (Model)
 import Model.Pixel as Pixel
@@ -70,22 +71,9 @@ update msg model =
                         , url = url
                     }
             in
-            case local of
-                Local.User UserState.Top ->
-                    ( Model.waiting bump
-                    , Cmd.batch
-                        [ sender <|
-                            Sender.encode0 <|
-                                Sender.User <|
-                                    UserMsg.Fetch
-                        , resetViewport
-                        ]
-                    )
-
-                _ ->
-                    ( bump
-                    , resetViewport
-                    )
+            ( bump
+            , resetViewport
+            )
 
         LinkClicked urlRequest ->
             case urlRequest of
@@ -176,10 +164,10 @@ update msg model =
                             }
                     )
 
-                UserMsg.ChangeColor grid color ->
+                UserMsg.ChangeColor user grid color ->
                     ( { model
                         | state =
-                            { local = Local.User <| UserState.Paint grid color
+                            { local = Local.User <| UserState.Paint user grid color
                             , global = model.state.global
                             , exception = model.state.exception
                             }
@@ -187,7 +175,7 @@ update msg model =
                     , Cmd.none
                     )
 
-                UserMsg.ColorPixel grid color cell ->
+                UserMsg.ColorPixel user grid color cell ->
                     let
                         rows =
                             List.map
@@ -210,6 +198,7 @@ update msg model =
                             { local =
                                 Local.User <|
                                     UserState.Paint
+                                        user
                                         rows
                                         color
                             , global = model.state.global
@@ -241,11 +230,33 @@ update msg model =
                                                         UserListener.Fetched ->
                                                             let
                                                                 f user =
+                                                                    let
+                                                                        local =
+                                                                            case model.state.local of
+                                                                                Local.User (UserState.Stake _) ->
+                                                                                    Local.User <| UserState.Stake user
+
+                                                                                Local.User (UserState.Mix _) ->
+                                                                                    Local.User <| UserState.Mix user
+
+                                                                                Local.User (UserState.Vault _) ->
+                                                                                    Local.User <| UserState.Vault user
+
+                                                                                Local.User (UserState.Paint _ _ _) ->
+                                                                                    Local.User <|
+                                                                                        UserState.Paint
+                                                                                            user
+                                                                                            Grid.init
+                                                                                            Color.init
+
+                                                                                _ ->
+                                                                                    Local.User <| UserState.Stake user
+                                                                    in
                                                                     { model
                                                                         | state =
                                                                             { local =
                                                                                 Local.User <|
-                                                                                    UserState.Fetched user
+                                                                                    UserState.Stake user
                                                                             , global = model.state.global
                                                                             , exception = Exception.Closed
                                                                             }
@@ -257,33 +268,17 @@ update msg model =
                                         Listener.Global toGlobal ->
                                             case toGlobal of
                                                 ToGlobal.FoundWalletDisconnected ->
-                                                    case model.state.local of
-                                                        Local.User (UserState.Fetched _) ->
-                                                            ( { model
-                                                                | state =
-                                                                    { local =
-                                                                        Local.User <|
-                                                                            UserState.Top
-                                                                    , global = Global.NoWalletYet
-                                                                    , exception = Exception.Closed
-                                                                    }
-                                                              }
-                                                            , sender <|
-                                                                Sender.encode0 <|
-                                                                    Sender.User <|
-                                                                        UserMsg.Fetch
-                                                            )
-
-                                                        _ ->
-                                                            ( { model
-                                                                | state =
-                                                                    { local = model.state.local
-                                                                    , global = Global.NoWalletYet
-                                                                    , exception = Exception.Closed
-                                                                    }
-                                                              }
-                                                            , Cmd.none
-                                                            )
+                                                    ( { model
+                                                        | state =
+                                                            { local =
+                                                                Local.User <|
+                                                                    UserState.Top
+                                                            , global = Global.NoWalletYet
+                                                            , exception = Exception.Closed
+                                                            }
+                                                      }
+                                                    , Cmd.none
+                                                    )
 
                                                 ToGlobal.FoundMissingWalletPlugin ->
                                                     ( { model
@@ -296,32 +291,6 @@ update msg model =
                                                     , Cmd.none
                                                     )
 
-                                                ToGlobal.FoundWallet ->
-                                                    let
-                                                        f wallet =
-                                                            case model.state.local of
-                                                                Local.User (UserState.Fetched _) ->
-                                                                    { model
-                                                                        | state =
-                                                                            { local =
-                                                                                Local.User <|
-                                                                                    UserState.Top
-                                                                            , global = Global.HasWallet wallet
-                                                                            , exception = Exception.Closed
-                                                                            }
-                                                                    }
-
-                                                                _ ->
-                                                                    { model
-                                                                        | state =
-                                                                            { local = model.state.local
-                                                                            , global = Global.HasWallet wallet
-                                                                            , exception = Exception.Closed
-                                                                            }
-                                                                    }
-                                                    in
-                                                    Listener.decode model json Wallet.decode f
-
                                                 ToGlobal.FoundUser ->
                                                     let
                                                         f user =
@@ -331,7 +300,7 @@ update msg model =
                                                                         | state =
                                                                             { local =
                                                                                 Local.User <|
-                                                                                    UserState.Fetched user
+                                                                                    UserState.Stake user
                                                                             , global = Global.HasUser user
                                                                             , exception = Exception.Closed
                                                                             }

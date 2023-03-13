@@ -5,11 +5,7 @@ import Model.State.Exception.Exception as Exception
 import Model.State.Global.Global as Global
 import Model.State.Local.Local as Local exposing (Local)
 import Model.State.State exposing (State)
-import Model.User.State as UserState
 import Msg.Msg exposing (Msg(..))
-import Msg.User.Msg as UserMsg
-import Sub.Sender.Ports exposing (sender)
-import Sub.Sender.Sender as Sender
 import Url
 
 
@@ -38,19 +34,9 @@ init _ url key =
             , key = key
             }
     in
-    case local of
-        Local.User UserState.Top ->
-            ( waiting model
-            , sender <|
-                Sender.encode0 <|
-                    Sender.User <|
-                        UserMsg.Fetch
-            )
-
-        _ ->
-            ( model
-            , Cmd.none
-            )
+    ( model
+    , Cmd.none
+    )
 
 
 waiting : Model -> Model

@@ -5,6 +5,7 @@ import Model.Color exposing (Color)
 import Model.Grid exposing (Grid)
 import Model.Pixel as Pixel
 import Model.Primary exposing (Primary(..))
+import Model.User.User exposing (User)
 
 
 type Msg
@@ -20,8 +21,8 @@ type Msg
       -- paint
     | Paint Grid
       -- paint ui
-    | ChangeColor Grid Color
-    | ColorPixel Grid Color Cell
+    | ChangeColor User Grid Color
+    | ColorPixel User Grid Color Cell
 
 
 toString : Msg -> String
