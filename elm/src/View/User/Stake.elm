@@ -140,7 +140,7 @@ body user =
         [ Html.div
             [ class "mb-2"
             ]
-            [ View.User.Header.body (State.Stake user)
+            [ View.User.Header.body user State.Stake
             ]
         , Html.div
             [ class "mb-6"

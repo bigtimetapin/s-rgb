@@ -2,14 +2,20 @@ module View.User.Header exposing (body)
 
 import Html exposing (Html)
 import Html.Attributes exposing (class, style)
+import Html.Events exposing (onClick)
 import Model.User.State as State exposing (State)
-import Msg.Msg exposing (Msg)
+import Model.User.User exposing (User)
+import Msg.Msg exposing (Msg(..))
+import Msg.User.Msg as UserMsg
 
-body : State -> Html Msg
-body state =
+body : User -> (User -> State) -> Html Msg
+body user f =
     let
         hightlight_ =
-            highlight state
+            highlight (f user)
+
+        click_ =
+            click user
     in
     Html.div
         [ style "align-items" "center"
@@ -19,12 +25,14 @@ body state =
         [ Html.div
             [ class "px-3 has-vertical-line-right"
             ]
-            [ Html.div
+            [ Html.button
                 [ class <|
                     String.concat
-                        [ "is-text-container-4 has-text-weight-bold"
+                        [ "is-button-2 has-text-weight-bold"
                         , hightlight_ Stake
                         ]
+                , onClick <|
+                    click_ Stake
                 ]
                 [ Html.div
                     [ class "is-size-4"
@@ -36,12 +44,14 @@ body state =
         , Html.div
             [ class "px-3 has-vertical-line-right"
             ]
-            [ Html.div
+            [ Html.button
                 [ class <|
                     String.concat
-                        [ "is-text-container-4 has-text-weight-bold"
+                        [ "is-button-2 has-text-weight-bold"
                         , hightlight_ Mix
                         ]
+                , onClick <|
+                    click_ Mix
                 ]
                 [ Html.div
                     [ class "is-size-4"
@@ -53,12 +63,14 @@ body state =
         , Html.div
             [ class "px-3 has-vertical-line-right"
             ]
-            [ Html.div
+            [ Html.button
                 [ class <|
                     String.concat
-                        [ "is-text-container-4 has-text-weight-bold"
+                        [ "is-button-2 has-text-weight-bold"
                         , hightlight_ Vault
                         ]
+                , onClick <|
+                    click_ Vault
                 ]
                 [ Html.div
                     [ class "is-size-4"
@@ -70,8 +82,8 @@ body state =
         , Html.div
             [ class "px-3 has-vertical-line-right"
             ]
-            [ Html.div
-                [ class "is-text-container-4 has-text-weight-bold"
+            [ Html.button
+                [ class "is-button-2 has-text-weight-bold is-disabled"
                 ]
                 [ Html.div
                     [ class "is-size-4"
@@ -83,12 +95,14 @@ body state =
         , Html.div
             [ class "px-3"
             ]
-            [ Html.div
+            [ Html.button
                 [ class <|
                     String.concat
-                        [ "is-text-container-4 has-text-weight-bold"
+                        [ "is-button-2 has-text-weight-bold"
                         , hightlight_ Paint
                         ]
+                , onClick <|
+                    click_ Paint
                 ]
                 [ Html.div
                     [ class "is-size-4"
@@ -99,11 +113,30 @@ body state =
             ]
         ]
 
+click : User -> This -> Msg
+click user this =
+    let
+        msg =
+            case this of
+                Stake ->
+                    UserMsg.HrefStake user
+
+                Mix ->
+                    UserMsg.HrefMix user
+
+                Vault ->
+                    UserMsg.HrefVault user
+
+                Paint ->
+                    UserMsg.HrefPaint user
+    in
+    FromUser msg
+
 highlight : State -> This -> String
 highlight state this =
     let
         class =
-            " has-green-text"
+            " is-underlined"
     in
     case (this, state) of
         (Stake, State.Stake _) ->

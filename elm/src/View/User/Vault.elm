@@ -3,8 +3,10 @@ module View.User.Vault exposing (body)
 import Html exposing (Html)
 import Html.Attributes exposing (class, src)
 import Model.Pixel exposing (Pixel)
+import Model.User.State as State
 import Model.User.User exposing (User)
 import Msg.Msg exposing (Msg)
+import View.User.Header
 
 
 body : User -> Html Msg
@@ -12,6 +14,11 @@ body user =
     Html.div
         []
         [ Html.div
+            [ class "mb-2"
+            ]
+            [ View.User.Header.body user State.Vault
+            ]
+        , Html.div
             [ class "mb-6"
             ]
             [ Html.div

@@ -102,6 +102,55 @@ update msg model =
                                 fromUserMsg
                     )
 
+
+                UserMsg.HrefStake user ->
+                    ( { model
+                        | state =
+                            { local = Local.User <| UserState.Stake user
+                            , global = model.state.global
+                            , exception = model.state.exception
+                            }
+                    }
+                    , Cmd.none
+                    )
+
+
+                UserMsg.HrefMix user ->
+                    ( { model
+                        | state =
+                            { local = Local.User <| UserState.Mix user
+                            , global = model.state.global
+                            , exception = model.state.exception
+                            }
+                    }
+                    , Cmd.none
+                    )
+
+
+                UserMsg.HrefVault user ->
+                    ( { model
+                        | state =
+                            { local = Local.User <| UserState.Vault user
+                            , global = model.state.global
+                            , exception = model.state.exception
+                            }
+                    }
+                    , Cmd.none
+                    )
+
+
+                UserMsg.HrefPaint user ->
+                    ( { model
+                        | state =
+                            { local = Local.User <| UserState.Paint user Grid.init Color.init
+                            , global = model.state.global
+                            , exception = model.state.exception
+                            }
+                    }
+                    , Cmd.none
+                    )
+
+
                 UserMsg.Stake _ ->
                     ( Model.waiting model
                     , sender <|

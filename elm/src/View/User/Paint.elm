@@ -6,9 +6,11 @@ import Html.Events exposing (onClick)
 import Model.Cell exposing (Cell)
 import Model.Color as Color exposing (Color)
 import Model.Grid exposing (Grid, Row)
+import Model.User.State as State
 import Model.User.User exposing (User)
 import Msg.Msg exposing (Msg(..))
 import Msg.User.Msg as UserMsg
+import View.User.Header
 
 
 body : User -> Grid -> Color -> Html Msg
@@ -31,6 +33,11 @@ body user grid color =
                 ]
         ]
         [ Html.div
+            [ class "mb-2"
+            ]
+            [ View.User.Header.body user (\u -> State.Paint u grid color)
+            ]
+        , Html.div
             [ class "mb-3"
             , id "s-rgb-pixel-grid"
             ]
