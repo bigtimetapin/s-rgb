@@ -4,8 +4,6 @@ import Html exposing (Html)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
 import Model.State.Global.Global exposing (Global(..))
-import Model.State.Local.Local as Local
-import Model.User.State as UserState
 import Model.Wallet as Wallet
 import Msg.Global as FromGlobal
 import Msg.Msg as Msg exposing (Msg(..))
@@ -22,21 +20,7 @@ view global =
             [ Html.div
                 [ class "level-item"
                 ]
-                [ Html.h1
-                    []
-                    [ Html.a
-                        [ Local.href <|
-                            Local.User <|
-                                UserState.Top
-                        ]
-                        [ Html.div
-                            [ class "is-text-container-4"
-                            ]
-                            [ Html.text "S-RGB"
-                            , Html.text "🔥"
-                            ]
-                        ]
-                    ]
+                [ left global
                 ]
             ]
         , Html.div
@@ -45,92 +29,60 @@ view global =
             [ Html.div
                 [ class "level-item"
                 ]
-                [ Html.span
-                    [ class "icon-text"
-                    ]
-                    [ Html.span
-                        []
-                        [ connect global
-                        ]
-                    , Html.span
-                        [ class "icon"
-                        ]
-                        [ Html.i
-                            [ class "fas fa-user"
-                            ]
-                            []
-                        ]
-                    ]
-                ]
-            , Html.div
-                [ class "level-item"
-                ]
-                [ viewGlobal global
+                [ right global
                 ]
             ]
         ]
 
-
-connect : Global -> Html Msg
-connect global =
-    case global of
-        NoWalletYet ->
-            Html.button
-                [ class "is-light-text-container-4"
-                , onClick <| Msg.Global FromGlobal.Connect
-                ]
-                [ Html.text "Connect Wallet"
-                ]
-
-        WalletMissing ->
-            Html.div
-                []
-                []
-
-        _ ->
-            Html.button
-                [ class "is-light-text-container-4"
-                , onClick <| Msg.Global FromGlobal.Disconnect
-                ]
-                [ Html.text "Disconnect Wallet"
-                ]
-
-
-viewGlobal : Global -> Html Msg
-viewGlobal global =
+left : Global -> Html Msg
+left global =
     case global of
         NoWalletYet ->
             Html.div
                 []
                 []
 
+
         WalletMissing ->
             Html.div
-                [ class "is-light-text-container-4"
+                []
+                []
+
+
+        HasUser _ ->
+            Html.div
+                [ class "is-text-container-4"
                 ]
-                [ Html.text "no-wallet-installed"
+                [ Html.h1
+                    [ class "is-size-4"
+                    ]
+                    [ Html.text "rgb.industries"
+                    ]
                 ]
+
+
+right : Global -> Html Msg
+right global =
+    case global of
+        NoWalletYet ->
+            Html.div
+                []
+                []
+
+        WalletMissing ->
+            Html.div
+                []
+                []
 
         HasUser user ->
             Html.div
-                [ class "is-text-container-4 is-family-secondary"
+                [ class "is-text-container-4"
                 ]
-                [ Html.div
-                    []
+                [ Html.button
+                    [ class "is-size-4"
+                    , onClick <| Msg.Global FromGlobal.Disconnect
+                    ]
                     [ Html.text <|
                         Wallet.slice user.wallet
-                    ]
-                , Html.div
-                    [ class "is-light-text-container-5 is-size-5"
-                    ]
-                    [ Html.a
-                        [ class "has-sky-blue-text"
-                        , Local.href <|
-                            Local.User <|
-                                UserState.Top
-                        ]
-                        [ Html.text <|
-                            "view stake"
-                        ]
                     ]
                 ]

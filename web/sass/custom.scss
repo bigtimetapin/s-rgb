@@ -24,11 +24,11 @@ body {
 }
 
 a:link, a:visited {
-  color: #FDF9EF;
+  color: #E6E6E6;
 }
 
 strong {
-  color: #FDF9EF !important;
+  color: #E6E6E6 !important;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,12 +37,8 @@ strong {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // fonts ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /* https://developers.google.com/fonts/docs/css2 */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700');
-$family-primary: "Roboto", BlinkMacSystemFont, -apple-system, "Helvetica", "Arial", sans-serif;
-
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Serif:ital,wght@1,300;1,400;1,700');
-$family-secondary: "Roboto Serif", BlinkMacSystemFont, -apple-system, "Helvetica", "Arial", sans-serif;
-
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700');
+$family-primary: "Open Sans", BlinkMacSystemFont, -apple-system, "Helvetica", "Arial", sans-serif;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // colors //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,49 +46,66 @@ $family-secondary: "Roboto Serif", BlinkMacSystemFont, -apple-system, "Helvetica
   color: transparent;
 }
 
+.has-off-white {
+  background-color: #E6E6E6;
+  color: #1A1A1A
+}
+
 .has-off-black {
-  background-color: #2B2B2B;
-  color: #FDF9EF;
+  background-color: #1A1A1A;
+  color: #E6E6E6;
 }
 
 .has-black {
   background-color: black;
-  color: white;
+  color: #E6E6E6;
 }
 
 .has-white {
   background-color: white;
-  color: black;
+  color: #1A1A1A;
 }
 
 .has-red {
   background-color: red;
-  color: white;
+  color: #E6E6E6;
+}
+
+.has-red-text {
+  color: red;
 }
 
 .has-green {
-  background-color: green;
-  color: white;
+  background-color: #00FF00;
+  color: #E6E6E6;
+}
+
+.has-green-text {
+  color: #00FF00;
 }
 
 .has-blue {
   background-color: blue;
-  color: white;
+  color: #E6E6E6;
+}
+
+.has-blue-text {
+  color: blue;
 }
 
 .has-yellow {
   background-color: yellow;
-  color: white;
+  color: #E6E6E6;
 }
 
 .has-magenta {
   background-color: magenta;
-  color: white;
+  color: #E6E6E6;
 }
 
 .has-cyan {
   background-color: cyan;
-  color: white;
+  color: #E6E6E6;
 }
 
 .has-sky-blue-text {
@@ -147,38 +160,27 @@ $family-secondary: "Roboto Serif", BlinkMacSystemFont, -apple-system, "Helvetica
   height: 64px;
   z-index: 101;
   // blend in
-  background-color: #2B2B2B;
-}
-
-.is-hiw {
-  height: 676px;
-  border: 2px solid #FDF9EF;
-  border-radius: 16px;
-}
-
-.is-collection {
-  background-color: #FDF9EF;
-  color: #2B2B2B;
-  border-radius: 16px;
-}
-
-.is-upload {
-  border: 2px solid #FDF9EF;
-  border-radius: 16px;
+  // background-color: #2B2B2B;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // buttons /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+.is-connect-button {
+  border-color: #E6E6E6 !important;
+  background-color: #E6E6E6 !important;
+  color: #1A1A1A
+}
+
 .is-button-1 {
   width: 100%;
-  background-color: #2B2B2B;
-  color: #FDF9EF;
+  background-color: #1A1A1A;
+  color: #E6E6E6;
   border-radius: 12px;
 }
 
 .is-button-1:hover {
-  background-color: #FDF9EF;
-  color: #2B2B2B;
+  background-color: #E6E6E6;
+  color: #1A1A1A;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -206,11 +208,11 @@ $family-secondary: "Roboto Serif", BlinkMacSystemFont, -apple-system, "Helvetica
 /// Bulma Variable Overrides ///////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // sizes
-$size-1: 64px;
+$size-1: 144px;
 $size-2: 48px;
 $size-3: 32px;
 $size-4: 24px;
-$size-5: 16px;
+$size-5: 18px;
 $size-6: 14px;
 $size-7: 12px;
 

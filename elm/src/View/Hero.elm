@@ -4,7 +4,7 @@ import Html exposing (Html)
 import Html.Attributes exposing (class, href, target)
 import Html.Events exposing (onClick)
 import Model.State.Exception.Exception as Exception exposing (Exception)
-import Model.State.Global.Global exposing (Global)
+import Model.State.Global.Global as Global exposing (Global)
 import Msg.Msg exposing (Msg(..))
 import View.Footer
 import View.Header
@@ -109,7 +109,12 @@ view exception global body =
                         []
     in
     Html.section
-        [ class "hero is-fullheight has-off-black is-family-primary"
+        [ class <|
+            String.concat
+                [ "hero is-fullheight is-family-primary"
+                , " "
+                , color global
+                ]
         ]
         [ Html.div
             [ class "hero-head"
@@ -128,3 +133,16 @@ view exception global body =
             [ View.Footer.view
             ]
         ]
+
+color : Global -> String
+color global =
+    case global of
+        Global.NoWalletYet ->
+            "has-off-white"
+
+
+        Global.WalletMissing ->
+            "has-off-white"
+
+        Global.HasUser _ ->
+            "has-off-black"
