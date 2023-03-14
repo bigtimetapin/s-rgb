@@ -11,7 +11,7 @@ import {
     SPL_ASSOCIATED_TOKEN_PROGRAM_ID,
     SPL_TOKEN_PROGRAM_ID
 } from "../../util/constants";
-import {getGlobal} from "../../pda/get-global";
+import {getUser} from "../../pda/get-global";
 import * as Burn from "./burn";
 import {SRgbStake} from "../../idl/stake";
 import {SRgbCraft} from "../../idl/craft";
@@ -132,7 +132,7 @@ export async function ix(
         provider,
         programs
     );
-    await getGlobal(
+    await getUser(
         app,
         provider,
         programs

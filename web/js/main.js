@@ -12,8 +12,7 @@ import * as SeparatePixel from "./anchor/ix/craft/separate";
 import * as StakeBlue from "./anchor/ix/stake/blue";
 import * as StakeGreen from "./anchor/ix/stake/green"
 import * as StakeRed from "./anchor/ix/stake/red";
-import {getGlobal, getNFts, getPalette} from "./anchor/pda/get-global";
-import {getPools} from "./anchor/pda/get-pools";
+import {getUser, getGlobal} from "./anchor/pda/get-global";
 
 // init phantom
 let phantom = null;
@@ -71,34 +70,10 @@ export async function main(app, json) {
                 pp = getEphemeralPP(
                 );
             }
-            const pools = await getPools(
+            await getUser(
+                app,
                 pp.provider,
                 pp.programs
-            );
-            const palette = await getPalette(
-                pp.provider,
-                pp.programs
-            );
-            const nfts = await getNFts(
-                pp.provider,
-                pp.programs.paint
-            );
-            const user = {
-                wallet: pp.provider.wallet.toString(),
-                tvl: pools.tvl,
-                pools: pools.pools,
-                palette: palette,
-                nfts: nfts
-            };
-            app.ports.success.send(
-                JSON.stringify(
-                    {
-                        listener: "user-fetched",
-                        more: JSON.stringify(
-                            user
-                        )
-                    }
-                )
             );
             // or user stake red
         } else if (sender === "user-stake-red") {
@@ -280,7 +255,7 @@ export async function onWalletChange(app) {
             if (phantom) {
                 phantom = await getPhantom(app);
                 const pp = getPP(phantom);
-                await getGlobal(
+                await getUser(
                     app,
                     pp.provider,
                     pp.programs

@@ -1,7 +1,7 @@
 import {AnchorProvider, Program, SplToken} from "@project-serum/anchor";
 import * as ProofIndexer from "../../pda/paint/proof-indexer-pda";
 import {SystemProgram} from "@solana/web3.js";
-import {getGlobal} from "../../pda/get-global";
+import {getUser} from "../../pda/get-global";
 import {SRgbPaint} from "../../idl/paint";
 import {SRgbStake} from "../../idl/stake";
 import {SRgbCraft} from "../../idl/craft";
@@ -20,7 +20,7 @@ export async function init(
         provider,
         programs.paint
     );
-    await getGlobal(
+    await getUser(
         app,
         provider,
         programs

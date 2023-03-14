@@ -5,7 +5,7 @@ import {deriveRedStakePda, getStakePda} from "../../pda/stake-pda";
 import {deriveAtaPda} from "../../pda/ata-pda";
 import {SystemProgram, SYSVAR_RENT_PUBKEY} from "@solana/web3.js";
 import {SPL_ASSOCIATED_TOKEN_PROGRAM_ID, SPL_TOKEN_PROGRAM_ID, W_SOL} from "../../util/constants";
-import {getGlobal} from "../../pda/get-global";
+import {getUser} from "../../pda/get-global";
 import {SRgbStake} from "../../idl/stake";
 import {SRgbCraft} from "../../idl/craft";
 import {SRgbPaint} from "../../idl/paint";
@@ -62,7 +62,7 @@ export async function ix(
                 rent: SYSVAR_RENT_PUBKEY,
             }
         ).rpc();
-    await getGlobal(
+    await getUser(
         app,
         provider,
         programs

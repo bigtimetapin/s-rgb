@@ -11,7 +11,7 @@ import {
 } from "@solana/web3.js";
 import {SPL_ASSOCIATED_TOKEN_PROGRAM_ID, SPL_TOKEN_PROGRAM_ID, W_SOL} from "../../util/constants";
 import {deriveAtaPda} from "../../pda/ata-pda";
-import {getGlobal} from "../../pda/get-global";
+import {getUser} from "../../pda/get-global";
 import {buildTxForMany} from "../../util/tx";
 import {SRgbStake} from "../../idl/stake";
 import {SRgbCraft} from "../../idl/craft";
@@ -78,7 +78,7 @@ export async function ix(
         ]
     );
     console.log(sent);
-    await getGlobal(
+    await getUser(
         app,
         provider,
         programs

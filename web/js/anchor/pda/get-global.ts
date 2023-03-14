@@ -50,25 +50,10 @@ export async function getGlobal(
         token: Program<SplToken>
     },
 ): Promise<void> {
-    const pools = await getPools(
+    const user = await getUser_(
         provider,
         programs
     );
-    const palette = await getPalette(
-        provider,
-        programs
-    );
-    const nfts = await getNFts(
-        provider,
-        programs.paint
-    );
-    const user = {
-        wallet: provider.wallet.publicKey.toString(),
-        tvl: pools.tvl,
-        pools: pools.pools,
-        palette: palette,
-        nfts: nfts
-    } as User;
     app.ports.success.send(
         JSON.stringify(
             {
@@ -81,7 +66,33 @@ export async function getGlobal(
     );
 }
 
-export async function getPalette(
+export async function getUser(
+    app,
+    provider: AnchorProvider,
+    programs: {
+        stake: Program<SRgbStake>;
+        craft: Program<SRgbCraft>;
+        paint: Program<SRgbPaint>;
+        token: Program<SplToken>
+    },
+): Promise<void> {
+    const user = await getUser_(
+        provider,
+        programs
+    );
+    app.ports.success.send(
+        JSON.stringify(
+            {
+                listener: "user-fetched",
+                more: JSON.stringify(
+                    user
+                )
+            }
+        )
+    );
+}
+
+async function getPalette(
     provider: AnchorProvider,
     programs: {
         stake: Program<SRgbStake>;
@@ -119,7 +130,7 @@ export async function getPalette(
     );
 }
 
-export async function getNFts(
+async function getNFts(
     provider: AnchorProvider,
     program: Program<SRgbPaint>
 ): Promise<Nfts> {
@@ -160,4 +171,34 @@ export async function getNFts(
         nfts = []
     }
     return nfts
+}
+
+async function getUser_(
+    provider: AnchorProvider,
+    programs: {
+        stake: Program<SRgbStake>;
+        craft: Program<SRgbCraft>;
+        paint: Program<SRgbPaint>;
+        token: Program<SplToken>
+    },
+): Promise<User> {
+    const pools = await getPools(
+        provider,
+        programs
+    );
+    const palette = await getPalette(
+        provider,
+        programs
+    );
+    const nfts = await getNFts(
+        provider,
+        programs.paint
+    );
+    return {
+        wallet: provider.wallet.publicKey.toString(),
+        tvl: pools.tvl,
+        pools: pools.pools,
+        palette: palette,
+        nfts: nfts
+    }
 }
