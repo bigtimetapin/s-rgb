@@ -15,7 +15,7 @@ import View.User.Header
 body : User -> Html Msg
 body user =
     let
-        stake : (User -> Amount) -> Primary -> (Html Msg, Html Msg)
+        stake : (User -> Amount) -> Primary -> ( Html Msg, Html Msg )
         stake f primary =
             case (f user).amount == 0 of
                 True ->
@@ -41,43 +41,43 @@ body user =
 
                 False ->
                     ( Html.div
-                            [ class "is-text-container-6"
+                        [ class "is-text-container-6"
+                        ]
+                        [ Html.div
+                            [ class "is-size-6"
                             ]
-                            [ Html.div
-                                [ class "is-size-6"
-                                ]
-                                [ Html.text <|
-                                    String.concat
-                                        [ "$SOL"
-                                        , " "
-                                        , (f user).formatted
-                                        ]
-                                ]
+                            [ Html.text <|
+                                String.concat
+                                    [ "$SOL"
+                                    , " "
+                                    , (f user).formatted
+                                    ]
                             ]
-                        , Html.div
-                            []
-                            [ Html.button
-                                [ class "is-button-4 is-size-3 has-text-weight-bold"
-                                , style "width" "100%"
-                                , onClick <|
-                                    FromUser <|
-                                        UserMsg.Harvest <|
-                                            primary
-                                ]
-                                [ Html.text
-                                    """HARVEST
+                        ]
+                    , Html.div
+                        []
+                        [ Html.button
+                            [ class "is-button-4 is-size-3 has-text-weight-bold"
+                            , style "width" "100%"
+                            , onClick <|
+                                FromUser <|
+                                    UserMsg.Harvest <|
+                                        primary
+                            ]
+                            [ Html.text
+                                """HARVEST
                                     """
-                                ]
+                            ]
                         ]
                     )
 
-        (stakeRedBalance, stakeRedButton) =
+        ( stakeRedBalance, stakeRedButton ) =
             stake (\u -> u.pools.red.staked) Primary.Red
 
-        (stakeGreenBalance, stakeGreenButton) =
+        ( stakeGreenBalance, stakeGreenButton ) =
             stake (\u -> u.pools.green.staked) Primary.Green
 
-        (stakeBlueBalance, stakeBlueButton) =
+        ( stakeBlueBalance, stakeBlueButton ) =
             stake (\u -> u.pools.blue.staked) Primary.Blue
 
         balance : (User -> Amount) -> Primary -> Html Msg
@@ -226,7 +226,7 @@ toString primary =
         ]
 
 
-table : Html Msg -> Html Msg -> Html Msg ->Html Msg
+table : Html Msg -> Html Msg -> Html Msg -> Html Msg
 table tvl_ balance_ stake_ =
     Html.div
         [ class "table-container"
