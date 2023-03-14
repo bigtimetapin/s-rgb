@@ -38,6 +38,52 @@ body user =
                             FromUser <|
                                 UserMsg.MintPixel
                                     { r = 1
+                                    , g = 0
+                                    , b = 0
+                                    , depth = 1
+                                    }
+
+                        ]
+                        []
+                    ]
+                , Html.div
+                    [ class "has-black is-color-block"
+                    ]
+                    []
+                , Html.div
+                    []
+                    [ Html.img
+                        [ src "svg/equal-sign.svg"
+                        , style "width" "150px"
+                        ]
+                        []
+                    ]
+                , Html.div
+                    [ class "has-red is-color-block"
+                    ]
+                    []
+                ]
+
+
+
+
+            , Html.div
+                [ style "align-items" "center"
+                , style "justify-content" "center"
+                , style "display" "flex"
+                ]
+                [ Html.div
+                    [ class "has-red is-color-block"
+                    ]
+                    []
+                , Html.div
+                    []
+                    [ Html.button
+                        [ class "is-mix-button"
+                        , onClick <|
+                            FromUser <|
+                                UserMsg.MintPixel
+                                    { r = 1
                                     , g = 1
                                     , b = 0
                                     , depth = 1
