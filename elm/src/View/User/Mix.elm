@@ -112,6 +112,89 @@ body user =
                         }
                     }
                 ]
+            , Html.div
+                []
+                [ Html.div
+                    [ style "align-items" "center"
+                    , style "justify-content" "center"
+                    , style "display" "flex"
+                    ]
+                    [ Html.div
+                        [ class <|
+                            String.concat
+                                [ "has-red"
+                                , " "
+                                , "is-color-block"
+                                ]
+                        ]
+                        []
+                    , Html.div
+                        []
+                        [ Html.button
+                            [ class "is-mix-button"
+                            , onClick <|
+                                FromUser <|
+                                    UserMsg.MintPixel
+                                        { r = 1
+                                        , g = 1
+                                        , b = 1
+                                        , depth = 1
+                                        }
+                            ]
+                            []
+                        ]
+                    , Html.div
+                        [ class <|
+                            String.concat
+                                [ "has-green"
+                                , " "
+                                , "is-color-block"
+                                ]
+                        ]
+                        []
+                    , Html.div
+                        []
+                        [ Html.button
+                            [ class "is-mix-button"
+                            , onClick <|
+                                FromUser <|
+                                    UserMsg.MintPixel
+                                        { r = 1
+                                        , g = 1
+                                        , b = 1
+                                        , depth = 1
+                                        }
+                            ]
+                            []
+                        ]
+                    , Html.div
+                        [ class <|
+                            String.concat
+                                [ "has-blue"
+                                , " "
+                                , "is-color-block"
+                                ]
+                        ]
+                        []
+                    , Html.div
+                        []
+                        [ Html.img
+                            [ src "svg/equal-sign.svg"
+                            , style "width" "150px"
+                            ]
+                            []
+                        ]
+                    , Html.div
+                        [ class <|
+                            String.concat
+                                [ "has-white"
+                                , " "
+                                , "is-color-block"
+                                ]
+                        ]
+                        []
+                    ]
+                ]
             ]
         ]
 
