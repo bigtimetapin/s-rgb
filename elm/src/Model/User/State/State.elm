@@ -1,4 +1,4 @@
-module Model.User.State exposing (State(..))
+module Model.User.State.State exposing (State(..))
 
 import Model.Color exposing (Color)
 import Model.Grid exposing (Grid)

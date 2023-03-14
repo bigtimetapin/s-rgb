@@ -26,32 +26,27 @@ type alias Plan =
 
 init : Grid
 init =
-    [ List.map
-        (\int ->
-            { index = int, color = Color.Black }
+    resize 24 24
+
+
+resize : Int -> Int -> Grid
+resize x y =
+    List.map
+        (\iy ->
+            let
+                head =
+                    ((iy - 1) * x) + 1
+
+                tail =
+                    iy * x
+            in
+            List.map
+                (\int ->
+                    { index = int, color = Color.Black }
+                )
+                (List.range head tail)
         )
-        (List.range 1 5)
-    , List.map
-        (\int ->
-            { index = int, color = Color.Black }
-        )
-        (List.range 6 10)
-    , List.map
-        (\int ->
-            { index = int, color = Color.Black }
-        )
-        (List.range 11 15)
-    , List.map
-        (\int ->
-            { index = int, color = Color.Black }
-        )
-        (List.range 16 20)
-    , List.map
-        (\int ->
-            { index = int, color = Color.Black }
-        )
-        (List.range 21 25)
-    ]
+        (List.range 1 y)
 
 
 reduce : Grid -> Plan
@@ -105,6 +100,12 @@ encode plan =
         encoder =
             Encode.object
                 [ ( "white", Encode.int plan.white )
+                , ( "red", Encode.int plan.red )
+                , ( "green", Encode.int plan.green )
+                , ( "blue", Encode.int plan.blue )
+                , ( "yellow", Encode.int plan.yellow )
+                , ( "magenta", Encode.int plan.magenta )
+                , ( "cyan", Encode.int plan.cyan )
                 ]
     in
     Encode.encode 0 <|

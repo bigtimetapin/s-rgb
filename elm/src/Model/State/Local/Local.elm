@@ -3,7 +3,7 @@ module Model.State.Local.Local exposing (..)
 import Html
 import Html.Attributes
 import Model.Admin.State as Admin
-import Model.User.State as User
+import Model.User.State.State as User
 import Url
 import Url.Parser as UrlParser exposing ((</>))
 

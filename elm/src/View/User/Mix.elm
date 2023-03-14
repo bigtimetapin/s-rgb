@@ -4,7 +4,7 @@ import Html exposing (Html)
 import Html.Attributes exposing (class, src, style)
 import Html.Events exposing (onClick)
 import Model.Pixel as Pixel
-import Model.User.State as State
+import Model.User.State.State as State
 import Model.User.User exposing (User)
 import Msg.Msg exposing (Msg(..))
 import Msg.User.Msg as UserMsg

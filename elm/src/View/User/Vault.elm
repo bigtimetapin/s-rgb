@@ -3,7 +3,7 @@ module View.User.Vault exposing (body)
 import Html exposing (Html)
 import Html.Attributes exposing (class, src, style)
 import Model.Pixel exposing (Pixel)
-import Model.User.State as State
+import Model.User.State.State as State
 import Model.User.User as User exposing (User)
 import Msg.Msg exposing (Msg)
 import View.User.Header

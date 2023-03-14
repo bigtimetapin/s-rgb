@@ -1,7 +1,7 @@
 module View.User.View exposing (view)
 
 import Html exposing (Html)
-import Model.User.State exposing (State(..))
+import Model.User.State.State exposing (State(..))
 import Msg.Msg exposing (Msg(..))
 import View.User.Mix
 import View.User.Paint

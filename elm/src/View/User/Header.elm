@@ -3,7 +3,7 @@ module View.User.Header exposing (body)
 import Html exposing (Html)
 import Html.Attributes exposing (class, style)
 import Html.Events exposing (onClick)
-import Model.User.State as State exposing (State)
+import Model.User.State.State as State exposing (State)
 import Model.User.User exposing (User)
 import Msg.Msg exposing (Msg(..))
 import Msg.User.Msg as UserMsg

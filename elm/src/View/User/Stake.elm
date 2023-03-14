@@ -5,7 +5,7 @@ import Html.Attributes exposing (class, style)
 import Html.Events exposing (onClick)
 import Model.Amount exposing (Amount)
 import Model.Primary as Primary exposing (Primary)
-import Model.User.State as State
+import Model.User.State.State as State
 import Model.User.User exposing (User)
 import Msg.Msg exposing (Msg(..))
 import Msg.User.Msg as UserMsg

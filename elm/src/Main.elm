@@ -11,7 +11,7 @@ import Model.Pixel as Pixel
 import Model.State.Exception.Exception as Exception
 import Model.State.Global.Global as Global
 import Model.State.Local.Local as Local exposing (Local)
-import Model.User.State as UserState
+import Model.User.State.State as UserState
 import Model.User.User as User
 import Msg.Admin.Msg as AdminMsg
 import Msg.Js as JsMsg
