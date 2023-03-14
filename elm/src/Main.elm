@@ -139,11 +139,13 @@ update msg model =
                 UserMsg.HrefPaint user ->
                     ( { model
                         | state =
-                            { local = Local.User <| UserState.Paint
-                                (Paint.SizingGrid
-                                    { x = 24, y = 24 }
-                                )
-                                user
+                            { local =
+                                Local.User <|
+                                    UserState.Paint
+                                        (Paint.SizingGrid
+                                            { x = 24, y = 24 }
+                                        )
+                                        user
                             , global = model.state.global
                             , exception = model.state.exception
                             }
@@ -221,22 +223,22 @@ update msg model =
 
                                 Nothing ->
                                     sizing.x
-
                     in
                     ( { model
                         | state =
-                            { local = Local.User <| UserState.Paint
-                                (Paint.SizingGrid
-                                    { sizing | x = x }
-                                )
-                                user
+                            { local =
+                                Local.User <|
+                                    UserState.Paint
+                                        (Paint.SizingGrid
+                                            { sizing | x = x }
+                                        )
+                                        user
                             , global = model.state.global
                             , exception = model.state.exception
                             }
-                    }
+                      }
                     , Cmd.none
                     )
-
 
                 UserMsg.SizeGridY user sizing string ->
                     let
@@ -247,46 +249,52 @@ update msg model =
 
                                 Nothing ->
                                     sizing.x
-
                     in
                     ( { model
                         | state =
-                            { local = Local.User <| UserState.Paint
-                                (Paint.SizingGrid
-                                    { sizing | y = y }
-                                )
-                                user
+                            { local =
+                                Local.User <|
+                                    UserState.Paint
+                                        (Paint.SizingGrid
+                                            { sizing | y = y }
+                                        )
+                                        user
                             , global = model.state.global
                             , exception = model.state.exception
                             }
-                    }
+                      }
                     , Cmd.none
                     )
 
                 UserMsg.CommitGrid user sizing ->
                     ( { model
                         | state =
-                            { local = Local.User <| UserState.Paint
-                                (Paint.HasGrid
-                                    (Grid.resize sizing.x sizing.y)
-                                    Color.init
-                                )
-                                user
+                            { local =
+                                Local.User <|
+                                    UserState.Paint
+                                        (Paint.HasGrid
+                                            (Grid.resize sizing.x sizing.y)
+                                            Color.init
+                                        )
+                                        user
                             , global = model.state.global
                             , exception = model.state.exception
                             }
-                    }
+                      }
                     , Cmd.none
                     )
 
                 UserMsg.ChangeColor user grid color ->
                     ( { model
                         | state =
-                            { local = Local.User <| UserState.Paint
-                                (Paint.HasGrid
-                                    grid color
-                                )
-                                user
+                            { local =
+                                Local.User <|
+                                    UserState.Paint
+                                        (Paint.HasGrid
+                                            grid
+                                            color
+                                        )
+                                        user
                             , global = model.state.global
                             , exception = model.state.exception
                             }
@@ -318,8 +326,8 @@ update msg model =
                                 Local.User <|
                                     UserState.Paint
                                         (Paint.HasGrid
-                                        rows
-                                        color
+                                            rows
+                                            color
                                         )
                                         user
                             , global = model.state.global
@@ -328,7 +336,6 @@ update msg model =
                       }
                     , Cmd.none
                     )
-
 
         FromJs fromJsMsg ->
             case fromJsMsg of
@@ -368,8 +375,8 @@ update msg model =
                                                                                     Local.User <|
                                                                                         UserState.Paint
                                                                                             (Paint.HasGrid
-                                                                                            Grid.init
-                                                                                            Color.init
+                                                                                                Grid.init
+                                                                                                Color.init
                                                                                             )
                                                                                             user
 

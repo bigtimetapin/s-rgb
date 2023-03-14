@@ -151,7 +151,7 @@ highlight state this =
         ( Vault, State.Vault _ ) ->
             class
 
-        ( Paint, State.Paint _ _) ->
+        ( Paint, State.Paint _ _ ) ->
             class
 
         _ ->

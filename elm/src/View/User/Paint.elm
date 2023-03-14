@@ -125,38 +125,33 @@ body user paint =
                                 ]
                             ]
                         , Html.div
-                            [
+                            [ class "has-text-centered"
                             ]
-                            [ Html.div
-                                [ class "is-text-container-4 has-text-centered"
+                            [ Html.button
+                                [ class "is-button-3"
+                                , onClick <|
+                                    FromUser <|
+                                        UserMsg.CommitGrid
+                                            user
+                                            sizing
                                 ]
                                 [ Html.div
                                     [ class "is-size-4"
                                     ]
-                                    [ Html.button
-                                        [ class "is-button-3"
-                                        , onClick <|
-                                            FromUser <|
-                                                UserMsg.CommitGrid
-                                                    user
-                                                    sizing
-                                        ]
-                                        [ Html.text <|
-                                            String.concat
-                                                [ "CREATE CANVAS"
-                                                , " "
-                                                , String.fromInt sizing.x
-                                                , " "
-                                                , "X"
-                                                , " "
-                                                , String.fromInt sizing.y
-                                                ]
-                                        ]
+                                    [ Html.text <|
+                                        String.concat
+                                            [ "CREATE CANVAS"
+                                            , " "
+                                            , String.fromInt sizing.x
+                                            , " "
+                                            , "X"
+                                            , " "
+                                            , String.fromInt sizing.y
+                                            ]
                                     ]
                                 ]
                             ]
                         ]
-
 
                 Paint.HasGrid grid color ->
                     let
