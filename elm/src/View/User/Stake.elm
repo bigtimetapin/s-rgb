@@ -15,29 +15,32 @@ import View.User.Header
 body : User -> Html Msg
 body user =
     let
-        stake : (User -> Amount) -> Primary -> Html Msg
+        stake : (User -> Amount) -> Primary -> (Html Msg, Html Msg)
         stake f primary =
             case (f user).amount == 0 of
                 True ->
-                    Html.div
+                    ( Html.div
+                        []
+                        []
+                    , Html.div
                         []
                         [ Html.button
-                            [ class "is-button-1 is-size-6"
+                            [ class "is-button-4 is-size-3 has-text-weight-bold"
+                            , style "width" "100%"
                             , onClick <|
                                 FromUser <|
                                     UserMsg.Stake <|
                                         primary
                             ]
                             [ Html.text
-                                """stake
+                                """STAKE
                                 """
                             ]
                         ]
+                    )
 
                 False ->
-                    Html.div
-                        []
-                        [ Html.div
+                    ( Html.div
                             [ class "is-text-container-6"
                             ]
                             [ Html.div
@@ -45,10 +48,7 @@ body user =
                                 ]
                                 [ Html.text <|
                                     String.concat
-                                        [ "your stake"
-                                        , ":"
-                                        , " "
-                                        , "$SOL"
+                                        [ "$SOL"
                                         , " "
                                         , (f user).formatted
                                         ]
@@ -57,26 +57,27 @@ body user =
                         , Html.div
                             []
                             [ Html.button
-                                [ class "is-button-1 is-size-6"
+                                [ class "is-button-4 is-size-3 has-text-weight-bold"
+                                , style "width" "100%"
                                 , onClick <|
                                     FromUser <|
                                         UserMsg.Harvest <|
                                             primary
                                 ]
                                 [ Html.text
-                                    """harvest
+                                    """HARVEST
                                     """
                                 ]
-                            ]
                         ]
+                    )
 
-        stakeRed =
+        (stakeRedBalance, stakeRedButton) =
             stake (\u -> u.pools.red.staked) Primary.Red
 
-        stakedGreen =
+        (stakeGreenBalance, stakeGreenButton) =
             stake (\u -> u.pools.green.staked) Primary.Green
 
-        stakedBlue =
+        (stakeBlueBalance, stakeBlueButton) =
             stake (\u -> u.pools.blue.staked) Primary.Blue
 
         balance : (User -> Amount) -> Primary -> Html Msg
@@ -134,34 +135,12 @@ body user =
             tvl user.pools.blue.tvl.formatted
     in
     Html.div
-        []
+        [ class "has-text-centered"
+        ]
         [ Html.div
-            [ class "mb-2"
-            ]
-            [ View.User.Header.body user State.Stake
-            ]
-        , Html.div
             [ class "mb-6"
             ]
-            [ Html.div
-                [ class "is-text-container-6"
-                ]
-                [ Html.div
-                    [ class "is-size-6"
-                    ]
-                    [ Html.text <|
-                        String.concat
-                            [ "TVL"
-                            , ":"
-                            , " "
-                            , "$SOL"
-                            , " "
-                            , user.tvl.formatted
-                            , " "
-                            , "😎"
-                            ]
-                    ]
-                ]
+            [ View.User.Header.body user State.Stake
             ]
         , Html.div
             []
@@ -177,12 +156,13 @@ body user =
                         [ toString Primary.Red
                         ]
                     , Html.div
-                        []
-                        [ table tvlRed balanceRed
+                        [ class "mb-3"
+                        ]
+                        [ table tvlRed balanceRed stakeRedBalance
                         ]
                     , Html.div
                         []
-                        [ stakeRed
+                        [ stakeRedButton
                         ]
                     ]
                 , Html.div
@@ -194,12 +174,13 @@ body user =
                         [ toString Primary.Green
                         ]
                     , Html.div
-                        []
-                        [ table tvlGreen balanceGreen
+                        [ class "mb-3"
+                        ]
+                        [ table tvlGreen balanceGreen stakeGreenBalance
                         ]
                     , Html.div
                         []
-                        [ stakedGreen
+                        [ stakeGreenButton
                         ]
                     ]
                 , Html.div
@@ -211,12 +192,13 @@ body user =
                         [ toString Primary.Blue
                         ]
                     , Html.div
-                        []
-                        [ table tvlBlue balanceBlue
+                        [ class "mb-3"
+                        ]
+                        [ table tvlBlue balanceBlue stakeBlueBalance
                         ]
                     , Html.div
                         []
-                        [ stakedBlue
+                        [ stakeBlueButton
                         ]
                     ]
                 ]
@@ -236,7 +218,7 @@ toString primary =
                     , " "
                     , Primary.text primary
                     ]
-            , style "text-transform" "capitalize"
+            , style "text-transform" "uppercase"
             ]
             [ Html.text <|
                 Primary.toString primary
@@ -244,13 +226,13 @@ toString primary =
         ]
 
 
-table : Html Msg -> Html Msg -> Html Msg
-table tvl_ balance_ =
+table : Html Msg -> Html Msg -> Html Msg ->Html Msg
+table tvl_ balance_ stake_ =
     Html.div
         [ class "table-container"
         ]
         [ Html.table
-            [ class "table"
+            [ class "table is-fullwidth"
             ]
             [ Html.thead
                 []
@@ -280,6 +262,18 @@ table tvl_ balance_ =
                                 ]
                             ]
                         ]
+                    , Html.th
+                        []
+                        [ Html.div
+                            [ class "is-light-text-container-6"
+                            ]
+                            [ Html.div
+                                [ class "is-size-6"
+                                ]
+                                [ Html.text "your stake"
+                                ]
+                            ]
+                        ]
                     ]
                 ]
             , Html.tbody
@@ -293,6 +287,10 @@ table tvl_ balance_ =
                     , Html.td
                         []
                         [ balance_
+                        ]
+                    , Html.td
+                        []
+                        [ stake_
                         ]
                     ]
                 ]
