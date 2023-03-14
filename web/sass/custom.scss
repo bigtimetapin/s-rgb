@@ -171,6 +171,12 @@ $family-primary: "Open Sans", BlinkMacSystemFont, -apple-system, "Helvetica", "A
   border-bottom: 3px solid #E6E6E6;
 }
 
+.is-color-block {
+  width: 200px;
+  height: 200px;
+  border: 1px solid #E6E6E6;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // buttons /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 .is-button-1, .is-button-2:hover {
@@ -199,6 +205,20 @@ $family-primary: "Open Sans", BlinkMacSystemFont, -apple-system, "Helvetica", "A
 
 .is-button-3, .is-button-4 {
   border-radius: 5px;
+}
+
+.is-mix-button {
+  background-image: url("../svg/addition-operator.svg");
+  background-size: 200px;
+  width: 200px;
+  height: 200px;
+  border: 0 !important;
+}
+
+.is-mix-button:hover {
+  background-size: 150px;
+  width: 150px;
+  height: 150px;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
