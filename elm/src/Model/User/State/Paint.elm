@@ -1,8 +1,13 @@
-module Model.User.State.Paint exposing (Paint)
+module Model.User.State.Paint exposing (Paint(..), Sizing)
 
+import Model.Color exposing (Color)
 import Model.Grid exposing (Grid)
-import Model.User.User exposing (User)
-
 
 type Paint
-    = SizingGrid User Grid
+    = SizingGrid Sizing
+    | HasGrid Grid Color
+
+type alias Sizing =
+    { x : Int
+    , y : Int
+    }

@@ -25,5 +25,5 @@ view state =
         Vault user ->
             View.User.Vault.body user
 
-        Paint user grid color ->
-            View.User.Paint.body user grid color
+        Paint paint user ->
+            View.User.Paint.body user paint

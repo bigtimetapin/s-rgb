@@ -1,7 +1,6 @@
 module Model.User.State.State exposing (State(..))
 
-import Model.Color exposing (Color)
-import Model.Grid exposing (Grid)
+import Model.User.State.Paint exposing (Paint)
 import Model.User.User exposing (User)
 
 
@@ -10,4 +9,4 @@ type State
     | Stake User
     | Mix User
     | Vault User
-    | Paint User Grid Color
+    | Paint Paint User

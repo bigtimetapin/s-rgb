@@ -5,6 +5,7 @@ import Model.Color exposing (Color)
 import Model.Grid exposing (Grid)
 import Model.Pixel as Pixel
 import Model.Primary exposing (Primary(..))
+import Model.User.State.Paint as Paint
 import Model.User.User exposing (User)
 
 
@@ -26,6 +27,9 @@ type Msg
       -- paint
     | Paint Grid
       -- paint ui
+    | SizeGridX User Paint.Sizing String
+    | SizeGridY User Paint.Sizing String
+    | CommitGrid User Paint.Sizing
     | ChangeColor User Grid Color
     | ColorPixel User Grid Color Cell
 

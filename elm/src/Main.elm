@@ -11,6 +11,7 @@ import Model.Pixel as Pixel
 import Model.State.Exception.Exception as Exception
 import Model.State.Global.Global as Global
 import Model.State.Local.Local as Local exposing (Local)
+import Model.User.State.Paint as Paint
 import Model.User.State.State as UserState
 import Model.User.User as User
 import Msg.Admin.Msg as AdminMsg
@@ -138,7 +139,11 @@ update msg model =
                 UserMsg.HrefPaint user ->
                     ( { model
                         | state =
-                            { local = Local.User <| UserState.Paint user Grid.init Color.init
+                            { local = Local.User <| UserState.Paint
+                                (Paint.SizingGrid
+                                    { x = 24, y = 24 }
+                                )
+                                user
                             , global = model.state.global
                             , exception = model.state.exception
                             }
@@ -207,10 +212,81 @@ update msg model =
                             }
                     )
 
+                UserMsg.SizeGridX user sizing string ->
+                    let
+                        x =
+                            case String.toInt string of
+                                Just int ->
+                                    int
+
+                                Nothing ->
+                                    sizing.x
+
+                    in
+                    ( { model
+                        | state =
+                            { local = Local.User <| UserState.Paint
+                                (Paint.SizingGrid
+                                    { sizing | x = x }
+                                )
+                                user
+                            , global = model.state.global
+                            , exception = model.state.exception
+                            }
+                    }
+                    , Cmd.none
+                    )
+
+
+                UserMsg.SizeGridY user sizing string ->
+                    let
+                        y =
+                            case String.toInt string of
+                                Just int ->
+                                    int
+
+                                Nothing ->
+                                    sizing.x
+
+                    in
+                    ( { model
+                        | state =
+                            { local = Local.User <| UserState.Paint
+                                (Paint.SizingGrid
+                                    { sizing | y = y }
+                                )
+                                user
+                            , global = model.state.global
+                            , exception = model.state.exception
+                            }
+                    }
+                    , Cmd.none
+                    )
+
+                UserMsg.CommitGrid user sizing ->
+                    ( { model
+                        | state =
+                            { local = Local.User <| UserState.Paint
+                                (Paint.HasGrid
+                                    (Grid.resize sizing.x sizing.y)
+                                    Color.init
+                                )
+                                user
+                            , global = model.state.global
+                            , exception = model.state.exception
+                            }
+                    }
+                    , Cmd.none
+                    )
+
                 UserMsg.ChangeColor user grid color ->
                     ( { model
                         | state =
-                            { local = Local.User <| UserState.Paint user grid color
+                            { local = Local.User <| UserState.Paint
+                                (Paint.HasGrid
+                                    grid color
+                                )
+                                user
                             , global = model.state.global
                             , exception = model.state.exception
                             }
@@ -241,15 +317,18 @@ update msg model =
                             { local =
                                 Local.User <|
                                     UserState.Paint
-                                        user
+                                        (Paint.HasGrid
                                         rows
                                         color
+                                        )
+                                        user
                             , global = model.state.global
                             , exception = model.state.exception
                             }
                       }
                     , Cmd.none
                     )
+
 
         FromJs fromJsMsg ->
             case fromJsMsg of
@@ -285,12 +364,14 @@ update msg model =
                                                                                 Local.User (UserState.Vault _) ->
                                                                                     Local.User <| UserState.Vault user
 
-                                                                                Local.User (UserState.Paint _ _ _) ->
+                                                                                Local.User (UserState.Paint _ _) ->
                                                                                     Local.User <|
                                                                                         UserState.Paint
-                                                                                            user
+                                                                                            (Paint.HasGrid
                                                                                             Grid.init
                                                                                             Color.init
+                                                                                            )
+                                                                                            user
 
                                                                                 _ ->
                                                                                     Local.User <| UserState.Stake user

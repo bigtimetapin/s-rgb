@@ -1,4 +1,4 @@
-module Model.Grid exposing (Grid, Plan, Row, encode, init, reduce)
+module Model.Grid exposing (Grid, Plan, Row, encode, init, reduce, resize)
 
 import Json.Encode as Encode
 import Model.Cell exposing (Cell)
