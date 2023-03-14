@@ -429,7 +429,7 @@ update msg model =
                                                                         | state =
                                                                             { local =
                                                                                 Local.User <|
-                                                                                    UserState.Stake user
+                                                                                    UserState.Vault user
                                                                             , global = Global.HasUser user
                                                                             , exception = Exception.Closed
                                                                             }
