@@ -10,7 +10,7 @@ import Model.User.User exposing (User)
 
 type Msg
     = Fetch
-    -- href
+      -- href
     | HrefStake User
     | HrefMix User
     | HrefVault User

@@ -132,8 +132,6 @@ body user =
 
         tvlBlue =
             tvl user.pools.blue.tvl.formatted
-
-
     in
     Html.div
         []
@@ -225,6 +223,7 @@ body user =
             ]
         ]
 
+
 toString : Primary -> Html Msg
 toString primary =
     Html.div
@@ -243,6 +242,7 @@ toString primary =
                 Primary.toString primary
             ]
         ]
+
 
 table : Html Msg -> Html Msg -> Html Msg
 table tvl_ balance_ =

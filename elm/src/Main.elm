@@ -102,7 +102,6 @@ update msg model =
                                 fromUserMsg
                     )
 
-
                 UserMsg.HrefStake user ->
                     ( { model
                         | state =
@@ -110,10 +109,9 @@ update msg model =
                             , global = model.state.global
                             , exception = model.state.exception
                             }
-                    }
+                      }
                     , Cmd.none
                     )
-
 
                 UserMsg.HrefMix user ->
                     ( { model
@@ -122,10 +120,9 @@ update msg model =
                             , global = model.state.global
                             , exception = model.state.exception
                             }
-                    }
+                      }
                     , Cmd.none
                     )
-
 
                 UserMsg.HrefVault user ->
                     ( { model
@@ -134,10 +131,9 @@ update msg model =
                             , global = model.state.global
                             , exception = model.state.exception
                             }
-                    }
+                      }
                     , Cmd.none
                     )
-
 
                 UserMsg.HrefPaint user ->
                     ( { model
@@ -146,10 +142,9 @@ update msg model =
                             , global = model.state.global
                             , exception = model.state.exception
                             }
-                    }
+                      }
                     , Cmd.none
                     )
-
 
                 UserMsg.Stake _ ->
                     ( Model.waiting model

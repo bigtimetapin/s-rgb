@@ -134,12 +134,12 @@ view exception global body =
             ]
         ]
 
+
 color : Global -> String
 color global =
     case global of
         Global.NoWalletYet ->
             "has-off-white"
-
 
         Global.WalletMissing ->
             "has-off-white"

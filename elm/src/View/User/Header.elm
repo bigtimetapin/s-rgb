@@ -8,6 +8,7 @@ import Model.User.User exposing (User)
 import Msg.Msg exposing (Msg(..))
 import Msg.User.Msg as UserMsg
 
+
 body : User -> (User -> State) -> Html Msg
 body user f =
     let
@@ -113,6 +114,7 @@ body user f =
             ]
         ]
 
+
 click : User -> This -> Msg
 click user this =
     let
@@ -132,27 +134,29 @@ click user this =
     in
     FromUser msg
 
+
 highlight : State -> This -> String
 highlight state this =
     let
         class =
             " is-button-1"
     in
-    case (this, state) of
-        (Stake, State.Stake _) ->
+    case ( this, state ) of
+        ( Stake, State.Stake _ ) ->
             class
 
-        (Mix, State.Mix _) ->
+        ( Mix, State.Mix _ ) ->
             class
 
-        (Vault, State.Vault _) ->
-             class
+        ( Vault, State.Vault _ ) ->
+            class
 
-        (Paint, State.Paint _ _ _) ->
+        ( Paint, State.Paint _ _ _ ) ->
             class
 
         _ ->
             " is-button-2"
+
 
 type This
     = Stake

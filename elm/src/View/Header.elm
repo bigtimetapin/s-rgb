@@ -34,6 +34,7 @@ view global =
             ]
         ]
 
+
 left : Global -> Html Msg
 left global =
     case global of
@@ -42,12 +43,10 @@ left global =
                 []
                 []
 
-
         WalletMissing ->
             Html.div
                 []
                 []
-
 
         HasUser _ ->
             Html.div
