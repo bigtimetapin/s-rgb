@@ -51,6 +51,10 @@ $family-primary: "Open Sans", BlinkMacSystemFont, -apple-system, "Helvetica", "A
   color: #1A1A1A
 }
 
+.has-off-white-text {
+  color: #E6E6E6;
+}
+
 .has-off-black {
   background-color: #1A1A1A;
   color: #E6E6E6;
@@ -171,10 +175,29 @@ $family-primary: "Open Sans", BlinkMacSystemFont, -apple-system, "Helvetica", "A
   border-bottom: 3px solid #E6E6E6;
 }
 
+.is-color-block, .is-small-color-block {
+  border: 1px solid #E6E6E6;
+}
+
 .is-color-block {
   width: 200px;
   height: 200px;
-  border: 1px solid #E6E6E6;
+}
+
+.is-small-color-block-container {
+  position: relative;
+}
+
+.is-small-color-block {
+  width: 50px;
+  height: 50px;
+}
+
+
+.is-small-color-block-balance {
+  position: absolute;
+  top: 52px;
+  right: 5px;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

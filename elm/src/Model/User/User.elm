@@ -1,4 +1,4 @@
-module Model.User.User exposing (User, decode)
+module Model.User.User exposing (User, decode, getPixel, getPixelBalance)
 
 import Json.Decode as Decode
 import Model.Amount as Amount exposing (Amount)
@@ -64,6 +64,48 @@ type alias Plan =
     , cyan : Int
     , white : Int
     }
+
+
+getPixelBalance : User -> (Palette -> Maybe Pixel) -> Int
+getPixelBalance user f =
+    let
+        depthOne =
+            List.filter
+                (\p -> p.depth == 1)
+                user.palette
+    in
+    case depthOne of
+        head :: [] ->
+            case f head of
+                Just pixel ->
+                    pixel.balance
+
+                _ ->
+                    0
+
+        _ ->
+            0
+
+
+getPixel : Pixel.Seeds -> Palette -> Maybe Pixel
+getPixel seeds palette =
+    let
+        filter =
+            List.filter
+                (\pixel ->
+                    (pixel.seeds.r == seeds.r)
+                        && (pixel.seeds.g == seeds.g)
+                        && (pixel.seeds.b == seeds.b)
+                        && (pixel.seeds.depth == seeds.depth)
+                )
+                palette.pixels
+    in
+    case filter of
+        head :: [] ->
+            Just head
+
+        _ ->
+            Nothing
 
 
 decode : String -> Result String User
