@@ -28,7 +28,7 @@ body user f =
             [ Html.button
                 [ class <|
                     String.concat
-                        [ "is-button-2 has-text-weight-bold"
+                        [ "has-text-weight-bold"
                         , hightlight_ Stake
                         ]
                 , onClick <|
@@ -47,7 +47,7 @@ body user f =
             [ Html.button
                 [ class <|
                     String.concat
-                        [ "is-button-2 has-text-weight-bold"
+                        [ "has-text-weight-bold"
                         , hightlight_ Mix
                         ]
                 , onClick <|
@@ -66,7 +66,7 @@ body user f =
             [ Html.button
                 [ class <|
                     String.concat
-                        [ "is-button-2 has-text-weight-bold"
+                        [ "has-text-weight-bold"
                         , hightlight_ Vault
                         ]
                 , onClick <|
@@ -98,7 +98,7 @@ body user f =
             [ Html.button
                 [ class <|
                     String.concat
-                        [ "is-button-2 has-text-weight-bold"
+                        [ "has-text-weight-bold"
                         , hightlight_ Paint
                         ]
                 , onClick <|
@@ -136,7 +136,7 @@ highlight : State -> This -> String
 highlight state this =
     let
         class =
-            " is-underlined"
+            " is-button-1"
     in
     case (this, state) of
         (Stake, State.Stake _) ->
@@ -152,7 +152,7 @@ highlight state this =
             class
 
         _ ->
-            ""
+            " is-button-2"
 
 type This
     = Stake
