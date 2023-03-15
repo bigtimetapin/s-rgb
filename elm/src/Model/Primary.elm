@@ -1,6 +1,7 @@
-module Model.Primary exposing (Primary(..), text, toString, toSymbol)
+module Model.Primary exposing (Primary(..), text, toString, toSymbol, toColor)
 
 
+import Model.Color as Color exposing (Color)
 type Primary
     = Red
     | Green
@@ -44,3 +45,17 @@ text primary =
 
         Blue ->
             "has-blue-text"
+
+toColor : Primary -> Color
+toColor primary =
+    case primary of
+        Red ->
+            Color.Red
+
+
+        Green ->
+            Color.Green
+
+
+        Blue ->
+            Color.Blue

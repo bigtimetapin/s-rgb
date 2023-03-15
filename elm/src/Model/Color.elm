@@ -2,6 +2,7 @@ module Model.Color exposing (Color(..), init, toClass, toSeeds)
 
 
 import Model.Pixel as Pixel
+
 type Color
     = Black
     | White

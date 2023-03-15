@@ -1,9 +1,10 @@
 module View.User.Stake exposing (body)
 
 import Html exposing (Html)
-import Html.Attributes exposing (class, style)
+import Html.Attributes exposing (class, src, style)
 import Html.Events exposing (onClick)
 import Model.Amount exposing (Amount)
+import Model.Color as Color exposing (Color)
 import Model.Primary as Primary exposing (Primary)
 import Model.User.State.State as State
 import Model.User.User exposing (User)
@@ -135,15 +136,15 @@ body user =
             tvl user.pools.blue.tvl.formatted
     in
     Html.div
-        [ class "has-text-centered"
-        ]
+        []
         [ Html.div
             [ class "mb-6"
             ]
             [ View.User.Header.body user State.Stake
             ]
         , Html.div
-            []
+            [ class "mb-6 has-text-centered"
+            ]
             [ Html.div
                 [ class "columns"
                 ]
@@ -153,7 +154,7 @@ body user =
                     [ Html.div
                         [ class "mb-6"
                         ]
-                        [ toString Primary.Red
+                        [ toString 0 Primary.Red
                         ]
                     , Html.div
                         [ class "mb-3"
@@ -171,7 +172,7 @@ body user =
                     [ Html.div
                         [ class "mb-6"
                         ]
-                        [ toString Primary.Green
+                        [ toString 0 Primary.Green
                         ]
                     , Html.div
                         [ class "mb-3"
@@ -189,7 +190,7 @@ body user =
                     [ Html.div
                         [ class "mb-6"
                         ]
-                        [ toString Primary.Blue
+                        [ toString 0 Primary.Blue
                         ]
                     , Html.div
                         [ class "mb-3"
@@ -203,11 +204,41 @@ body user =
                     ]
                 ]
             ]
+        , Html.div
+            [ class "mb-6"
+            ]
+            [ mint Primary.Red
+            ]
+        , Html.div
+            [ class "mb-6"
+            ]
+            [ mint Primary.Green
+            ]
+        , Html.div
+            [ class "mb-6"
+            ]
+            [ mint Primary.Blue
+            ]
         ]
 
 
-toString : Primary -> Html Msg
-toString primary =
+toString : Int -> Primary -> Html Msg
+toString amount primary =
+    let
+        text =
+            case amount of
+                0 ->
+                    String.concat
+                        [ Primary.toString primary
+                        ]
+
+                _ ->
+                    String.concat
+                        [ String.fromInt amount
+                        , " "
+                        , Primary.toString primary
+                        ]
+    in
     Html.div
         [ class "is-text-container-6 has-text-weight-bold"
         ]
@@ -220,8 +251,7 @@ toString primary =
                     ]
             , style "text-transform" "uppercase"
             ]
-            [ Html.text <|
-                Primary.toString primary
+            [ Html.text text
             ]
         ]
 
@@ -291,6 +321,79 @@ table tvl_ balance_ stake_ =
                     , Html.td
                         []
                         [ stake_
+                        ]
+                    ]
+                ]
+            ]
+        ]
+
+mint : Primary -> Html Msg
+mint primary =
+    let
+        color =
+            Primary.toColor primary
+    in
+    Html.div
+        [ style "align-items" "center"
+        , style "justify-content" "center"
+        , style "display" "flex"
+        ]
+        [ Html.div
+            []
+            [ toString 5 primary
+            ]
+        , Html.div
+            []
+            [ Html.button
+                [ class "is-mix-button"
+                , onClick <|
+                    FromUser <|
+                        UserMsg.MintPixel
+                            (Color.toSeeds color)
+                ]
+                []
+            ]
+        , Html.div
+            [ class <|
+                String.concat
+                    [ "has-black"
+                    , " "
+                    , "is-color-block"
+                    ]
+            ]
+            []
+        , Html.div
+            []
+            [ Html.img
+                [ src "svg/equal-sign.svg"
+                , style "width" "150px"
+                ]
+                []
+            ]
+        , Html.div
+            [ style "position" "relative"
+            ]
+            [ Html.div
+                [ class <|
+                    String.concat
+                        [ Color.toClass color
+                        , " "
+                        , "is-color-block"
+                        ]
+                ]
+                []
+            , Html.div
+                [ style "position" "absolute"
+                , style "top" "202px"
+                , style "right" "5px"
+                ]
+                [ Html.div
+                    [ class "is-text-container-6"
+                    ]
+                    [ Html.div
+                        [ class "is-size-6"
+                        ]
+                        [ Html.text "5 pixels"
                         ]
                     ]
                 ]

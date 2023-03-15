@@ -25,7 +25,7 @@ body user =
             [ Html.div
                 [ class "mb-6"
                 ]
-                [ mint
+                [ add
                     { left = Color.Red
                     , right = Color.Green
                     , target = Color.Yellow
@@ -34,7 +34,7 @@ body user =
             , Html.div
                 [ class "mb-6"
                 ]
-                [ mint
+                [ add
                     { left = Color.Red
                     , right = Color.Blue
                     , target = Color.Magenta
@@ -43,7 +43,7 @@ body user =
             , Html.div
                 [ class "mb-6"
                 ]
-                [ mint
+                [ add
                     { left = Color.Green
                     , right = Color.Blue
                     , target = Color.Cyan
@@ -52,7 +52,7 @@ body user =
             , Html.div
                 [ class "mb-6"
                 ]
-                [ mint
+                [ add
                     { left = Color.Red
                     , right = Color.Cyan
                     , target = Color.White
@@ -61,7 +61,7 @@ body user =
             , Html.div
                 [ class "mb-6"
                 ]
-                [ mint
+                [ add
                     { left = Color.Green
                     , right = Color.Magenta
                     , target = Color.White
@@ -70,7 +70,7 @@ body user =
             , Html.div
                 [ class "mb-6"
                 ]
-                [ mint
+                [ add
                     { left = Color.Blue
                     , right = Color.Yellow
                     , target = Color.White
@@ -86,8 +86,8 @@ type alias Args =
     , target : Color
     }
 
-mint : Args -> Html Msg
-mint args =
+add : Args -> Html Msg
+add args =
     Html.div
         [ style "align-items" "center"
         , style "justify-content" "center"
