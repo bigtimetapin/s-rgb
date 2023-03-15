@@ -371,7 +371,7 @@ mint primary =
                 []
             ]
         , Html.div
-            [ style "position" "relative"
+            [ class "is-color-block-container"
             ]
             [ Html.div
                 [ class <|
@@ -383,9 +383,7 @@ mint primary =
                 ]
                 []
             , Html.div
-                [ style "position" "absolute"
-                , style "top" "202px"
-                , style "right" "5px"
+                [ class "is-color-block-balance"
                 ]
                 [ Html.div
                     [ class "is-text-container-6"

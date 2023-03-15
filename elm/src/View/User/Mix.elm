@@ -88,20 +88,41 @@ type alias Args =
 
 add : Args -> Html Msg
 add args =
+    let
+        multiplier =
+            Html.div
+                [ class "is-color-block-balance"
+                ]
+                [ Html.div
+                    [ class "is-text-container-6"
+                    ]
+                    [ Html.div
+                        [ class "is-size-6"
+                        ]
+                        [ Html.text "5x"
+                        ]
+                    ]
+                ]
+    in
     Html.div
         [ style "align-items" "center"
         , style "justify-content" "center"
         , style "display" "flex"
         ]
         [ Html.div
-            [ class <|
-                String.concat
-                    [ Color.toClass args.left
-                    , " "
-                    , "is-color-block"
-                    ]
+            [ class "is-color-block-container"
             ]
-            []
+            [ Html.div
+                [ class <|
+                    String.concat
+                        [ Color.toClass args.left
+                        , " "
+                        , "is-color-block"
+                        ]
+                ]
+                []
+            , multiplier
+            ]
         , Html.div
             []
             [ Html.button
@@ -115,14 +136,19 @@ add args =
                 []
             ]
         , Html.div
-            [ class <|
-                String.concat
-                    [ Color.toClass args.right
-                    , " "
-                    , "is-color-block"
-                    ]
+            [ class "is-color-block-container"
             ]
-            []
+            [ Html.div
+                [ class <|
+                    String.concat
+                        [ Color.toClass args.right
+                        , " "
+                        , "is-color-block"
+                        ]
+                ]
+                []
+            , multiplier
+            ]
         , Html.div
             []
             [ Html.img
@@ -132,12 +158,17 @@ add args =
                 []
             ]
         , Html.div
-            [ class <|
-                String.concat
-                    [ Color.toClass args.target
-                    , " "
-                    , "is-color-block"
-                    ]
+            [ class "is-color-block-container"
             ]
-            []
+            [ Html.div
+                [ class <|
+                    String.concat
+                        [ Color.toClass args.target
+                        , " "
+                        , "is-color-block"
+                        ]
+                ]
+                []
+            , multiplier
+            ]
         ]

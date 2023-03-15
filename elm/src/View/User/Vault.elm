@@ -287,7 +287,7 @@ pixelRow pixel =
 pixelColumn : String -> Int -> Html Msg
 pixelColumn color balance =
     Html.div
-        [ class "is-small-color-block-container"
+        [ class "is-color-block-container"
         ]
         [ Html.div
             [ class <|
