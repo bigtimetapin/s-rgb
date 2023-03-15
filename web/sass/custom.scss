@@ -249,6 +249,20 @@ $family-primary: "Open Sans", BlinkMacSystemFont, -apple-system, "Helvetica", "A
   height: 150px;
 }
 
+.is-mint-button {
+  background-image: url("../svg/equal-sign.svg");
+  background-size: 200px;
+  width: 200px;
+  height: 200px;
+  border: 0 !important;
+}
+
+.is-mint-button:hover {
+  background-size: 150px;
+  width: 150px;
+  height: 150px;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // images //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 .is-image-container-1 {

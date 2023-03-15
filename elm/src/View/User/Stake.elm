@@ -240,7 +240,7 @@ toString amount primary =
                         ]
     in
     Html.div
-        [ class "is-text-container-6 has-text-weight-bold"
+        [ class "is-text-container-1 has-text-weight-bold"
         ]
         [ Html.div
             [ class <|
@@ -339,34 +339,32 @@ mint primary =
         , style "display" "flex"
         ]
         [ Html.div
+            [ class "is-text-container-1 has-text-weight-bold mr-6"
+            ]
+            [ Html.div
+                [ class <|
+                    String.concat
+                        [ "is-size-1"
+                        ]
+                , style "text-transform" "uppercase"
+                ]
+                [ Html.text
+                    """burn
+                    """
+                ]
+            ]
+        , Html.div
             []
             [ toString 5 primary
             ]
         , Html.div
             []
             [ Html.button
-                [ class "is-mix-button"
+                [ class "is-mint-button"
                 , onClick <|
                     FromUser <|
                         UserMsg.MintPixel
                             (Color.toSeeds color)
-                ]
-                []
-            ]
-        , Html.div
-            [ class <|
-                String.concat
-                    [ "has-black"
-                    , " "
-                    , "is-color-block"
-                    ]
-            ]
-            []
-        , Html.div
-            []
-            [ Html.img
-                [ src "svg/equal-sign.svg"
-                , style "width" "150px"
                 ]
                 []
             ]
