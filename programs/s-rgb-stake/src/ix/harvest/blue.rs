@@ -42,7 +42,7 @@ pub fn ix(ctx: Context<HarvestBlue>) -> Result<()> {
     let clock = Clock::get()?;
     let diff = clock.unix_timestamp - stake.timestamp;
     //let hours_elapsed = (diff / (60 * 60)) as u64; TODO
-    let hours_elapsed = (diff / 2) as u64;
+    let hours_elapsed = (diff / 60) as u64;
     let staked_lamports: u64 = ctx.accounts.stake_ta.amount;
     let staked_sol = staked_lamports / LAMPORTS_PER_SOL;
     let harvest_amount = staked_sol * hours_elapsed;
