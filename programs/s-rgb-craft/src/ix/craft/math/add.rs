@@ -9,6 +9,7 @@ pub fn ix(
     dst_pixel_index_seeds: PixelIndexSeeds,
     dst_pixel_index_lookup_seeds: PixelIndexLookupSeeds,
 ) -> Result<()> {
+    let multiplier = 5 as u64;
     // get accounts
     let left_pixel = &ctx.accounts.left_pixel;
     let right_pixel = &ctx.accounts.right_pixel;
@@ -68,19 +69,19 @@ pub fn ix(
     // invoke burn left-pixel ix
     burn(
         burn_left_pixel_cpi_context,
-        1,
+        1 * multiplier,
     )?;
     // invoke burn right-pixel ix
     burn(
         burn_right_pixel_cpi_context,
-        1,
+        1 * multiplier,
     )?;
     // invoke mint dst-pixel ix
     mint_to(
         mint_dst_pixel_cpi_context.with_signer(
             signer_seeds
         ),
-        1,
+        1 * multiplier,
     )?;
     // index
     index(

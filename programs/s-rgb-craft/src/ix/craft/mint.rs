@@ -11,6 +11,7 @@ pub fn ix(
     pixel_index_lookup_seeds: PixelIndexLookupSeeds,
     palette_seeds: PaletteSeeds,
 ) -> Result<()> {
+    let multiplier = 5 as u64; // TODO as arg
     // get accounts
     let pixel = &ctx.accounts.pixel;
     let pixel_index = &mut ctx.accounts.pixel_index;
@@ -91,27 +92,27 @@ pub fn ix(
         mint_cpi_context.with_signer(
             signer_seeds
         ),
-        1,
+        1 * multiplier,
     )?;
     // invoke burn red ix
     if pixel.seeds.r > 0 {
         burn(
             burn_red_cpi_context,
-            pixel.seeds.r as u64,
+            (pixel.seeds.r as u64) * multiplier,
         )?;
     }
     // invoke burn green ix
     if pixel.seeds.g > 0 {
         burn(
             burn_green_cpi_context,
-            pixel.seeds.g as u64,
+            (pixel.seeds.g as u64) * multiplier,
         )?;
     }
     // invoke burn blue ix
     if pixel.seeds.b > 0 {
         burn(
             burn_blue_cpi_context,
-            pixel.seeds.b as u64,
+            (pixel.seeds.b as u64) * multiplier,
         )?;
     }
     // index
