@@ -14,7 +14,7 @@ view =
             [ class "level-item"
             ]
             [ Html.a
-                [ href "https://github.com/bigtimetapin/solana-elm"
+                [ href "https://github.com/bigtimetapin/s-rgb"
                 , target "_blank"
                 ]
                 [ Html.span
@@ -32,7 +32,7 @@ view =
             ]
             [ Html.a
                 [ class "icon is-medium"
-                , href "mailto:bigtimetapin@gmail.com"
+                , href "mailto:hi@seangreen.info"
                 , target "_blank"
                 ]
                 [ Html.i
