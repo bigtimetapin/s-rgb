@@ -29,8 +29,8 @@ pub fn ix(ctx: Context<MintNftForPaint>, plan: Plan, url: Pubkey) -> Result<()> 
         proof.key(),
         ctx.accounts.payer.key(),
         proof.key(),
-        String::from("s-rgb"),
-        String::from("SRGB"),
+        String::from("rgb.industries"),
+        String::from("RGB"),
         build_url(&url),
         Some(vec![
             mpl_token_metadata::state::Creator {

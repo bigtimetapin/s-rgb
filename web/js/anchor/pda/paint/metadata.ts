@@ -11,8 +11,8 @@ export function build(
 ): File {
     const url = "https://rgb.industries/";
     const meta = {
-        name: "s-rgb",
-        symbol: "SRGB",
+        name: "rgb.industries",
+        symbol: "RGB",
         description: "proof of work pixel art",
         image: imageUrl,
         external_url: url
