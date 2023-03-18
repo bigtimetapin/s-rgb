@@ -114,10 +114,10 @@ update msg model =
                     , Cmd.none
                     )
 
-                UserMsg.HrefMix user ->
+                UserMsg.HrefCraft user ->
                     ( { model
                         | state =
-                            { local = Local.User <| UserState.Mix user
+                            { local = Local.User <| UserState.Craft user
                             , global = model.state.global
                             , exception = model.state.exception
                             }
@@ -365,8 +365,8 @@ update msg model =
                                                                                 Local.User (UserState.Stake _) ->
                                                                                     Local.User <| UserState.Stake user
 
-                                                                                Local.User (UserState.Mix _) ->
-                                                                                    Local.User <| UserState.Mix user
+                                                                                Local.User (UserState.Craft _) ->
+                                                                                    Local.User <| UserState.Craft user
 
                                                                                 Local.User (UserState.Vault _) ->
                                                                                     Local.User <| UserState.Vault user

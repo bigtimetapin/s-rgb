@@ -7,6 +7,6 @@ import Model.User.User exposing (User)
 type State
     = Top
     | Stake User
-    | Mix User
+    | Craft User
     | Vault User
     | Paint Paint User

@@ -1,4 +1,4 @@
-module View.User.Mix exposing (body)
+module View.User.Craft exposing (body)
 
 import Html exposing (Html)
 import Html.Attributes exposing (class, src, style)
@@ -18,7 +18,7 @@ body user =
         [ Html.div
             [ class "mb-6"
             ]
-            [ View.User.Header.body user State.Mix
+            [ View.User.Header.body user State.Craft
             ]
         , Html.div
             []

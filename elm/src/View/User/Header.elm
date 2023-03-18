@@ -49,15 +49,15 @@ body user f =
                 [ class <|
                     String.concat
                         [ "has-text-weight-bold"
-                        , hightlight_ Mix
+                        , hightlight_ Craft
                         ]
                 , onClick <|
-                    click_ Mix
+                    click_ Craft
                 ]
                 [ Html.div
                     [ class "is-size-4"
                     ]
-                    [ Html.text "MIX"
+                    [ Html.text "CRAFT"
                     ]
                 ]
             ]
@@ -123,8 +123,8 @@ click user this =
                 Stake ->
                     UserMsg.HrefStake user
 
-                Mix ->
-                    UserMsg.HrefMix user
+                Craft ->
+                    UserMsg.HrefCraft user
 
                 Vault ->
                     UserMsg.HrefVault user
@@ -145,7 +145,7 @@ highlight state this =
         ( Stake, State.Stake _ ) ->
             class
 
-        ( Mix, State.Mix _ ) ->
+        ( Craft, State.Craft _ ) ->
             class
 
         ( Vault, State.Vault _ ) ->
@@ -160,6 +160,6 @@ highlight state this =
 
 type This
     = Stake
-    | Mix
+    | Craft
     | Vault
     | Paint

@@ -3,7 +3,7 @@ module View.User.View exposing (view)
 import Html exposing (Html)
 import Model.User.State.State exposing (State(..))
 import Msg.Msg exposing (Msg(..))
-import View.User.Mix
+import View.User.Craft
 import View.User.Paint
 import View.User.Stake
 import View.User.Top
@@ -19,8 +19,8 @@ view state =
         Stake user ->
             View.User.Stake.body user
 
-        Mix user ->
-            View.User.Mix.body user
+        Craft user ->
+            View.User.Craft.body user
 
         Vault user ->
             View.User.Vault.body user

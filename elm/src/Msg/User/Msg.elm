@@ -13,7 +13,7 @@ type Msg
     = Fetch
       -- href
     | HrefStake User
-    | HrefMix User
+    | HrefCraft User
     | HrefVault User
     | HrefPaint User
       -- stake
