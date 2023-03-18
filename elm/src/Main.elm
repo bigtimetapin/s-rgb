@@ -541,7 +541,7 @@ view model =
                 Local.Error error ->
                     hero <| View.Error.Error.body error
     in
-    { title = "s-rgb"
+    { title = "rgb.industries"
     , body =
         [ html
         ]
