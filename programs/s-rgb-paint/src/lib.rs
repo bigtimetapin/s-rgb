@@ -2,7 +2,7 @@ use anchor_lang::prelude::*;
 use anchor_spl::associated_token::AssociatedToken;
 use anchor_spl::token::{Mint, Token, TokenAccount};
 use mpl_token_metadata::state::{PREFIX};
-use s_rgb_craft::pda::{craft, craft::pixel::Pixel};
+use s_rgb_craft::pda::craft::pixel::Pixel;
 use crate::pda::paint::proof::{Plan, Proof};
 use crate::pda::paint::proof_index::ProofIndex;
 use crate::pda::paint::proof_indexer::ProofIndexer;
@@ -10,7 +10,7 @@ use crate::pda::paint::proof_indexer::ProofIndexer;
 mod pda;
 mod ix;
 
-declare_id!("BHaigrDd4Ei5ok5XnoNCxzGCGeK9T9RAQtyWKFphGnhi");
+declare_id!("5bySibubtXmihMXgRsyJVjRfc13SHgf5fi6nXwoUwisW");
 
 #[program]
 pub mod s_rgb_paint {
