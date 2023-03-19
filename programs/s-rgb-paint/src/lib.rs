@@ -20,12 +20,12 @@ pub mod s_rgb_paint {
         Ok(())
     }
 
-    pub fn mint_nft_for_paint(ctx: Context<MintNftForPaint>, plan: Plan, url: Pubkey) -> Result<()> {
+    pub fn mint_nft(ctx: Context<MintNft>, plan: Plan, url: Pubkey) -> Result<()> {
         ix::paint::mint::ix(ctx, plan, url)
     }
 
-    pub fn burn_pixels_for_paint(ctx: Context<BurnPixelsForPaint>) -> Result<()> {
-        ix::paint::burn::ix(ctx)
+    pub fn burn_pixels_one(ctx: Context<BurnPixelsOne>) -> Result<()> {
+        ix::paint::burn::one::ix(ctx)
     }
 }
 
@@ -48,7 +48,7 @@ pub struct InitProofIndexer<'info> {
 }
 
 #[derive(Accounts)]
-pub struct MintNftForPaint<'info> {
+pub struct MintNft<'info> {
     // pda
     #[account(init,
     seeds = [
@@ -113,7 +113,7 @@ pub struct MintNftForPaint<'info> {
 }
 
 #[derive(Accounts)]
-pub struct BurnPixelsForPaint<'info> {
+pub struct BurnPixelsOne<'info> {
     // pda
     #[account(mut,
     seeds = [
@@ -121,159 +121,31 @@ pub struct BurnPixelsForPaint<'info> {
     & mint.key().to_bytes()
     ], bump,
     )]
-    pub proof: Box<Account<'info, Proof>>,
+    pub proof: Account<'info, Proof>,
     #[account(
-    seeds = [
-    craft::pixel::SEED.as_bytes(),
-    (1 as u32).to_string().as_bytes(), // r
-    (0 as u32).to_string().as_bytes(), // g
-    (0 as u32).to_string().as_bytes(), // b
-    (1 as u32).to_string().as_bytes(), // depth
-    ], bump,
-    seeds::program = crafting_program.key()
+    address = proof.burned.plan.one.as_ref().unwrap().pda
     )]
-    pub red_pixel: Box<Account<'info, Pixel>>,
-    #[account(
-    seeds = [
-    craft::pixel::SEED.as_bytes(),
-    (0 as u32).to_string().as_bytes(), // r
-    (1 as u32).to_string().as_bytes(), // g
-    (0 as u32).to_string().as_bytes(), // b
-    (1 as u32).to_string().as_bytes(), // depth
-    ], bump,
-    seeds::program = crafting_program.key()
-    )]
-    pub green_pixel: Box<Account<'info, Pixel>>,
-    #[account(
-    seeds = [
-    craft::pixel::SEED.as_bytes(),
-    (0 as u32).to_string().as_bytes(), // r
-    (0 as u32).to_string().as_bytes(), // g
-    (1 as u32).to_string().as_bytes(), // b
-    (1 as u32).to_string().as_bytes(), // depth
-    ], bump,
-    seeds::program = crafting_program.key()
-    )]
-    pub blue_pixel: Box<Account<'info, Pixel>>,
-    #[account(
-    seeds = [
-    craft::pixel::SEED.as_bytes(),
-    (1 as u32).to_string().as_bytes(), // r
-    (1 as u32).to_string().as_bytes(), // g
-    (0 as u32).to_string().as_bytes(), // b
-    (1 as u32).to_string().as_bytes(), // depth
-    ], bump,
-    seeds::program = crafting_program.key()
-    )]
-    pub yellow_pixel: Box<Account<'info, Pixel>>,
-    #[account(
-    seeds = [
-    craft::pixel::SEED.as_bytes(),
-    (1 as u32).to_string().as_bytes(), // r
-    (0 as u32).to_string().as_bytes(), // g
-    (1 as u32).to_string().as_bytes(), // b
-    (1 as u32).to_string().as_bytes(), // depth
-    ], bump,
-    seeds::program = crafting_program.key()
-    )]
-    pub magenta_pixel: Box<Account<'info, Pixel>>,
-    #[account(
-    seeds = [
-    craft::pixel::SEED.as_bytes(),
-    (0 as u32).to_string().as_bytes(), // r
-    (1 as u32).to_string().as_bytes(), // g
-    (1 as u32).to_string().as_bytes(), // b
-    (1 as u32).to_string().as_bytes(), // depth
-    ], bump,
-    seeds::program = crafting_program.key()
-    )]
-    pub cyan_pixel: Box<Account<'info, Pixel>>,
-    #[account(
-    seeds = [
-    craft::pixel::SEED.as_bytes(),
-    (1 as u32).to_string().as_bytes(), // r
-    (1 as u32).to_string().as_bytes(), // g
-    (1 as u32).to_string().as_bytes(), // b
-    (1 as u32).to_string().as_bytes(), // depth
-    ], bump,
-    seeds::program = crafting_program.key()
-    )]
-    pub white_pixel: Box<Account<'info, Pixel>>,
+    pub pixel: Account<'info, Pixel>,
     // cpi accounts
     #[account(mut,
-    address = red_pixel.mint
+    address = pixel.mint
     )]
-    pub red_pixel_mint: Box<Account<'info, Mint>>,
+    pub pixel_mint: Account<'info, Mint>,
     #[account(mut,
-    associated_token::mint = red_pixel_mint,
+    associated_token::mint = pixel_mint,
     associated_token::authority = payer,
     )]
-    pub red_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
-    #[account(mut,
-    address = green_pixel.mint
-    )]
-    pub green_pixel_mint: Box<Account<'info, Mint>>,
-    #[account(mut,
-    associated_token::mint = green_pixel_mint,
-    associated_token::authority = payer,
-    )]
-    pub green_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
-    #[account(mut,
-    address = blue_pixel.mint
-    )]
-    pub blue_pixel_mint: Box<Account<'info, Mint>>,
-    #[account(mut,
-    associated_token::mint = blue_pixel_mint,
-    associated_token::authority = payer,
-    )]
-    pub blue_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
-    #[account(mut,
-    address = yellow_pixel.mint
-    )]
-    pub yellow_pixel_mint: Box<Account<'info, Mint>>,
-    #[account(mut,
-    associated_token::mint = yellow_pixel_mint,
-    associated_token::authority = payer,
-    )]
-    pub yellow_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
-    #[account(mut,
-    address = magenta_pixel.mint
-    )]
-    pub magenta_pixel_mint: Box<Account<'info, Mint>>,
-    #[account(mut,
-    associated_token::mint = magenta_pixel_mint,
-    associated_token::authority = payer,
-    )]
-    pub magenta_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
-    #[account(mut,
-    address = cyan_pixel.mint
-    )]
-    pub cyan_pixel_mint: Box<Account<'info, Mint>>,
-    #[account(mut,
-    associated_token::mint = cyan_pixel_mint,
-    associated_token::authority = payer,
-    )]
-    pub cyan_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
-    #[account(mut,
-    address = white_pixel.mint
-    )]
-    pub white_pixel_mint: Box<Account<'info, Mint>>,
-    #[account(mut,
-    associated_token::mint = white_pixel_mint,
-    associated_token::authority = payer,
-    )]
-    pub white_pixel_mint_ata: Box<Account<'info, TokenAccount>>,
+    pub pixel_mint_ata: Account<'info, TokenAccount>,
     #[account(mut,
     address = proof.nft.mint
     )]
-    pub mint: Box<Account<'info, Mint>>,
+    pub mint: Account<'info, Mint>,
     // payer
     #[account(mut)]
     pub payer: Signer<'info>,
     // cpi programs
     pub token_program: Program<'info, Token>,
     pub associated_token_program: Program<'info, AssociatedToken>,
-    pub crafting_program: Program<'info, CraftingProgram>,
     // system
     pub system_program: Program<'info, System>,
     pub rent: Sysvar<'info, Rent>,
@@ -285,14 +157,5 @@ pub struct MetadataProgram;
 impl anchor_lang::Id for MetadataProgram {
     fn id() -> Pubkey {
         mpl_token_metadata::ID
-    }
-}
-
-#[derive(Clone)]
-pub struct CraftingProgram;
-
-impl anchor_lang::Id for CraftingProgram {
-    fn id() -> Pubkey {
-        s_rgb_craft::ID
     }
 }

@@ -3,10 +3,10 @@ use anchor_spl::token::{mint_to, MintTo};
 use mpl_token_metadata::instruction::{
     create_metadata_accounts_v3, sign_metadata, update_primary_sale_happened_via_token,
 };
-use crate::{MintNftForPaint, pda};
+use crate::{MintNft, pda};
 use crate::pda::paint::proof::{Burned, Nft, Plan};
 
-pub fn ix(ctx: Context<MintNftForPaint>, plan: Plan, url: Pubkey) -> Result<()> {
+pub fn ix(ctx: Context<MintNft>, plan: Plan, url: Pubkey) -> Result<()> {
     // get accounts
     let proof = &mut ctx.accounts.proof;
     let proof_index = &mut ctx.accounts.proof_index;
