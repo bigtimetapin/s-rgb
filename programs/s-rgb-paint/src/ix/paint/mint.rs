@@ -3,8 +3,8 @@ use anchor_spl::token::{mint_to, MintTo};
 use mpl_token_metadata::instruction::{
     create_metadata_accounts_v3, sign_metadata, update_primary_sale_happened_via_token,
 };
-use crate::{MintNft, pda};
-use crate::pda::paint::proof::{Burned, Nft, Plan};
+use crate::{MintNft, pda, Proof};
+use crate::pda::paint::proof::{Burned, Nft, Plan, PlanMember};
 
 pub fn ix(ctx: Context<MintNft>, plan: Plan, url: Pubkey) -> Result<()> {
     // get accounts
@@ -108,6 +108,7 @@ pub fn ix(ctx: Context<MintNft>, plan: Plan, url: Pubkey) -> Result<()> {
         ],
     )?;
     // proof
+    set_arity(proof);
     proof.nft = Nft {
         mint: ctx.accounts.mint.key(),
         url,
@@ -126,6 +127,27 @@ pub fn ix(ctx: Context<MintNft>, plan: Plan, url: Pubkey) -> Result<()> {
 
 fn build_url(pubkey: &Pubkey) -> String {
     format!("{}{}/meta.json", SHADOW_URL, pubkey.to_string())
+}
+
+fn set_arity(proof: &mut Proof) {
+    let mut increment = 0 as u8;
+    increment_arity(&mut increment, &proof.burned.plan.one);
+    increment_arity(&mut increment, &proof.burned.plan.two);
+    increment_arity(&mut increment, &proof.burned.plan.three);
+    increment_arity(&mut increment, &proof.burned.plan.four);
+    increment_arity(&mut increment, &proof.burned.plan.five);
+    increment_arity(&mut increment, &proof.burned.plan.six);
+    increment_arity(&mut increment, &proof.burned.plan.seven);
+    proof.arity = increment;
+}
+
+fn increment_arity(increment: &mut u8, maybe_plan_member: &Option<PlanMember>) {
+    match maybe_plan_member {
+        None => {}
+        Some(_) => {
+            *increment += 1;
+        }
+    }
 }
 
 const SHADOW_URL: &str = "https://shdw-drive.genesysgo.net/";
