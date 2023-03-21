@@ -121,25 +121,25 @@ pub struct BurnPixelsOne<'info> {
     & mint.key().to_bytes()
     ], bump,
     )]
-    pub proof: Account<'info, Proof>,
+    pub proof: Box<Account<'info, Proof>>,
     #[account(
     address = proof.burned.plan.one.as_ref().unwrap().pda
     )]
-    pub pixel: Account<'info, Pixel>,
+    pub pixel: Box<Account<'info, Pixel>>,
     // cpi accounts
     #[account(mut,
     address = pixel.mint
     )]
-    pub pixel_mint: Account<'info, Mint>,
+    pub pixel_mint: Box<Account<'info, Mint>>,
     #[account(mut,
     associated_token::mint = pixel_mint,
     associated_token::authority = payer,
     )]
-    pub pixel_mint_ata: Account<'info, TokenAccount>,
+    pub pixel_mint_ata: Box<Account<'info, TokenAccount>>,
     #[account(mut,
     address = proof.nft.mint
     )]
-    pub mint: Account<'info, Mint>,
+    pub mint: Box<Account<'info, Mint>>,
     // payer
     #[account(mut)]
     pub payer: Signer<'info>,
