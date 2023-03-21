@@ -165,7 +165,7 @@ async function getNFts(
                     burned: p.burned
                 }
             }
-        )
+        );
     } catch (error) {
         console.log(error);
         nfts = []

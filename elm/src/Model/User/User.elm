@@ -56,13 +56,19 @@ type alias Burned =
 
 
 type alias Plan =
-    { red : Int
-    , green : Int
-    , blue : Int
-    , yellow : Int
-    , magenta : Int
-    , cyan : Int
-    , white : Int
+    { one : Maybe PlanMember
+    , two : Maybe PlanMember
+    , three : Maybe PlanMember
+    , four : Maybe PlanMember
+    , five : Maybe PlanMember
+    , six : Maybe PlanMember
+    , seven : Maybe PlanMember
+    }
+
+
+type alias PlanMember =
+    { amount : Int
+    , pda : PublicKey
     }
 
 
@@ -166,10 +172,16 @@ burnedDecoder =
 
 planDecoder =
     Decode.map7 Plan
-        (Decode.field "red" Decode.int)
-        (Decode.field "green" Decode.int)
-        (Decode.field "blue" Decode.int)
-        (Decode.field "yellow" Decode.int)
-        (Decode.field "magenta" Decode.int)
-        (Decode.field "cyan" Decode.int)
-        (Decode.field "white" Decode.int)
+        (Decode.maybe (Decode.field "one" planMemberDecoer))
+        (Decode.maybe (Decode.field "two"  planMemberDecoer))
+        (Decode.maybe (Decode.field "three"  planMemberDecoer))
+        (Decode.maybe (Decode.field "four"  planMemberDecoer))
+        (Decode.maybe (Decode.field "five"  planMemberDecoer))
+        (Decode.maybe (Decode.field "six"  planMemberDecoer))
+        (Decode.maybe (Decode.field "seven"  planMemberDecoer))
+
+
+planMemberDecoer =
+    Decode.map2 PlanMember
+        (Decode.field "amount" Decode.int)
+        (Decode.field "pda" Decode.string)

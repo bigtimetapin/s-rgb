@@ -163,31 +163,31 @@ body user =
                                                     ]
                                                 , Html.th
                                                     []
-                                                    [ Html.text "r"
+                                                    [ Html.text "1"
                                                     ]
                                                 , Html.th
                                                     []
-                                                    [ Html.text "g"
+                                                    [ Html.text "2"
                                                     ]
                                                 , Html.th
                                                     []
-                                                    [ Html.text "b"
+                                                    [ Html.text "3"
                                                     ]
                                                 , Html.th
                                                     []
-                                                    [ Html.text "y"
+                                                    [ Html.text "4"
                                                     ]
                                                 , Html.th
                                                     []
-                                                    [ Html.text "m"
+                                                    [ Html.text "5"
                                                     ]
                                                 , Html.th
                                                     []
-                                                    [ Html.text "c"
+                                                    [ Html.text "6"
                                                     ]
                                                 , Html.th
                                                     []
-                                                    [ Html.text "w"
+                                                    [ Html.text "7"
                                                     ]
                                                 ]
                                             ]
@@ -209,37 +209,121 @@ body user =
                                             , Html.td
                                                 []
                                                 [ Html.text <|
-                                                    String.fromInt proof.burned.plan.red
+                                                    String.fromInt <|
+                                                        (\maybe ->
+                                                            case maybe of
+                                                                Just int ->
+                                                                    int
+
+                                                                Nothing ->
+                                                                    0
+                                                        )
+                                                            (Maybe.map
+                                                                .amount
+                                                                proof.burned.plan.one
+                                                            )
                                                 ]
                                             , Html.td
                                                 []
                                                 [ Html.text <|
-                                                    String.fromInt proof.burned.plan.green
+                                                    String.fromInt <|
+                                                        (\maybe ->
+                                                            case maybe of
+                                                                Just int ->
+                                                                    int
+
+                                                                Nothing ->
+                                                                    0
+                                                        )
+                                                            (Maybe.map
+                                                                .amount
+                                                                proof.burned.plan.two
+                                                            )
                                                 ]
                                             , Html.td
                                                 []
                                                 [ Html.text <|
-                                                    String.fromInt proof.burned.plan.blue
+                                                    String.fromInt <|
+                                                        (\maybe ->
+                                                            case maybe of
+                                                                Just int ->
+                                                                    int
+
+                                                                Nothing ->
+                                                                    0
+                                                        )
+                                                            (Maybe.map
+                                                                .amount
+                                                                proof.burned.plan.three
+                                                            )
                                                 ]
                                             , Html.td
                                                 []
                                                 [ Html.text <|
-                                                    String.fromInt proof.burned.plan.yellow
+                                                    String.fromInt <|
+                                                        (\maybe ->
+                                                            case maybe of
+                                                                Just int ->
+                                                                    int
+
+                                                                Nothing ->
+                                                                    0
+                                                        )
+                                                            (Maybe.map
+                                                                .amount
+                                                                proof.burned.plan.four
+                                                            )
                                                 ]
                                             , Html.td
                                                 []
                                                 [ Html.text <|
-                                                    String.fromInt proof.burned.plan.magenta
+                                                    String.fromInt <|
+                                                        (\maybe ->
+                                                            case maybe of
+                                                                Just int ->
+                                                                    int
+
+                                                                Nothing ->
+                                                                    0
+                                                        )
+                                                            (Maybe.map
+                                                                .amount
+                                                                proof.burned.plan.five
+                                                            )
                                                 ]
                                             , Html.td
                                                 []
                                                 [ Html.text <|
-                                                    String.fromInt proof.burned.plan.cyan
+                                                    String.fromInt <|
+                                                        (\maybe ->
+                                                            case maybe of
+                                                                Just int ->
+                                                                    int
+
+                                                                Nothing ->
+                                                                    0
+                                                        )
+                                                            (Maybe.map
+                                                                .amount
+                                                                proof.burned.plan.six
+                                                            )
                                                 ]
                                             , Html.td
                                                 []
                                                 [ Html.text <|
-                                                    String.fromInt proof.burned.plan.white
+                                                    String.fromInt <|
+                                                        (\maybe ->
+                                                            case maybe of
+                                                                Just int ->
+                                                                    int
+
+                                                                Nothing ->
+                                                                    0
+                                                        )
+                                                            (Maybe.map
+                                                                .amount
+                                                                proof.burned.plan.seven
+                                                            )
                                                 ]
                                             ]
                                         ]

@@ -327,6 +327,7 @@ table tvl_ balance_ stake_ =
             ]
         ]
 
+
 mint : Primary -> Html Msg
 mint primary =
     let

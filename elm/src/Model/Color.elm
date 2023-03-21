@@ -1,7 +1,7 @@
 module Model.Color exposing (Color(..), init, toClass, toSeeds)
 
-
 import Model.Pixel as Pixel
+
 
 type Color
     = Black
@@ -46,6 +46,7 @@ toClass color =
         Cyan ->
             "has-cyan"
 
+
 toSeeds : Color -> Pixel.Seeds
 toSeeds color =
     case color of
@@ -63,14 +64,12 @@ toSeeds color =
             , depth = 1
             }
 
-
         Red ->
             { r = 1
             , g = 0
             , b = 0
             , depth = 1
             }
-
 
         Green ->
             { r = 0
@@ -79,14 +78,12 @@ toSeeds color =
             , depth = 1
             }
 
-
         Blue ->
             { r = 0
             , g = 0
             , b = 1
             , depth = 1
             }
-
 
         Yellow ->
             { r = 1
@@ -95,14 +92,12 @@ toSeeds color =
             , depth = 1
             }
 
-
         Magenta ->
             { r = 1
             , g = 0
             , b = 1
             , depth = 1
             }
-
 
         Cyan ->
             { r = 0
