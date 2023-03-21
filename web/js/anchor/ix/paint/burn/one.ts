@@ -60,6 +60,7 @@ export async function ix(
             {
                 proof: proofIndex.proof,
                 pixel: proof.burned.plan.one.pda,
+                pixelMint: pixel.mint,
                 pixelMintAta: pixelMintAta,
                 mint: proof.nft.mint,
                 payer: provider.wallet.publicKey,
