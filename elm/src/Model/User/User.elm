@@ -173,12 +173,12 @@ burnedDecoder =
 planDecoder =
     Decode.map7 Plan
         (Decode.maybe (Decode.field "one" planMemberDecoer))
-        (Decode.maybe (Decode.field "two"  planMemberDecoer))
-        (Decode.maybe (Decode.field "three"  planMemberDecoer))
-        (Decode.maybe (Decode.field "four"  planMemberDecoer))
-        (Decode.maybe (Decode.field "five"  planMemberDecoer))
-        (Decode.maybe (Decode.field "six"  planMemberDecoer))
-        (Decode.maybe (Decode.field "seven"  planMemberDecoer))
+        (Decode.maybe (Decode.field "two" planMemberDecoer))
+        (Decode.maybe (Decode.field "three" planMemberDecoer))
+        (Decode.maybe (Decode.field "four" planMemberDecoer))
+        (Decode.maybe (Decode.field "five" planMemberDecoer))
+        (Decode.maybe (Decode.field "six" planMemberDecoer))
+        (Decode.maybe (Decode.field "seven" planMemberDecoer))
 
 
 planMemberDecoer =
