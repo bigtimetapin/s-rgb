@@ -69,9 +69,10 @@ export async function getPixelPda(
         paint: Program<SRgbPaint>;
         token: Program<SplToken>
     },
-    pda: PixelPda): Promise<Pixel> {
+    pda: PublicKey
+): Promise<Pixel> {
     const fetched = await programs.craft.account.pixel.fetch(
-        pda.address
+        pda
     ) as RawPixel;
     const ata = deriveAtaPda(
         provider.wallet.publicKey,

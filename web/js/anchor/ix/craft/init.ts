@@ -54,7 +54,7 @@ export async function getOrInit(
         pixel = await Pixel.getPixelPda(
             provider,
             programs,
-            pixelPda
+            pixelPda.address
         );
     } catch (error) {
         console.log(error);
@@ -67,7 +67,7 @@ export async function getOrInit(
         pixel = await Pixel.getPixelPda(
             provider,
             programs,
-            pixelPda
+            pixelPda.address
         );
     }
     return pixel

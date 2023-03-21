@@ -35,7 +35,7 @@ export async function ix(
     const leftPixel = await Pixel.getPixelPda(
         provider,
         programs,
-        leftPixelPda
+        leftPixelPda.address
     );
     const rightPixelPda = Pixel.derivePixelPda(
         programs.craft,

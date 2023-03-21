@@ -1,6 +1,7 @@
 import {AnchorProvider, BN, Program, SplToken} from "@project-serum/anchor";
 import {Keypair, PublicKey, SystemProgram, SYSVAR_RENT_PUBKEY} from "@solana/web3.js";
 import {deriveAtaPda} from "../../pda/ata-pda";
+import * as Pixel from "../../pda/craft/pixel-pda";
 import * as Proof from "../../pda/paint/proof-pda";
 import * as ProofIndexer from "../../pda/paint/proof-indexer-pda";
 import * as InitProofIndexer from "./init-proof-indexer";
@@ -12,7 +13,7 @@ import {
     SPL_TOKEN_PROGRAM_ID
 } from "../../util/constants";
 import {getUser} from "../../pda/get-global";
-import * as Burn from "./burn";
+import * as BurnOne from "./burn/one";
 import {SRgbStake} from "../../idl/stake";
 import {SRgbCraft} from "../../idl/craft";
 import {SRgbPaint} from "../../idl/paint";
@@ -74,15 +75,10 @@ export async function ix(
         ],
         MPL_TOKEN_METADATA_PROGRAM_ID
     );
-    const plan = {
-        red: new BN(input.red),
-        green: new BN(input.green),
-        blue: new BN(input.blue),
-        yellow: new BN(input.yellow),
-        magenta: new BN(input.magenta),
-        cyan: new BN(input.cyan),
-        white: new BN(input.white)
-    };
+    const plan = buildPlan(
+        input,
+        programs.craft
+    );
     const image = await domToImage(
     );
     const provisioned = await provision(
@@ -104,7 +100,7 @@ export async function ix(
     await programs
         .paint
         .methods
-        .mintNftForPaint(
+        .mintNft(
             plan as any,
             provisioned.account as any
         ).accounts(
@@ -128,7 +124,7 @@ export async function ix(
             ]
         ).rpc();
     await new Promise(r => setTimeout(r, 1000));
-    await Burn.ix(
+    await BurnOne.ix(
         provider,
         programs
     );
@@ -137,4 +133,121 @@ export async function ix(
         provider,
         programs
     );
+}
+
+function buildPlan(input: Input, program: Program<SRgbCraft>) {
+    const redPixelSeeds = {
+        r: 1,
+        g: 0,
+        b: 0,
+        depth: 1
+    };
+    const redPixelPda = Pixel.derivePixelPda(
+        program,
+        redPixelSeeds
+    );
+    const greenPixelSeeds = {
+        r: 0,
+        g: 1,
+        b: 0,
+        depth: 1
+    };
+    const greenPixelPda = Pixel.derivePixelPda(
+        program,
+        greenPixelSeeds
+    );
+    const bluePixelSeeds = {
+        r: 0,
+        g: 0,
+        b: 1,
+        depth: 1
+    };
+    const bluePixelPda = Pixel.derivePixelPda(
+        program,
+        bluePixelSeeds
+    );
+    const yellowPixelSeeds = {
+        r: 1,
+        g: 1,
+        b: 0,
+        depth: 1
+    };
+    const yellowPixelPda = Pixel.derivePixelPda(
+        program,
+        yellowPixelSeeds
+    );
+    const magentaPixelSeeds = {
+        r: 1,
+        g: 0,
+        b: 1,
+        depth: 1
+    };
+    const magentaPixelPda = Pixel.derivePixelPda(
+        program,
+        magentaPixelSeeds
+    );
+    const cyanPixelSeeds = {
+        r: 0,
+        g: 1,
+        b: 1,
+        depth: 1
+    };
+    const cyanPixelPda = Pixel.derivePixelPda(
+        program,
+        cyanPixelSeeds
+    );
+    const whitePixelSeeds = {
+        r: 1,
+        g: 1,
+        b: 1,
+        depth: 1
+    };
+    const whitePixelPda = Pixel.derivePixelPda(
+        program,
+        whitePixelSeeds
+    );
+    let plan: Proof.Plan = {
+        one: null,
+        two: null,
+        three: null,
+        four: null,
+        five: null,
+        six: null,
+        seven: null
+    };
+    plan = addToPlan(input.red, redPixelPda, plan);
+    plan = addToPlan(input.green, greenPixelPda, plan);
+    plan = addToPlan(input.blue, bluePixelPda, plan);
+    plan = addToPlan(input.yellow, yellowPixelPda, plan);
+    plan = addToPlan(input.magenta, magentaPixelPda, plan);
+    plan = addToPlan(input.cyan, cyanPixelPda, plan);
+    plan = addToPlan(input.white, whitePixelPda, plan);
+    return plan
+}
+
+
+function addToPlan(number: number, pda: Pixel.PixelPda, plan: any): any {
+    if (number == 0) {
+    } else {
+        const planMember = {
+            amount: new BN(number),
+            pda: pda.address
+        }
+        if (!plan.one) {
+            plan.one = planMember
+        } else if (!plan.two) {
+            plan.two = planMember
+        } else if (!plan.three) {
+            plan.three = planMember
+        } else if (!plan.four) {
+            plan.four = planMember
+        } else if (!plan.five) {
+            plan.five = planMember
+        } else if (!plan.six) {
+            plan.six = planMember
+        } else if (!plan.seven) {
+            plan.seven = planMember
+        }
+    }
+    return plan
 }

@@ -24,7 +24,7 @@ export type SRgbPaint = {
       "args": []
     },
     {
-      "name": "mintNftForPaint",
+      "name": "mintNft",
       "accounts": [
         {
           "name": "proof",
@@ -101,7 +101,7 @@ export type SRgbPaint = {
       ]
     },
     {
-      "name": "burnPixelsForPaint",
+      "name": "burnPixelsOne",
       "accounts": [
         {
           "name": "proof",
@@ -109,107 +109,17 @@ export type SRgbPaint = {
           "isSigner": false
         },
         {
-          "name": "redPixel",
+          "name": "pixel",
           "isMut": false,
           "isSigner": false
         },
         {
-          "name": "greenPixel",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "bluePixel",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "yellowPixel",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "magentaPixel",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "cyanPixel",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "whitePixel",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "redPixelMint",
+          "name": "pixelMint",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "redPixelMintAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "greenPixelMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "greenPixelMintAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "bluePixelMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "bluePixelMintAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "yellowPixelMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "yellowPixelMintAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "magentaPixelMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "magentaPixelMintAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "cyanPixelMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "cyanPixelMintAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "whitePixelMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "whitePixelMintAta",
+          "name": "pixelMintAta",
           "isMut": true,
           "isSigner": false
         },
@@ -230,11 +140,6 @@ export type SRgbPaint = {
         },
         {
           "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "craftingProgram",
           "isMut": false,
           "isSigner": false
         },
@@ -286,6 +191,10 @@ export type SRgbPaint = {
       "type": {
         "kind": "struct",
         "fields": [
+          {
+            "name": "arity",
+            "type": "u8"
+          },
           {
             "name": "burned",
             "type": {
@@ -343,31 +252,75 @@ export type SRgbPaint = {
         "kind": "struct",
         "fields": [
           {
-            "name": "red",
-            "type": "u64"
+            "name": "one",
+            "type": {
+              "option": {
+                "defined": "PlanMember"
+              }
+            }
           },
           {
-            "name": "green",
-            "type": "u64"
+            "name": "two",
+            "type": {
+              "option": {
+                "defined": "PlanMember"
+              }
+            }
           },
           {
-            "name": "blue",
-            "type": "u64"
+            "name": "three",
+            "type": {
+              "option": {
+                "defined": "PlanMember"
+              }
+            }
           },
           {
-            "name": "yellow",
-            "type": "u64"
+            "name": "four",
+            "type": {
+              "option": {
+                "defined": "PlanMember"
+              }
+            }
           },
           {
-            "name": "magenta",
-            "type": "u64"
+            "name": "five",
+            "type": {
+              "option": {
+                "defined": "PlanMember"
+              }
+            }
           },
           {
-            "name": "cyan",
-            "type": "u64"
+            "name": "six",
+            "type": {
+              "option": {
+                "defined": "PlanMember"
+              }
+            }
           },
           {
-            "name": "white",
+            "name": "seven",
+            "type": {
+              "option": {
+                "defined": "PlanMember"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlanMember",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pda",
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
             "type": "u64"
           }
         ]
@@ -402,7 +355,7 @@ export const IDL: SRgbPaint = {
       "args": []
     },
     {
-      "name": "mintNftForPaint",
+      "name": "mintNft",
       "accounts": [
         {
           "name": "proof",
@@ -479,7 +432,7 @@ export const IDL: SRgbPaint = {
       ]
     },
     {
-      "name": "burnPixelsForPaint",
+      "name": "burnPixelsOne",
       "accounts": [
         {
           "name": "proof",
@@ -487,107 +440,17 @@ export const IDL: SRgbPaint = {
           "isSigner": false
         },
         {
-          "name": "redPixel",
+          "name": "pixel",
           "isMut": false,
           "isSigner": false
         },
         {
-          "name": "greenPixel",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "bluePixel",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "yellowPixel",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "magentaPixel",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "cyanPixel",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "whitePixel",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "redPixelMint",
+          "name": "pixelMint",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "redPixelMintAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "greenPixelMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "greenPixelMintAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "bluePixelMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "bluePixelMintAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "yellowPixelMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "yellowPixelMintAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "magentaPixelMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "magentaPixelMintAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "cyanPixelMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "cyanPixelMintAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "whitePixelMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "whitePixelMintAta",
+          "name": "pixelMintAta",
           "isMut": true,
           "isSigner": false
         },
@@ -608,11 +471,6 @@ export const IDL: SRgbPaint = {
         },
         {
           "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "craftingProgram",
           "isMut": false,
           "isSigner": false
         },
@@ -664,6 +522,10 @@ export const IDL: SRgbPaint = {
       "type": {
         "kind": "struct",
         "fields": [
+          {
+            "name": "arity",
+            "type": "u8"
+          },
           {
             "name": "burned",
             "type": {
@@ -721,31 +583,75 @@ export const IDL: SRgbPaint = {
         "kind": "struct",
         "fields": [
           {
-            "name": "red",
-            "type": "u64"
+            "name": "one",
+            "type": {
+              "option": {
+                "defined": "PlanMember"
+              }
+            }
           },
           {
-            "name": "green",
-            "type": "u64"
+            "name": "two",
+            "type": {
+              "option": {
+                "defined": "PlanMember"
+              }
+            }
           },
           {
-            "name": "blue",
-            "type": "u64"
+            "name": "three",
+            "type": {
+              "option": {
+                "defined": "PlanMember"
+              }
+            }
           },
           {
-            "name": "yellow",
-            "type": "u64"
+            "name": "four",
+            "type": {
+              "option": {
+                "defined": "PlanMember"
+              }
+            }
           },
           {
-            "name": "magenta",
-            "type": "u64"
+            "name": "five",
+            "type": {
+              "option": {
+                "defined": "PlanMember"
+              }
+            }
           },
           {
-            "name": "cyan",
-            "type": "u64"
+            "name": "six",
+            "type": {
+              "option": {
+                "defined": "PlanMember"
+              }
+            }
           },
           {
-            "name": "white",
+            "name": "seven",
+            "type": {
+              "option": {
+                "defined": "PlanMember"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlanMember",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pda",
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
             "type": "u64"
           }
         ]

@@ -7,6 +7,7 @@ export interface ProofPda extends Pda {
 }
 
 export interface Proof {
+    arity: number
     nft: {
         mint: PublicKey
         url: PublicKey
@@ -18,13 +19,18 @@ export interface Proof {
 }
 
 export interface Plan {
-    red: number // decoded as bn
-    green: number // decoded as bn
-    blue: number // decoded as bn
-    yellow: number // decoded as bn
-    magenta: number // decoded as bn
-    cyan: number // decoded as bn
-    white: number // decoded as bn
+    one: PlanMember | null
+    two: PlanMember | null
+    three: PlanMember | null
+    four: PlanMember | null
+    five: PlanMember | null
+    six: PlanMember | null
+    seven: PlanMember | null
+}
+
+export interface PlanMember {
+    pda: PublicKey
+    amount: number // decoded as bn
 }
 
 export async function getMany(program: Program<SRgbPaint>, pdaArray: PublicKey[]): Promise<Proof[]> {
@@ -64,6 +70,7 @@ export function derive(program: Program<SRgbPaint>, mint: PublicKey): ProofPda {
 
 function fromObj(obj: any): Proof {
     return {
+        arity: obj.arity,
         nft: {
             mint: obj.nft.mint,
             url: obj.nft.url
@@ -71,16 +78,27 @@ function fromObj(obj: any): Proof {
         burned: {
             burned: obj.burned.burned,
             plan: {
-                red: obj.burned.plan.red.toNumber(),
-                green: obj.burned.plan.green.toNumber(),
-                blue: obj.burned.plan.blue.toNumber(),
-                yellow: obj.burned.plan.yellow.toNumber(),
-                magenta: obj.burned.plan.magenta.toNumber(),
-                cyan: obj.burned.plan.cyan.toNumber(),
-                white: obj.burned.plan.white.toNumber()
+                one: planMemberFromObj(obj.burned.plan.one),
+                two: planMemberFromObj(obj.burned.plan.two),
+                three: planMemberFromObj(obj.burned.plan.three),
+                four: planMemberFromObj(obj.burned.plan.four),
+                five: planMemberFromObj(obj.burned.plan.five),
+                six: planMemberFromObj(obj.burned.plan.six),
+                seven: planMemberFromObj(obj.burned.plan.seven),
             }
         }
     } as Proof
+}
+
+function planMemberFromObj(obj: any): PlanMember | null {
+    let planMember: PlanMember | null;
+    if (obj) {
+        planMember = {
+            pda: obj.pda,
+            amount: obj.amount.toNumber()
+        }
+    }
+    return planMember
 }
 
 const SEED = "proof";

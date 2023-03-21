@@ -31,7 +31,7 @@ export async function ix(
     const srcPixel = await Pixel.getPixelPda(
         provider,
         programs,
-        srcPixelPda
+        srcPixelPda.address
     );
     const dstPixelSeeds = {
         r: srcPixelSeeds.r,
