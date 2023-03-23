@@ -3,7 +3,7 @@ use anchor_spl::token::{mint_to, MintTo};
 use mpl_token_metadata::instruction::{
     create_metadata_accounts_v3, sign_metadata, update_primary_sale_happened_via_token,
 };
-use crate::{MintNft, pda, Proof};
+use crate::{MintNft, pda};
 use crate::pda::paint::proof::{Burned, Nft, Plan, PlanMember};
 
 pub fn ix(ctx: Context<MintNft>, plan: Plan, url: Pubkey) -> Result<()> {
@@ -109,7 +109,7 @@ pub fn ix(ctx: Context<MintNft>, plan: Plan, url: Pubkey) -> Result<()> {
     )?;
     // proof
     let arity = get_arity(
-        proof
+        &plan
     );
     proof.arity = arity;
     proof.nft = Nft {
@@ -132,31 +132,35 @@ fn build_url(pubkey: &Pubkey) -> String {
     format!("{}{}/meta.json", SHADOW_URL, pubkey.to_string())
 }
 
-fn get_arity(proof: &Proof) -> u8 {
+fn get_arity(plan: &Plan) -> u8 {
     let mut increment = 0 as u8;
     msg!("{}", increment);
-    increment_arity(&mut increment, &proof.burned.plan.one);
+    increment = increment_arity(increment, &plan.one);
     msg!("{}", increment);
-    increment_arity(&mut increment, &proof.burned.plan.two);
+    increment = increment_arity(increment, &plan.two);
     msg!("{}", increment);
-    increment_arity(&mut increment, &proof.burned.plan.three);
+    increment = increment_arity(increment, &plan.three);
     msg!("{}", increment);
-    increment_arity(&mut increment, &proof.burned.plan.four);
+    increment = increment_arity(increment, &plan.four);
     msg!("{}", increment);
-    increment_arity(&mut increment, &proof.burned.plan.five);
+    increment = increment_arity(increment, &plan.five);
     msg!("{}", increment);
-    increment_arity(&mut increment, &proof.burned.plan.six);
+    increment = increment_arity(increment, &plan.six);
     msg!("{}", increment);
-    increment_arity(&mut increment, &proof.burned.plan.seven);
+    increment = increment_arity(increment, &plan.seven);
     msg!("{}", increment);
     increment
 }
 
-fn increment_arity(increment: &mut u8, maybe_plan_member: &Option<PlanMember>) {
+fn increment_arity(increment: u8, maybe_plan_member: &Option<PlanMember>) -> u8 {
     match maybe_plan_member {
-        None => {}
+        None => {
+            msg!("{}", "no-plan");
+            increment
+        }
         Some(_) => {
-            *increment += 1;
+            msg!("{}", "some-plan");
+            increment + 1
         }
     }
 }
