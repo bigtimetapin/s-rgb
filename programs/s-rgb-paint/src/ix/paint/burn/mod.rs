@@ -4,6 +4,7 @@ use crate::pda::paint::proof::PlanMember;
 use crate::Proof;
 
 pub mod one;
+pub mod two;
 
 fn almost_burn<'info>(
     token_program: &Program<'info, Token>,

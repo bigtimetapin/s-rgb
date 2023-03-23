@@ -27,6 +27,10 @@ pub mod s_rgb_paint {
     pub fn burn_pixels_one(ctx: Context<BurnPixelsOne>) -> Result<()> {
         ix::paint::burn::one::ix(ctx)
     }
+
+    pub fn burn_pixels_two(ctx: Context<BurnPixelsTwo>) -> Result<()> {
+        ix::paint::burn::two::ix(ctx)
+    }
 }
 
 #[derive(Accounts)]
@@ -136,6 +140,58 @@ pub struct BurnPixelsOne<'info> {
     associated_token::authority = payer,
     )]
     pub pixel_mint_ata: Box<Account<'info, TokenAccount>>,
+    #[account(mut,
+    address = proof.nft.mint
+    )]
+    pub mint: Box<Account<'info, Mint>>,
+    // payer
+    #[account(mut)]
+    pub payer: Signer<'info>,
+    // cpi programs
+    pub token_program: Program<'info, Token>,
+    pub associated_token_program: Program<'info, AssociatedToken>,
+    // system
+    pub system_program: Program<'info, System>,
+    pub rent: Sysvar<'info, Rent>,
+}
+
+#[derive(Accounts)]
+pub struct BurnPixelsTwo<'info> {
+    // pda
+    #[account(mut,
+    seeds = [
+    pda::paint::proof::SEED.as_bytes(),
+    & mint.key().to_bytes()
+    ], bump,
+    )]
+    pub proof: Box<Account<'info, Proof>>,
+    #[account(
+    address = proof.burned.plan.one.as_ref().unwrap().pda
+    )]
+    pub pixel_one: Box<Account<'info, Pixel>>,
+    #[account(
+    address = proof.burned.plan.two.as_ref().unwrap().pda
+    )]
+    pub pixel_two: Box<Account<'info, Pixel>>,
+    // cpi accounts
+    #[account(mut,
+    address = pixel_one.mint
+    )]
+    pub pixel_one_mint: Box<Account<'info, Mint>>,
+    #[account(mut,
+    associated_token::mint = pixel_one_mint,
+    associated_token::authority = payer,
+    )]
+    pub pixel_one_mint_ata: Box<Account<'info, TokenAccount>>,
+    #[account(mut,
+    address = pixel_two.mint
+    )]
+    pub pixel_two_mint: Box<Account<'info, Mint>>,
+    #[account(mut,
+    associated_token::mint = pixel_two_mint,
+    associated_token::authority = payer,
+    )]
+    pub pixel_two_mint_ata: Box<Account<'info, TokenAccount>>,
     #[account(mut,
     address = proof.nft.mint
     )]
