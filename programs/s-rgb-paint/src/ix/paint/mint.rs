@@ -108,7 +108,10 @@ pub fn ix(ctx: Context<MintNft>, plan: Plan, url: Pubkey) -> Result<()> {
         ],
     )?;
     // proof
-    set_arity(proof);
+    let arity = get_arity(
+        proof
+    );
+    proof.arity = arity;
     proof.nft = Nft {
         mint: ctx.accounts.mint.key(),
         url,
@@ -129,16 +132,24 @@ fn build_url(pubkey: &Pubkey) -> String {
     format!("{}{}/meta.json", SHADOW_URL, pubkey.to_string())
 }
 
-fn set_arity(proof: &mut Proof) {
+fn get_arity(proof: &Proof) -> u8 {
     let mut increment = 0 as u8;
+    msg!("{}", increment);
     increment_arity(&mut increment, &proof.burned.plan.one);
+    msg!("{}", increment);
     increment_arity(&mut increment, &proof.burned.plan.two);
+    msg!("{}", increment);
     increment_arity(&mut increment, &proof.burned.plan.three);
+    msg!("{}", increment);
     increment_arity(&mut increment, &proof.burned.plan.four);
+    msg!("{}", increment);
     increment_arity(&mut increment, &proof.burned.plan.five);
+    msg!("{}", increment);
     increment_arity(&mut increment, &proof.burned.plan.six);
+    msg!("{}", increment);
     increment_arity(&mut increment, &proof.burned.plan.seven);
-    proof.arity = increment;
+    msg!("{}", increment);
+    increment
 }
 
 fn increment_arity(increment: &mut u8, maybe_plan_member: &Option<PlanMember>) {
