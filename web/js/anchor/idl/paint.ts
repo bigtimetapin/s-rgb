@@ -155,6 +155,657 @@ export type SRgbPaint = {
         }
       ],
       "args": []
+    },
+    {
+      "name": "burnPixelsTwo",
+      "accounts": [
+        {
+          "name": "proof",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOne",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOneMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOneMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwoMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwoMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "burnPixelsThree",
+      "accounts": [
+        {
+          "name": "proof",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOne",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThree",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOneMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOneMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwoMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwoMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThreeMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThreeMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "burnPixelsFour",
+      "accounts": [
+        {
+          "name": "proof",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOne",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThree",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFour",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOneMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOneMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwoMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwoMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThreeMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThreeMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFourMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFourMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "burnPixelsFive",
+      "accounts": [
+        {
+          "name": "proof",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOne",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThree",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFour",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFive",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOneMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOneMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwoMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwoMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThreeMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThreeMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFourMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFourMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFiveMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFiveMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "burnPixelsSix",
+      "accounts": [
+        {
+          "name": "proof",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOne",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThree",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFour",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFive",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelSix",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOneMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOneMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwoMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwoMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThreeMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThreeMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFourMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFourMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFiveMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFiveMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelSixMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelSixMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "burnPixelsSeven",
+      "accounts": [
+        {
+          "name": "proof",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOne",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThree",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFour",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFive",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelSix",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelSeven",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOneMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOneMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwoMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwoMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThreeMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThreeMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFourMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFourMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFiveMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFiveMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelSixMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelSixMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelSevenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelSevenMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
     }
   ],
   "accounts": [
@@ -451,6 +1102,657 @@ export const IDL: SRgbPaint = {
         },
         {
           "name": "pixelMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "burnPixelsTwo",
+      "accounts": [
+        {
+          "name": "proof",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOne",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOneMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOneMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwoMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwoMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "burnPixelsThree",
+      "accounts": [
+        {
+          "name": "proof",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOne",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThree",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOneMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOneMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwoMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwoMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThreeMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThreeMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "burnPixelsFour",
+      "accounts": [
+        {
+          "name": "proof",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOne",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThree",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFour",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOneMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOneMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwoMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwoMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThreeMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThreeMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFourMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFourMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "burnPixelsFive",
+      "accounts": [
+        {
+          "name": "proof",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOne",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThree",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFour",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFive",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOneMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOneMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwoMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwoMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThreeMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThreeMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFourMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFourMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFiveMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFiveMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "burnPixelsSix",
+      "accounts": [
+        {
+          "name": "proof",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOne",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThree",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFour",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFive",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelSix",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOneMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOneMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwoMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwoMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThreeMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThreeMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFourMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFourMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFiveMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFiveMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelSixMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelSixMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "burnPixelsSeven",
+      "accounts": [
+        {
+          "name": "proof",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOne",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThree",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFour",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFive",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelSix",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelSeven",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOneMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelOneMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwoMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelTwoMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThreeMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelThreeMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFourMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFourMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFiveMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelFiveMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelSixMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelSixMintAta",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelSevenMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pixelSevenMintAta",
           "isMut": true,
           "isSigner": false
         },
