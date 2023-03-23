@@ -39,6 +39,10 @@ pub mod s_rgb_paint {
     pub fn burn_pixels_four(ctx: Context<BurnPixelsFour>) -> Result<()> {
         ix::paint::burn::four::ix(ctx)
     }
+
+    pub fn burn_pixels_five(ctx: Context<BurnPixelsFive>) -> Result<()> {
+        ix::paint::burn::five::ix(ctx)
+    }
 }
 
 #[derive(Accounts)]
@@ -343,6 +347,97 @@ pub struct BurnPixelsFour<'info> {
     associated_token::authority = payer,
     )]
     pub pixel_four_mint_ata: Box<Account<'info, TokenAccount>>,
+    #[account(mut,
+    address = proof.nft.mint
+    )]
+    pub mint: Box<Account<'info, Mint>>,
+    // payer
+    #[account(mut)]
+    pub payer: Signer<'info>,
+    // cpi programs
+    pub token_program: Program<'info, Token>,
+    pub associated_token_program: Program<'info, AssociatedToken>,
+    // system
+    pub system_program: Program<'info, System>,
+    pub rent: Sysvar<'info, Rent>,
+}
+
+#[derive(Accounts)]
+pub struct BurnPixelsFive<'info> {
+    // pda
+    #[account(mut,
+    seeds = [
+    pda::paint::proof::SEED.as_bytes(),
+    & mint.key().to_bytes()
+    ], bump,
+    )]
+    pub proof: Box<Account<'info, Proof>>,
+    #[account(
+    address = proof.burned.plan.one.as_ref().unwrap().pda
+    )]
+    pub pixel_one: Box<Account<'info, Pixel>>,
+    #[account(
+    address = proof.burned.plan.two.as_ref().unwrap().pda
+    )]
+    pub pixel_two: Box<Account<'info, Pixel>>,
+    #[account(
+    address = proof.burned.plan.three.as_ref().unwrap().pda
+    )]
+    pub pixel_three: Box<Account<'info, Pixel>>,
+    #[account(
+    address = proof.burned.plan.four.as_ref().unwrap().pda
+    )]
+    pub pixel_four: Box<Account<'info, Pixel>>,
+    #[account(
+    address = proof.burned.plan.five.as_ref().unwrap().pda
+    )]
+    pub pixel_five: Box<Account<'info, Pixel>>,
+    // cpi accounts
+    #[account(mut,
+    address = pixel_one.mint
+    )]
+    pub pixel_one_mint: Box<Account<'info, Mint>>,
+    #[account(mut,
+    associated_token::mint = pixel_one_mint,
+    associated_token::authority = payer,
+    )]
+    pub pixel_one_mint_ata: Box<Account<'info, TokenAccount>>,
+    #[account(mut,
+    address = pixel_two.mint
+    )]
+    pub pixel_two_mint: Box<Account<'info, Mint>>,
+    #[account(mut,
+    associated_token::mint = pixel_two_mint,
+    associated_token::authority = payer,
+    )]
+    pub pixel_two_mint_ata: Box<Account<'info, TokenAccount>>,
+    #[account(mut,
+    address = pixel_three.mint
+    )]
+    pub pixel_three_mint: Box<Account<'info, Mint>>,
+    #[account(mut,
+    associated_token::mint = pixel_three_mint,
+    associated_token::authority = payer,
+    )]
+    pub pixel_three_mint_ata: Box<Account<'info, TokenAccount>>,
+    #[account(mut,
+    address = pixel_four.mint
+    )]
+    pub pixel_four_mint: Box<Account<'info, Mint>>,
+    #[account(mut,
+    associated_token::mint = pixel_four_mint,
+    associated_token::authority = payer,
+    )]
+    pub pixel_four_mint_ata: Box<Account<'info, TokenAccount>>,
+    #[account(mut,
+    address = pixel_five.mint
+    )]
+    pub pixel_five_mint: Box<Account<'info, Mint>>,
+    #[account(mut,
+    associated_token::mint = pixel_five_mint,
+    associated_token::authority = payer,
+    )]
+    pub pixel_five_mint_ata: Box<Account<'info, TokenAccount>>,
     #[account(mut,
     address = proof.nft.mint
     )]
