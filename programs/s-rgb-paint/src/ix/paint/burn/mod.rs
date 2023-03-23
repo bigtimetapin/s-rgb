@@ -6,6 +6,7 @@ use crate::Proof;
 pub mod one;
 pub mod two;
 pub mod three;
+pub mod four;
 
 fn almost_burn<'info>(
     token_program: &Program<'info, Token>,
