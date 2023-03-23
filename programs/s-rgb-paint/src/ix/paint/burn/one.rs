@@ -13,7 +13,7 @@ pub fn ix(ctx: Context<BurnPixelsOne>) -> Result<()> {
     );
     // burn pixel
     burn(
-        &ctx.accounts.mint,
+        &ctx.accounts.pixel_mint,
         &ctx.accounts.pixel_mint_ata,
         |p| &p.burned.plan.one,
     )?;
