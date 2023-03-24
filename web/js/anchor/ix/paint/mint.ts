@@ -13,13 +13,13 @@ import {
     SPL_TOKEN_PROGRAM_ID
 } from "../../util/constants";
 import {getUser} from "../../pda/get-global";
-import * as BurnOne from "./burn/one";
 import {SRgbStake} from "../../idl/stake";
 import {SRgbCraft} from "../../idl/craft";
 import {SRgbPaint} from "../../idl/paint";
 import {buildUrl, provision, uploadMultipleFiles} from "../../../shdw";
 import * as Metadata from "../../pda/paint/metadata";
 import {domToImage} from "./dom-to-image";
+import {burn} from "./burn/burn";
 
 interface Input {
     white: number
@@ -123,11 +123,36 @@ export async function ix(
                 mint
             ]
         ).rpc();
-    await new Promise(r => setTimeout(r, 5000));
-    await BurnOne.ix(
-        provider,
-        programs
-    );
+    let proof: Proof.Proof | null;
+    try {
+        proof = await Proof.get(
+            programs.paint,
+            proofPda.address
+        );
+    } catch (error) {
+        // it's likely that if this failed
+        // it was a false DNE exception bc the RPC node is just behind the leader
+        // and if we invoke one more time we're good
+        console.log(error);
+        try {
+            proof = await Proof.get(
+                programs.paint,
+                proofPda.address
+            );
+        } catch (error2) {
+            console.log(error2);
+        }
+    }
+    if (proof) {
+        await burn(
+            provider,
+            programs,
+            {
+                proof: proof,
+                pda: proofPda.address
+            }
+        );
+    }
     await getUser(
         app,
         provider,

@@ -47,7 +47,6 @@ export async function get(program: Program<SRgbPaint>, pda: PublicKey): Promise<
     const fetched = await program.account.proof.fetch(
         pda
     );
-    console.log(fetched);
     return fromObj(
         fetched
     )

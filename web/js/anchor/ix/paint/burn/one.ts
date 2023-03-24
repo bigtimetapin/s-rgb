@@ -1,8 +1,6 @@
 import {AnchorProvider, Program, SplToken} from "@project-serum/anchor";
-import {SystemProgram, SYSVAR_RENT_PUBKEY} from "@solana/web3.js";
+import {PublicKey, SystemProgram, SYSVAR_RENT_PUBKEY} from "@solana/web3.js";
 import * as Proof from "../../../pda/paint/proof-pda";
-import * as ProofIndex from "../../../pda/paint/proof-index-pda";
-import * as ProofIndexer from "../../../pda/paint/proof-indexer-pda";
 import * as Pixel from "../../../pda/craft/pixel-pda";
 import {deriveAtaPda} from "../../../pda/ata-pda";
 import {
@@ -20,33 +18,16 @@ export async function ix(
         craft: Program<SRgbCraft>;
         paint: Program<SRgbPaint>;
         token: Program<SplToken>
+    },
+    proof: {
+        pda: PublicKey,
+        proof: Proof.Proof
     }
 ): Promise<void> {
-    const proofIndexerPda = ProofIndexer.derive(
-        provider,
-        programs.paint
-    );
-    const proofIndexer = await ProofIndexer.get(
-        programs.paint,
-        proofIndexerPda
-    );
-    const proofIndexPda = ProofIndex.derive(
-        provider,
-        programs.paint,
-        proofIndexer.indexer
-    );
-    const proofIndex = await ProofIndex.get(
-        programs.paint,
-        proofIndexPda
-    );
-    const proof = await Proof.get(
-        programs.paint,
-        proofIndex.proof
-    );
     const pixel = await Pixel.getPixelPda(
         provider,
         programs,
-        proof.burned.plan.one.pda
+        proof.proof.burned.plan.one.pda
     );
     const pixelMintAta = deriveAtaPda(
         provider.wallet.publicKey,
@@ -58,11 +39,11 @@ export async function ix(
         .burnPixelsOne()
         .accounts(
             {
-                proof: proofIndex.proof,
-                pixel: proof.burned.plan.one.pda,
+                proof: proof.pda,
+                pixel: proof.proof.burned.plan.one.pda,
                 pixelMint: pixel.mint,
                 pixelMintAta: pixelMintAta,
-                mint: proof.nft.mint,
+                mint: proof.proof.nft.mint,
                 payer: provider.wallet.publicKey,
                 tokenProgram: SPL_TOKEN_PROGRAM_ID,
                 associatedTokenProgram: SPL_ASSOCIATED_TOKEN_PROGRAM_ID,
