@@ -140,7 +140,14 @@ export async function ix(
                 proofPda.address
             );
         } catch (error2) {
-            console.log(error2);
+            try {
+                proof = await Proof.get(
+                    programs.paint,
+                    proofPda.address
+                );
+            } catch (error3) {
+                console.log(error);
+            }
         }
     }
     if (proof) {
