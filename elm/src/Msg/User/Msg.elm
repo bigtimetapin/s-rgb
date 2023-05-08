@@ -32,7 +32,7 @@ type Msg
     | CommitGrid User Paint.Sizing
     | SizeCell User Grid Color String
     | ChangeColor User Grid Color
-    | OpenBuffer User Grid Color
+    | OpenBuffer User Grid Color Cell
     | ColorPixel User Grid Color Cell
     | CloseBuffer User Grid Color
     | ClearGrid User Grid Color

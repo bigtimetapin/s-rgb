@@ -334,14 +334,31 @@ update msg model =
                     , Cmd.none
                     )
 
-                UserMsg.OpenBuffer user grid color ->
+                UserMsg.OpenBuffer user grid color cell ->
+                    let
+                        rows =
+                            List.map
+                                (\row ->
+                                    List.map
+                                        (\cell_ ->
+                                            case cell.index == cell_.index of
+                                                True ->
+                                                    { cell_ | color = color }
+
+                                                False ->
+                                                    cell_
+                                        )
+                                        row
+                                )
+                                grid.grid
+                    in
                     ( { model
                         | state =
                             { local =
                                 Local.User <|
                                     UserState.Paint
                                         (Paint.HasGrid
-                                            { buffer = Grid.Open, cell = grid.cell, grid = grid.grid }
+                                            { buffer = Grid.Open, cell = grid.cell, grid = rows }
                                             color
                                         )
                                         user

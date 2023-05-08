@@ -321,7 +321,7 @@ select user grid color =
         ]
 
 
-cell : Color -> Cell -> UserMsg.Msg -> UserMsg.Msg -> (Color -> Cell -> UserMsg.Msg) -> Html Msg
+cell : Color -> Cell -> (Cell -> UserMsg.Msg) -> UserMsg.Msg -> (Color -> Cell -> UserMsg.Msg) -> Html Msg
 cell color cell_ fMouseDown fMouseUp fMouseOver =
     Html.button
         [ class <|
@@ -335,7 +335,8 @@ cell color cell_ fMouseDown fMouseUp fMouseOver =
                 , "is-cell"
                 ]
         , onMouseDown <|
-            FromUser fMouseDown
+            FromUser <|
+                fMouseDown cell_
         , onMouseUp <|
             FromUser fMouseUp
         , onMouseOver <|
@@ -345,7 +346,7 @@ cell color cell_ fMouseDown fMouseUp fMouseOver =
         []
 
 
-row : Int -> Color -> Row -> UserMsg.Msg -> UserMsg.Msg -> (Color -> Cell -> UserMsg.Msg) -> Html Msg
+row : Int -> Color -> Row -> (Cell -> UserMsg.Msg) -> UserMsg.Msg -> (Color -> Cell -> UserMsg.Msg) -> Html Msg
 row width color cells fMouseDown fMouseUp fMouseOver =
     Html.div
         [ style "display" "grid"
