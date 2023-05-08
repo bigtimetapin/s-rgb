@@ -2,7 +2,7 @@ module View.User.Paint exposing (body)
 
 import Html exposing (Html)
 import Html.Attributes exposing (class, id, style)
-import Html.Events exposing (onClick, onInput)
+import Html.Events exposing (onClick, onInput, onMouseDown, onMouseOver, onMouseUp)
 import Model.Cell exposing (Cell)
 import Model.Color as Color exposing (Color)
 import Model.Grid exposing (Grid, Row)
@@ -155,7 +155,19 @@ body user paint =
 
                 Paint.HasGrid grid color ->
                     let
-                        f =
+                        fMouseDown =
+                            UserMsg.OpenBuffer
+                                user
+                                grid
+                                color
+
+                        fMouseUp =
+                            UserMsg.CloseBuffer
+                                user
+                                grid
+                                color
+
+                        fMouseOver =
                             UserMsg.ColorPixel
                                 user
                                 grid
@@ -181,9 +193,9 @@ body user paint =
                               <|
                                 List.map
                                     (\r ->
-                                        row color r f
+                                        row color r fMouseDown fMouseUp fMouseOver
                                     )
-                                    grid
+                                    grid.grid
                             , Html.div
                                 []
                                 [ Html.div
@@ -248,8 +260,8 @@ select user grid color =
         []
 
 
-cell : Color -> Cell -> (Color -> Cell -> UserMsg.Msg) -> Html Msg
-cell color cell_ f =
+cell : Color -> Cell -> UserMsg.Msg -> UserMsg.Msg -> (Color -> Cell -> UserMsg.Msg) -> Html Msg
+cell color cell_ fMouseDown fMouseUp fMouseOver =
     Html.button
         [ class <|
             String.concat
@@ -260,15 +272,19 @@ cell color cell_ f =
                 , "cursor"
                 ]
         , style "padding-top" "100%"
-        , onClick <|
+        , onMouseDown <|
+            FromUser fMouseDown
+        , onMouseUp <|
+            FromUser fMouseUp
+        , onMouseOver <|
             FromUser <|
-                f color cell_
+                fMouseOver color cell_
         ]
         []
 
 
-row : Color -> Row -> (Color -> Cell -> UserMsg.Msg) -> Html Msg
-row color cells f =
+row : Color -> Row -> UserMsg.Msg -> UserMsg.Msg -> (Color -> Cell -> UserMsg.Msg) -> Html Msg
+row color cells fMouseDown fMouseUp fMouseOver =
     Html.div
         [ style "display" "grid"
         , style "grid-auto-columns" "1fr"
@@ -277,6 +293,6 @@ row color cells f =
     <|
         List.map
             (\c ->
-                cell color c f
+                cell color c fMouseDown fMouseUp fMouseOver
             )
             cells

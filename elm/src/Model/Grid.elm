@@ -1,4 +1,4 @@
-module Model.Grid exposing (Grid, Plan, Row, encode, init, reduce, resize)
+module Model.Grid exposing (Buffer(..), Grid, Plan, Row, encode, init, reduce, resize)
 
 import Json.Encode as Encode
 import Model.Cell exposing (Cell)
@@ -6,7 +6,14 @@ import Model.Color as Color
 
 
 type alias Grid =
-    List Row
+    { buffer : Buffer
+    , grid : List Row
+    }
+
+
+type Buffer
+    = Open
+    | Closed
 
 
 type alias Row =
@@ -31,22 +38,28 @@ init =
 
 resize : Int -> Int -> Grid
 resize x y =
-    List.map
-        (\iy ->
-            let
-                head =
-                    ((iy - 1) * x) + 1
-
-                tail =
-                    iy * x
-            in
+    let
+        grid =
             List.map
-                (\int ->
-                    { index = int, color = Color.Black }
+                (\iy ->
+                    let
+                        head =
+                            ((iy - 1) * x) + 1
+
+                        tail =
+                            iy * x
+                    in
+                    List.map
+                        (\int ->
+                            { index = int, color = Color.Black }
+                        )
+                        (List.range head tail)
                 )
-                (List.range head tail)
-        )
-        (List.range 1 y)
+                (List.range 1 y)
+    in
+    { buffer = Closed
+    , grid = grid
+    }
 
 
 reduce : Grid -> Plan
@@ -91,7 +104,7 @@ reduce grid =
         , magenta = 0
         , cyan = 0
         }
-        grid
+        grid.grid
 
 
 encode : Plan -> String

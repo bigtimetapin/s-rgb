@@ -31,7 +31,9 @@ type Msg
     | SizeGridY User Paint.Sizing String
     | CommitGrid User Paint.Sizing
     | ChangeColor User Grid Color
+    | OpenBuffer User Grid Color
     | ColorPixel User Grid Color Cell
+    | CloseBuffer User Grid Color
 
 
 toString : Msg -> String

@@ -302,23 +302,46 @@ update msg model =
                     , Cmd.none
                     )
 
+                UserMsg.OpenBuffer user grid color ->
+                    ( { model
+                        | state =
+                            { local =
+                                Local.User <|
+                                    UserState.Paint
+                                        (Paint.HasGrid
+                                            { buffer = Grid.Open, grid = grid.grid }
+                                            color
+                                        )
+                                        user
+                            , global = model.state.global
+                            , exception = model.state.exception
+                            }
+                      }
+                    , Cmd.none
+                    )
+
                 UserMsg.ColorPixel user grid color cell ->
                     let
                         rows =
-                            List.map
-                                (\row ->
+                            case grid.buffer of
+                                Grid.Open ->
                                     List.map
-                                        (\cell_ ->
-                                            case cell.index == cell_.index of
-                                                True ->
-                                                    { cell_ | color = color }
+                                        (\row ->
+                                            List.map
+                                                (\cell_ ->
+                                                    case cell.index == cell_.index of
+                                                        True ->
+                                                            { cell_ | color = color }
 
-                                                False ->
-                                                    cell_
+                                                        False ->
+                                                            cell_
+                                                )
+                                                row
                                         )
-                                        row
-                                )
-                                grid
+                                        grid.grid
+
+                                Grid.Closed ->
+                                    grid.grid
                     in
                     ( { model
                         | state =
@@ -326,7 +349,25 @@ update msg model =
                                 Local.User <|
                                     UserState.Paint
                                         (Paint.HasGrid
-                                            rows
+                                            { buffer = grid.buffer, grid = rows }
+                                            color
+                                        )
+                                        user
+                            , global = model.state.global
+                            , exception = model.state.exception
+                            }
+                      }
+                    , Cmd.none
+                    )
+
+                UserMsg.CloseBuffer user grid color ->
+                    ( { model
+                        | state =
+                            { local =
+                                Local.User <|
+                                    UserState.Paint
+                                        (Paint.HasGrid
+                                            { buffer = Grid.Closed, grid = grid.grid }
                                             color
                                         )
                                         user
