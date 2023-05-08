@@ -378,6 +378,24 @@ update msg model =
                     , Cmd.none
                     )
 
+                UserMsg.ClearGrid user grid color ->
+                    ( { model
+                        | state =
+                            { local =
+                                Local.User <|
+                                    UserState.Paint
+                                        (Paint.HasGrid
+                                            (Grid.clear grid)
+                                            color
+                                        )
+                                        user
+                            , global = model.state.global
+                            , exception = model.state.exception
+                            }
+                      }
+                    , Cmd.none
+                    )
+
         FromJs fromJsMsg ->
             case fromJsMsg of
                 -- JS sending success for decoding

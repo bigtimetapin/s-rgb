@@ -1,4 +1,4 @@
-module Model.Grid exposing (Buffer(..), Grid, Plan, Row, encode, init, reduce, resize)
+module Model.Grid exposing (Buffer(..), Grid, Plan, Row, clear, encode, init, reduce, resize)
 
 import Json.Encode as Encode
 import Model.Cell exposing (Cell)
@@ -60,6 +60,23 @@ resize x y =
     { buffer = Closed
     , grid = grid
     }
+
+
+clear : Grid -> Grid
+clear grid =
+    let
+        rows =
+            List.map
+                (\cells ->
+                    List.map
+                        (\cell ->
+                            { cell | color = Color.Black }
+                        )
+                        cells
+                )
+                grid.grid
+    in
+    { buffer = Closed, grid = rows }
 
 
 reduce : Grid -> Plan

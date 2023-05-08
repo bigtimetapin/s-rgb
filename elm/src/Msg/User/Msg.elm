@@ -34,6 +34,7 @@ type Msg
     | OpenBuffer User Grid Color
     | ColorPixel User Grid Color Cell
     | CloseBuffer User Grid Color
+    | ClearGrid User Grid Color
 
 
 toString : Msg -> String

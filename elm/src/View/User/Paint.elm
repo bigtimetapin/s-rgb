@@ -212,14 +212,34 @@ body user paint =
                                     ]
                                 , Html.div
                                     []
-                                    [ Html.button
-                                        [ class "button"
-                                        , onClick <|
-                                            FromUser <|
-                                                UserMsg.Paint
-                                                    grid
+                                    [ Html.div
+                                        [ style "display" "inline-block"
                                         ]
-                                        [ Html.text "mint"
+                                        [ Html.button
+                                            [ class "button"
+                                            , onClick <|
+                                                FromUser <|
+                                                    UserMsg.Paint
+                                                        grid
+                                            ]
+                                            [ Html.text "mint"
+                                            ]
+                                        ]
+                                    , Html.div
+                                        [ style "display" "inline-block"
+                                        , class "ml-2"
+                                        ]
+                                        [ Html.button
+                                            [ class "button"
+                                            , onClick <|
+                                                FromUser <|
+                                                    UserMsg.ClearGrid
+                                                        user
+                                                        grid
+                                                        color
+                                            ]
+                                            [ Html.text "clear"
+                                            ]
                                         ]
                                     ]
                                 ]
