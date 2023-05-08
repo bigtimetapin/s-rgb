@@ -1,7 +1,7 @@
 module View.User.Paint exposing (body)
 
 import Html exposing (Html, i)
-import Html.Attributes exposing (class, id, style)
+import Html.Attributes exposing (class, id, style, type_, value)
 import Html.Events exposing (onClick, onInput, onMouseDown, onMouseOver, onMouseUp)
 import Model.Cell exposing (Cell)
 import Model.Color as Color exposing (Color)
@@ -209,7 +209,8 @@ body user paint =
                                             ]
                                         ]
                                     , Html.div
-                                        []
+                                        [ class "mb-2"
+                                        ]
                                         [ Html.button
                                             [ class "button"
                                             , onClick <|
@@ -220,6 +221,39 @@ body user paint =
                                                         color
                                             ]
                                             [ Html.text "clear"
+                                            ]
+                                        ]
+                                    , Html.div
+                                        []
+                                        [ Html.div
+                                            []
+                                            [ Html.text "cell width"
+                                            ]
+                                        , Html.input
+                                            [ style "width" "75px"
+                                            , class "is-button-4 mb-2"
+                                            , value <| String.fromInt grid.cell
+                                            , type_ "number"
+                                            , onInput
+                                                (\str ->
+                                                    FromUser <|
+                                                        UserMsg.SizeCell
+                                                            user
+                                                            grid
+                                                            color
+                                                            str
+                                                )
+                                            ]
+                                            [ Html.div
+                                                [ class "is-text-container-4"
+                                                ]
+                                                [ Html.div
+                                                    [ class "is-size-4"
+                                                    ]
+                                                    [ Html.text <|
+                                                        String.fromInt grid.cell
+                                                    ]
+                                                ]
                                             ]
                                         ]
                                     ]
@@ -242,7 +276,7 @@ body user paint =
                                       <|
                                         List.map
                                             (\r ->
-                                                row color r fMouseDown fMouseUp fMouseOver
+                                                row grid.cell color r fMouseDown fMouseUp fMouseOver
                                             )
                                             grid.grid
                                     ]
@@ -311,11 +345,16 @@ cell color cell_ fMouseDown fMouseUp fMouseOver =
         []
 
 
-row : Color -> Row -> UserMsg.Msg -> UserMsg.Msg -> (Color -> Cell -> UserMsg.Msg) -> Html Msg
-row color cells fMouseDown fMouseUp fMouseOver =
+row : Int -> Color -> Row -> UserMsg.Msg -> UserMsg.Msg -> (Color -> Cell -> UserMsg.Msg) -> Html Msg
+row width color cells fMouseDown fMouseUp fMouseOver =
     Html.div
         [ style "display" "grid"
-        , style "grid-auto-columns" "1fr"
+        , style "grid-auto-columns" <|
+            String.concat
+                [ "max("
+                , String.fromInt width
+                , "px)"
+                ]
         , style "grid-auto-flow" "column"
         ]
     <|

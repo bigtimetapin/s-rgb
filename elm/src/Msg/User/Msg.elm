@@ -30,6 +30,7 @@ type Msg
     | SizeGridX User Paint.Sizing String
     | SizeGridY User Paint.Sizing String
     | CommitGrid User Paint.Sizing
+    | SizeCell User Grid Color String
     | ChangeColor User Grid Color
     | OpenBuffer User Grid Color
     | ColorPixel User Grid Color Cell

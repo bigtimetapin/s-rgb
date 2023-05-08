@@ -7,6 +7,7 @@ import Model.Color as Color
 
 type alias Grid =
     { buffer : Buffer
+    , cell : Int
     , grid : List Row
     }
 
@@ -58,6 +59,7 @@ resize x y =
                 (List.range 1 y)
     in
     { buffer = Closed
+    , cell = 5
     , grid = grid
     }
 
@@ -76,7 +78,7 @@ clear grid =
                 )
                 grid.grid
     in
-    { buffer = Closed, grid = rows }
+    { buffer = Closed, cell = grid.cell, grid = rows }
 
 
 reduce : Grid -> Plan

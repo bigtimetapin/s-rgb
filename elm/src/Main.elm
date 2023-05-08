@@ -284,6 +284,38 @@ update msg model =
                     , Cmd.none
                     )
 
+                UserMsg.SizeCell user grid color str ->
+                    let
+                        width =
+                            case str of
+                                "" ->
+                                    0
+
+                                nes ->
+                                    case String.toInt nes of
+                                        Just int ->
+                                            int
+
+                                        Nothing ->
+                                            grid.cell
+                    in
+                    ( { model
+                        | state =
+                            { local =
+                                Local.User <|
+                                    UserState.Paint
+                                        (Paint.HasGrid
+                                            { grid | cell = width }
+                                            color
+                                        )
+                                        user
+                            , global = model.state.global
+                            , exception = model.state.exception
+                            }
+                      }
+                    , Cmd.none
+                    )
+
                 UserMsg.ChangeColor user grid color ->
                     ( { model
                         | state =
@@ -309,7 +341,7 @@ update msg model =
                                 Local.User <|
                                     UserState.Paint
                                         (Paint.HasGrid
-                                            { buffer = Grid.Open, grid = grid.grid }
+                                            { buffer = Grid.Open, cell = grid.cell, grid = grid.grid }
                                             color
                                         )
                                         user
@@ -349,7 +381,7 @@ update msg model =
                                 Local.User <|
                                     UserState.Paint
                                         (Paint.HasGrid
-                                            { buffer = grid.buffer, grid = rows }
+                                            { buffer = grid.buffer, cell = grid.cell, grid = rows }
                                             color
                                         )
                                         user
@@ -367,7 +399,7 @@ update msg model =
                                 Local.User <|
                                     UserState.Paint
                                         (Paint.HasGrid
-                                            { buffer = Grid.Closed, grid = grid.grid }
+                                            { buffer = Grid.Closed, cell = grid.cell, grid = grid.grid }
                                             color
                                         )
                                         user
