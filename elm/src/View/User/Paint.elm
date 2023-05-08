@@ -1,6 +1,6 @@
 module View.User.Paint exposing (body)
 
-import Html exposing (Html)
+import Html exposing (Html, i)
 import Html.Attributes exposing (class, id, style)
 import Html.Events exposing (onClick, onInput, onMouseDown, onMouseOver, onMouseUp)
 import Model.Cell exposing (Cell)
@@ -176,31 +176,17 @@ body user paint =
                             select user grid
                     in
                     Html.div
-                        [ class "container"
-                        ]
+                        []
                         [ Html.div
-                            [ class <|
-                                String.concat
-                                    [ Color.toClass color
-                                    , "-"
-                                    , "cursor"
-                                    ]
+                            [ class "columns"
                             ]
                             [ Html.div
-                                [ class "mb-3"
-                                , id "s-rgb-pixel-grid"
+                                [ style "display" "flex"
+                                , style "justify-content" "flex-end"
+                                , class "column is-3"
                                 ]
-                              <|
-                                List.map
-                                    (\r ->
-                                        row color r fMouseDown fMouseUp fMouseOver
-                                    )
-                                    grid.grid
-                            , Html.div
-                                []
                                 [ Html.div
-                                    [ class "buttons mb-2"
-                                    ]
+                                    []
                                     [ select_ Color.White
                                     , select_ Color.Red
                                     , select_ Color.Green
@@ -209,11 +195,8 @@ body user paint =
                                     , select_ Color.Magenta
                                     , select_ Color.Cyan
                                     , select_ Color.Black
-                                    ]
-                                , Html.div
-                                    []
-                                    [ Html.div
-                                        [ style "display" "inline-block"
+                                    , Html.div
+                                        [ class "my-2"
                                         ]
                                         [ Html.button
                                             [ class "button"
@@ -226,9 +209,7 @@ body user paint =
                                             ]
                                         ]
                                     , Html.div
-                                        [ style "display" "inline-block"
-                                        , class "ml-2"
-                                        ]
+                                        []
                                         [ Html.button
                                             [ class "button"
                                             , onClick <|
@@ -241,6 +222,30 @@ body user paint =
                                             [ Html.text "clear"
                                             ]
                                         ]
+                                    ]
+                                ]
+                            , Html.div
+                                [ class <|
+                                    String.concat
+                                        [ Color.toClass color
+                                        , "-"
+                                        , "cursor"
+                                        , " "
+                                        , "column is-5"
+                                        ]
+                                ]
+                                [ Html.div
+                                    []
+                                    [ Html.div
+                                        [ class "mb-3"
+                                        , id "s-rgb-pixel-grid"
+                                        ]
+                                      <|
+                                        List.map
+                                            (\r ->
+                                                row color r fMouseDown fMouseUp fMouseOver
+                                            )
+                                            grid.grid
                                     ]
                                 ]
                             ]
@@ -263,21 +268,24 @@ body user paint =
 
 select : User -> Grid -> Color -> Html Msg
 select user grid color =
-    Html.button
-        [ class <|
-            String.concat
-                [ Color.toClass color
-                ]
-        , style "width" "100px"
-        , style "height" "100px"
-        , onClick <|
-            FromUser <|
-                UserMsg.ChangeColor
-                    user
-                    grid
-                    color
-        ]
+    Html.div
         []
+        [ Html.button
+            [ class <|
+                String.concat
+                    [ Color.toClass color
+                    ]
+            , style "width" "50px"
+            , style "height" "50px"
+            , onClick <|
+                FromUser <|
+                    UserMsg.ChangeColor
+                        user
+                        grid
+                        color
+            ]
+            []
+        ]
 
 
 cell : Color -> Cell -> UserMsg.Msg -> UserMsg.Msg -> (Color -> Cell -> UserMsg.Msg) -> Html Msg
