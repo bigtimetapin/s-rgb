@@ -237,8 +237,7 @@ body user paint =
                                 [ Html.div
                                     []
                                     [ Html.div
-                                        [ class "mb-3"
-                                        , id "s-rgb-pixel-grid"
+                                        [ id "s-rgb-pixel-grid"
                                         ]
                                       <|
                                         List.map
@@ -298,8 +297,9 @@ cell color cell_ fMouseDown fMouseUp fMouseOver =
                 , Color.toClass color
                 , "-"
                 , "cursor"
+                , " "
+                , "is-cell"
                 ]
-        , style "padding-top" "100%"
         , onMouseDown <|
             FromUser fMouseDown
         , onMouseUp <|
