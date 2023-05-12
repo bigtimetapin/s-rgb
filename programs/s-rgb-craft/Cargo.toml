@@ -18,4 +18,5 @@ default = []
 [dependencies]
 anchor-lang = { version = "0.25.0", features = ["init-if-needed"] }
 anchor-spl = "0.25.0"
+mpl-token-metadata = { version = "1.6.2", features = ["no-entrypoint"] }
 s-rgb-stake = { path = "../s-rgb-stake", features = ["no-entrypoint"] }

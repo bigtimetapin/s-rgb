@@ -1,10 +1,10 @@
+use crate::pda::paint::proof::{Burned, Nft, Plan, PlanMember};
+use crate::{pda, MintNft};
 use anchor_lang::prelude::*;
 use anchor_spl::token::{mint_to, MintTo};
 use mpl_token_metadata::instruction::{
     create_metadata_accounts_v3, sign_metadata, update_primary_sale_happened_via_token,
 };
-use crate::{MintNft, pda};
-use crate::pda::paint::proof::{Burned, Nft, Plan, PlanMember};
 
 pub fn ix(ctx: Context<MintNft>, plan: Plan, url: Pubkey) -> Result<()> {
     // get accounts
@@ -12,13 +12,11 @@ pub fn ix(ctx: Context<MintNft>, plan: Plan, url: Pubkey) -> Result<()> {
     let proof_index = &mut ctx.accounts.proof_index;
     let proof_indexer = &mut ctx.accounts.proof_indexer;
     // build signer seeds
-    let bump = *ctx.bumps.get(
-        pda::paint::proof::SEED
-    ).unwrap();
+    let bump = *ctx.bumps.get(pda::paint::proof::SEED).unwrap();
     let seeds = &[
         pda::paint::proof::SEED.as_bytes(),
         &ctx.accounts.mint.key().to_bytes(),
-        &[bump]
+        &[bump],
     ];
     let signer_seeds = &[&seeds[..]];
     // build metadata ix
@@ -32,13 +30,11 @@ pub fn ix(ctx: Context<MintNft>, plan: Plan, url: Pubkey) -> Result<()> {
         String::from("rgb.industries"),
         String::from("RGB"),
         build_url(&url),
-        Some(vec![
-            mpl_token_metadata::state::Creator {
-                address: ctx.accounts.payer.key(),
-                verified: false,
-                share: 100,
-            }
-        ]),
+        Some(vec![mpl_token_metadata::state::Creator {
+            address: ctx.accounts.payer.key(),
+            verified: false,
+            share: 100,
+        }]),
         150,
         false,
         true,
@@ -79,7 +75,7 @@ pub fn ix(ctx: Context<MintNft>, plan: Plan, url: Pubkey) -> Result<()> {
             ctx.accounts.payer.to_account_info(),
             proof.to_account_info(),
             ctx.accounts.system_program.to_account_info(),
-            ctx.accounts.rent.to_account_info()
+            ctx.accounts.rent.to_account_info(),
         ],
         signer_seeds,
     )?;
@@ -88,29 +84,22 @@ pub fn ix(ctx: Context<MintNft>, plan: Plan, url: Pubkey) -> Result<()> {
         &ix_sign_metadata,
         &[
             ctx.accounts.metadata.to_account_info(),
-            ctx.accounts.payer.to_account_info()
+            ctx.accounts.payer.to_account_info(),
         ],
     )?;
     // invoke mint-to ix
-    mint_to(
-        mint_ata_cpi_context.with_signer(
-            signer_seeds
-        ),
-        1,
-    )?;
+    mint_to(mint_ata_cpi_context.with_signer(signer_seeds), 1)?;
     // invoke primary-sale-happened ix
     anchor_lang::solana_program::program::invoke(
         &ix_primary_sale,
         &[
             ctx.accounts.metadata.to_account_info(),
             ctx.accounts.payer.to_account_info(),
-            ctx.accounts.mint_ata.to_account_info()
+            ctx.accounts.mint_ata.to_account_info(),
         ],
     )?;
     // proof
-    let arity = get_arity(
-        &plan
-    );
+    let arity = get_arity(&plan);
     proof.arity = arity;
     proof.nft = Nft {
         mint: ctx.accounts.mint.key(),
@@ -134,34 +123,20 @@ fn build_url(pubkey: &Pubkey) -> String {
 
 fn get_arity(plan: &Plan) -> u8 {
     let mut increment = 0 as u8;
-    msg!("{}", increment);
     increment = increment_arity(increment, &plan.one);
-    msg!("{}", increment);
     increment = increment_arity(increment, &plan.two);
-    msg!("{}", increment);
     increment = increment_arity(increment, &plan.three);
-    msg!("{}", increment);
     increment = increment_arity(increment, &plan.four);
-    msg!("{}", increment);
     increment = increment_arity(increment, &plan.five);
-    msg!("{}", increment);
     increment = increment_arity(increment, &plan.six);
-    msg!("{}", increment);
     increment = increment_arity(increment, &plan.seven);
-    msg!("{}", increment);
     increment
 }
 
 fn increment_arity(increment: u8, maybe_plan_member: &Option<PlanMember>) -> u8 {
     match maybe_plan_member {
-        None => {
-            msg!("{}", "no-plan");
-            increment
-        }
-        Some(_) => {
-            msg!("{}", "some-plan");
-            increment + 1
-        }
+        None => increment,
+        Some(_) => increment + 1,
     }
 }
 

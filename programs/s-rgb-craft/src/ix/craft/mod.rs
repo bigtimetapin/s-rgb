@@ -1,4 +1,5 @@
+pub mod add_metadata;
 pub mod init;
-pub mod mint;
-pub mod merge;
 pub mod math;
+pub mod merge;
+pub mod mint;

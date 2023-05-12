@@ -1,16 +1,17 @@
-use anchor_lang::prelude::*;
-use anchor_spl::associated_token::AssociatedToken;
-use anchor_spl::token::{Mint, Token, TokenAccount};
-use s_rgb_stake::pda::{primary, primary::primary::Primary};
-use crate::pda::{HasSixSeeds, HasFiveSeeds, HasFourSeeds, HasThreeSeeds};
 use crate::pda::craft::palette::{Palette, PaletteSeeds};
 use crate::pda::craft::pixel::{Pixel, PixelSeeds};
 use crate::pda::craft::pixel_index::{PixelIndex, PixelIndexSeeds};
 use crate::pda::craft::pixel_index_lookup::{PixelIndexLookup, PixelIndexLookupSeeds};
+use crate::pda::{HasFiveSeeds, HasFourSeeds, HasSixSeeds, HasThreeSeeds};
+use anchor_lang::prelude::*;
+use anchor_spl::associated_token::AssociatedToken;
+use anchor_spl::token::{Mint, Token, TokenAccount};
+use mpl_token_metadata::state::PREFIX;
+use s_rgb_stake::pda::{primary, primary::primary::Primary};
 
-pub mod pda;
-mod ix;
 mod error;
+mod ix;
+pub mod pda;
 
 declare_id!("G4Wm9es5xZoZLpyzoFHrtgM4Vmo84CenCSrCK6ZxDSmf");
 
@@ -20,6 +21,10 @@ pub mod s_rgb_craft {
 
     pub fn init_pixel(ctx: Context<InitPixelMint>, seeds: PixelSeeds) -> Result<()> {
         ix::craft::init::ix(ctx, seeds)
+    }
+
+    pub fn add_metadata(ctx: Context<AddMetadataToPixel>, url: Pubkey) -> Result<()> {
+        ix::craft::add_metadata::ix(ctx, url)
     }
 
     pub fn mint_pixel(
@@ -57,11 +62,7 @@ pub mod s_rgb_craft {
         dst_pixel_index_seeds: PixelIndexSeeds,
         dst_pixel_index_lookup_seeds: PixelIndexLookupSeeds,
     ) -> Result<()> {
-        ix::craft::math::add::ix(
-            ctx,
-            dst_pixel_index_seeds,
-            dst_pixel_index_lookup_seeds,
-        )
+        ix::craft::math::add::ix(ctx, dst_pixel_index_seeds, dst_pixel_index_lookup_seeds)
     }
 
     pub fn separate_pixel(
@@ -69,11 +70,7 @@ pub mod s_rgb_craft {
         dst_pixel_index_seeds: PixelIndexSeeds,
         dst_pixel_index_lookup_seeds: PixelIndexLookupSeeds,
     ) -> Result<()> {
-        ix::craft::math::separate::ix(
-            ctx,
-            dst_pixel_index_seeds,
-            dst_pixel_index_lookup_seeds,
-        )
+        ix::craft::math::separate::ix(ctx, dst_pixel_index_seeds, dst_pixel_index_lookup_seeds)
     }
 }
 
@@ -107,6 +104,34 @@ pub struct InitPixelMint<'info> {
     pub payer: Signer<'info>,
     // cpi programs
     pub token_program: Program<'info, Token>,
+    // system
+    pub system_program: Program<'info, System>,
+    pub rent: Sysvar<'info, Rent>,
+}
+
+#[derive(Accounts)]
+pub struct AddMetadataToPixel<'info> {
+    #[account()]
+    pub pixel: Account<'info, Pixel>,
+    #[account(
+        address = pixel.mint
+    )]
+    pub pixel_mint: Account<'info, Mint>,
+    #[account(mut,
+    seeds = [
+    PREFIX.as_bytes(),
+    metadata_program.key().as_ref(),
+    pixel_mint.key().as_ref()
+    ], bump,
+    seeds::program = metadata_program.key()
+    )]
+    /// CHECK: uninitialized metadata
+    pub metadata: UncheckedAccount<'info>,
+    // payer
+    #[account(mut)]
+    pub payer: Signer<'info>,
+    // cpi programs
+    pub metadata_program: Program<'info, MetadataProgram>,
     // system
     pub system_program: Program<'info, System>,
     pub rent: Sysvar<'info, Rent>,
@@ -560,5 +585,14 @@ pub struct StakingProgram;
 impl anchor_lang::Id for StakingProgram {
     fn id() -> Pubkey {
         s_rgb_stake::ID
+    }
+}
+
+#[derive(Clone)]
+pub struct MetadataProgram;
+
+impl anchor_lang::Id for MetadataProgram {
+    fn id() -> Pubkey {
+        mpl_token_metadata::ID
     }
 }
