@@ -7,11 +7,31 @@ import { Connection, Keypair, PublicKey } from "@solana/web3.js";
 import * as ShadowDrive from "./shdw";
 
 export async function run() {
-  const red = await read("red.jpeg");
-  const keypair = Keypair.fromSecretKey(u8);
-  const wallet = new NodeWallet(keypair);
-  const drive = await ShadowDrive.provision(wallet, red.file.byteLength);
+  const red = await read(
+    "red.jpeg"
+  );
+  const keypair = Keypair.fromSecretKey(
+    u8
+  );
+  const wallet = new NodeWallet(
+    keypair
+  );
+  const drive = await ShadowDrive.provision(
+    wallet,
+    red.file.byteLength
+  );
+  const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+  await delay(5000);
+  await ShadowDrive.uploadMultipleFiles(
+    [red],
+    drive.drive,
+    drive.account
+  );
+  const url = ShadowDrive.buildUrl(
+    drive.account
+  );
   console.log(drive);
+  console.log(url);
 }
 
 async function read(name: string): Promise<ShadowFile> {
