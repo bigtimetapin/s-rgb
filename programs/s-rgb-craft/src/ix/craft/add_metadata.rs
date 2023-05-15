@@ -76,7 +76,7 @@ pub fn ix(ctx: Context<AddMetadataToPixel>, url: Pubkey) -> Result<()> {
     Ok(())
 }
 
-fn build_url(pubkey: &Pubkey) -> String {
+pub fn build_url(pubkey: &Pubkey) -> String {
     format!("{}{}/meta.json", SHADOW_URL, pubkey.to_string())
 }
 

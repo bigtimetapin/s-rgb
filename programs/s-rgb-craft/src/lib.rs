@@ -6,7 +6,7 @@ use crate::pda::{HasFiveSeeds, HasFourSeeds, HasSixSeeds, HasThreeSeeds};
 use anchor_lang::prelude::*;
 use anchor_spl::associated_token::AssociatedToken;
 use anchor_spl::token::{Mint, Token, TokenAccount};
-use mpl_token_metadata::state::PREFIX;
+use mpl_token_metadata::state::{Metadata, PREFIX};
 use s_rgb_stake::pda::{primary, primary::primary::Primary};
 
 mod error;
@@ -25,6 +25,10 @@ pub mod s_rgb_craft {
 
     pub fn add_metadata(ctx: Context<AddMetadataToPixel>, url: Pubkey) -> Result<()> {
         ix::craft::add_metadata::ix(ctx, url)
+    }
+
+    pub fn edit_metdata(ctx: Context<EditMetadata>, url: Pubkey) -> Result<()> {
+        ix::craft::edit_metadata::ix(ctx, url)
     }
 
     pub fn mint_pixel(
@@ -135,6 +139,29 @@ pub struct AddMetadataToPixel<'info> {
     // system
     pub system_program: Program<'info, System>,
     pub rent: Sysvar<'info, Rent>,
+}
+
+#[derive(Accounts)]
+pub struct EditMetadata<'info> {
+    #[account()]
+    pub pixel: Account<'info, Pixel>,
+    #[account(
+        address = pixel.mint
+    )]
+    pub pixel_mint: Account<'info, Mint>,
+    #[account(mut,
+    seeds = [
+    PREFIX.as_bytes(),
+    metadata_program.key().as_ref(),
+    pixel_mint.key().as_ref()
+    ], bump,
+    seeds::program = metadata_program.key()
+    )]
+    pub metadata: Account<'info, InitializedMetadata>,
+    // cpi programs
+    pub metadata_program: Program<'info, MetadataProgram>,
+    // system
+    pub system_program: Program<'info, System>,
 }
 
 #[derive(Accounts)]
@@ -596,3 +623,22 @@ impl anchor_lang::Id for MetadataProgram {
         mpl_token_metadata::ID
     }
 }
+
+#[derive(Clone, Debug, Default, PartialEq)]
+pub struct InitializedMetadata(Metadata);
+
+impl anchor_lang::Owner for InitializedMetadata {
+    fn owner() -> Pubkey {
+        mpl_token_metadata::ID
+    }
+}
+
+impl anchor_lang::AccountDeserialize for InitializedMetadata {
+    fn try_deserialize_unchecked(buf: &mut &[u8]) -> Result<Self> {
+        Metadata::deserialize(buf)
+            .map(InitializedMetadata)
+            .map_err(Into::into)
+    }
+}
+
+impl anchor_lang::AccountSerialize for InitializedMetadata {}
