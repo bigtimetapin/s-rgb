@@ -115,7 +115,15 @@ pub struct InitPixelMint<'info> {
 
 #[derive(Accounts)]
 pub struct AddMetadataToPixel<'info> {
-    #[account()]
+    #[account(
+        seeds = [
+            pixel.seed1().as_slice(),
+            pixel.seed2().as_slice(),
+            pixel.seed3().as_slice(),
+            pixel.seed4().as_slice(),
+            pixel.seed5().as_slice(),
+        ], bump,
+    )]
     pub pixel: Account<'info, Pixel>,
     #[account(
         address = pixel.mint
