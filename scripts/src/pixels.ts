@@ -33,15 +33,28 @@ export async function run() {
   const green = new PublicKey(
     "HGgGkZvvZ6jt1pDg6p6kjjfmMCfYmjwuhqNw37Vq4gfA"
   );
-  await edit(
-    green,
+  const blue = new PublicKey(
+    "7Fi5rDqixofrBEKYYGK8yJGHzmhNgrZUL6r1Njm6rCWL"
+  );
+  const yellow = new PublicKey(
+    "A8c7FVYMQmFfBQKJJ2sdurGrQCZTaydgviz3BgJpTHpQ"
+  );
+  const magenta = new PublicKey(
+    "H62scN5b1mYrxxFf267QHYdYnuSbDYtn9nCETKWxC9FL"
+  );
+  const white = new PublicKey(
+    "6rS6cdiVExFpTQJS4aBwHr8mtS4YsuA7QTu4fDkjf1rH"
+  );
+  await add(
+    magenta,
     {
       r: 1,
       g: 0,
-      b: 0,
+      b: 1,
       depth: 1
     },
-    program
+    program,
+    provider
   );
 }
 
