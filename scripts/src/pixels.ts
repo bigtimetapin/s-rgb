@@ -1,47 +1,86 @@
 import NodeWallet from "@project-serum/anchor/dist/cjs/nodewallet";
-import { ShadowFile } from "@shadow-drive/sdk";
-import * as fs from "fs/promises";
-import * as path from "path";
 import { u8 } from "./config/keypair";
-import { Connection, Keypair, PublicKey } from "@solana/web3.js";
-import * as ShadowDrive from "./shdw";
+import { Connection, Keypair, PublicKey, SYSVAR_RENT_PUBKEY, SystemProgram } from "@solana/web3.js";
+import { RPC_URL } from "./config/rpc";
+import { AnchorProvider, Program } from "@project-serum/anchor";
+import { IDL, SRgbCraft } from "./idl/craft";
+import { Seeds, derivePixelPda, getPixelPda } from "./pda/pixel";
 
 export async function run() {
-  const red = await read(
-    "red.jpeg"
-  );
   const keypair = Keypair.fromSecretKey(
     u8
   );
   const wallet = new NodeWallet(
     keypair
   );
-  const drive = await ShadowDrive.provision(
+  const connection = new Connection(
+    RPC_URL,
+    "processed"
+  );
+  const provider = new AnchorProvider(
+    connection,
     wallet,
-    red.file.byteLength
+    AnchorProvider.defaultOptions()
   );
-  const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
-  await delay(5000);
-  await ShadowDrive.uploadMultipleFiles(
-    [red],
-    drive.drive,
-    drive.account
+  const program = new Program<SRgbCraft>(
+    IDL,
+    CRAFTING_PROGRAM_ID,
+    provider
   );
-  const url = ShadowDrive.buildUrl(
-    drive.account
+  const red = new PublicKey(
+    "Bqy9tEH2TjeyGejp47hPf1oDyvF72BAnWwtFn6uB8heR"
   );
-  console.log(drive);
-  console.log(url);
+  await ix(
+    red,
+    {
+      r: 1,
+      g: 0,
+      b: 0,
+      depth: 1
+    },
+    program,
+    provider
+  );
 }
 
-async function read(name: string): Promise<ShadowFile> {
-  const buffer = await fs.readFile(rel(name));
-  return {
-    name,
-    file: buffer
-  }
+async function ix(url: PublicKey, seeds: Seeds, program: Program<SRgbCraft>, provider: AnchorProvider): Promise<void> {
+  const pixelPda = derivePixelPda(
+    program,
+    seeds
+  );
+  const pixel = await getPixelPda(
+    program,
+    pixelPda.address
+  );
+  let metadataPda, _;
+  [metadataPda, _] = PublicKey.findProgramAddressSync(
+    [
+      Buffer.from(MPL_PREFIX),
+      MPL_TOKEN_METADATA_PROGRAM_ID.toBuffer(),
+      pixel.mint.toBuffer()
+    ],
+    MPL_TOKEN_METADATA_PROGRAM_ID
+  );
+  await program
+    .methods
+    .addMetadata(
+      url
+    ).accounts(
+      {
+        pixel: pixelPda.address,
+        pixelMint: pixel.mint,
+        metadata: metadataPda,
+        payer: provider.wallet.publicKey,
+        metadataProgram: MPL_TOKEN_METADATA_PROGRAM_ID,
+        systemProgram: SystemProgram.programId,
+        rent: SYSVAR_RENT_PUBKEY
+      }
+    ).rpc()
 }
 
-function rel(name: string): string {
-  return path.join(__dirname, "..", "images", name)
-}
+// pda seeds
+const MPL_PREFIX = "metadata";
+// rgb program addresses
+const CRAFTING_PROGRAM_ID = new PublicKey("G4Wm9es5xZoZLpyzoFHrtgM4Vmo84CenCSrCK6ZxDSmf");
+// cpi program addresses
+const MPL_TOKEN_METADATA_PROGRAM_ID = new PublicKey("metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s");

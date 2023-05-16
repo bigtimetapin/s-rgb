@@ -46,6 +46,88 @@ export type SRgbCraft = {
       ]
     },
     {
+      "name": "addMetadata",
+      "accounts": [
+        {
+          "name": "pixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "url",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "editMetdata",
+      "accounts": [
+        {
+          "name": "pixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "url",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
       "name": "mintPixel",
       "accounts": [
         {
@@ -722,6 +804,88 @@ export const IDL: SRgbCraft = {
           "type": {
             "defined": "PixelSeeds"
           }
+        }
+      ]
+    },
+    {
+      "name": "addMetadata",
+      "accounts": [
+        {
+          "name": "pixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "url",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "editMetdata",
+      "accounts": [
+        {
+          "name": "pixel",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pixelMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "url",
+          "type": "publicKey"
         }
       ]
     },
