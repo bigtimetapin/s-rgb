@@ -92,7 +92,7 @@ export type SRgbCraft = {
       ]
     },
     {
-      "name": "editMetdata",
+      "name": "editMetadata",
       "accounts": [
         {
           "name": "pixel",
@@ -124,6 +124,12 @@ export type SRgbCraft = {
         {
           "name": "url",
           "type": "publicKey"
+        },
+        {
+          "name": "name",
+          "type": {
+            "option": "string"
+          }
         }
       ]
     },
@@ -854,7 +860,7 @@ export const IDL: SRgbCraft = {
       ]
     },
     {
-      "name": "editMetdata",
+      "name": "editMetadata",
       "accounts": [
         {
           "name": "pixel",
@@ -886,6 +892,12 @@ export const IDL: SRgbCraft = {
         {
           "name": "url",
           "type": "publicKey"
+        },
+        {
+          "name": "name",
+          "type": {
+            "option": "string"
+          }
         }
       ]
     },

@@ -27,8 +27,12 @@ pub mod s_rgb_craft {
         ix::craft::add_metadata::ix(ctx, url)
     }
 
-    pub fn edit_metdata(ctx: Context<EditMetadata>, url: Pubkey) -> Result<()> {
-        ix::craft::edit_metadata::ix(ctx, url)
+    pub fn edit_metadata(
+        ctx: Context<EditMetadata>,
+        url: Pubkey,
+        name: Option<String>,
+    ) -> Result<()> {
+        ix::craft::edit_metadata::ix(ctx, url, name)
     }
 
     pub fn mint_pixel(

@@ -45,16 +45,16 @@ export async function run() {
   const white = new PublicKey(
     "6rS6cdiVExFpTQJS4aBwHr8mtS4YsuA7QTu4fDkjf1rH"
   );
-  await add(
-    magenta,
+  await edit(
+    red,
+    "(1,0,0)d=1",
     {
       r: 1,
       g: 0,
-      b: 1,
+      b: 0,
       depth: 1
     },
-    program,
-    provider
+    program
   );
 }
 
@@ -93,7 +93,7 @@ async function add(url: PublicKey, seeds: Seeds, program: Program<SRgbCraft>, pr
     ).rpc()
 }
 
-async function edit(url: PublicKey, seeds: Seeds, program: Program<SRgbCraft>): Promise<void> {
+async function edit(url: PublicKey, name: string | null, seeds: Seeds, program: Program<SRgbCraft>): Promise<void> {
   const pixelPda = derivePixelPda(
     program,
     seeds
@@ -113,8 +113,9 @@ async function edit(url: PublicKey, seeds: Seeds, program: Program<SRgbCraft>): 
   );
   await program
     .methods
-    .editMetdata(
-      url
+    .editMetadata(
+      url,
+      name
     ).accounts(
       {
         pixel: pixelPda.address,

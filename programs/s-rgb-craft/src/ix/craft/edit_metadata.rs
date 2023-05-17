@@ -8,7 +8,7 @@ use crate::{pda::craft::pixel, EditMetadata, HasFiveSeeds};
 
 use super::add_metadata::build_url;
 
-pub fn ix(ctx: Context<EditMetadata>, url: Pubkey) -> Result<()> {
+pub fn ix(ctx: Context<EditMetadata>, url: Pubkey, name: Option<String>) -> Result<()> {
     // get accounts
     let pixel = &ctx.accounts.pixel;
     // build signer seeds
@@ -29,8 +29,12 @@ pub fn ix(ctx: Context<EditMetadata>, url: Pubkey) -> Result<()> {
     let signer_seeds = &[&seeds[..]];
     // build new data
     let metadata: Metadata = ctx.accounts.metadata.0.clone();
+    let new_name: String = match name {
+        Some(string) => string,
+        None => metadata.data.name,
+    };
     let data_v2: DataV2 = DataV2 {
-        name: metadata.data.name,
+        name: new_name,
         symbol: metadata.data.symbol,
         uri: build_url(&url),
         seller_fee_basis_points: metadata.data.seller_fee_basis_points,
