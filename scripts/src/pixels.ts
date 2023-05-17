@@ -42,16 +42,19 @@ export async function run() {
   const magenta = new PublicKey(
     "H62scN5b1mYrxxFf267QHYdYnuSbDYtn9nCETKWxC9FL"
   );
+  const cyan = new PublicKey(
+    "3NxEy8U5M7u6EnTbG2ocDQZeV58rQfrTtWtynEDnATRW"
+  );
   const white = new PublicKey(
     "6rS6cdiVExFpTQJS4aBwHr8mtS4YsuA7QTu4fDkjf1rH"
   );
   await edit(
-    red,
-    "(1,0,0)d=1",
+    cyan,
+    "(0,1,1)d=1",
     {
-      r: 1,
-      g: 0,
-      b: 0,
+      r: 0,
+      g: 1,
+      b: 1,
       depth: 1
     },
     program
